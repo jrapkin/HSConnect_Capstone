@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using HSconnect.ActionFilters;
+using HSconnect.Contracts;
 
 namespace HSconnect
 {
@@ -33,6 +34,7 @@ namespace HSconnect
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
+			services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultUI()
