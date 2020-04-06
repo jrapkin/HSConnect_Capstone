@@ -41,6 +41,23 @@ namespace HSconnect.Controllers
             }
             return View(provider);
        }
+       public IActionResult Create(Provider provider)
+       {
+            //current user
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //assign customer FK to userIdentityUser
+            provider.IdentityUserId = userId;
+            //add provider to providers table in DB
+            _repo.Provider.Create(provider);
+            _repo.Save();
+            return RedirectToAction(nameof(Index));
+       }
+        public IActionResult Edit(int id)
+        {
+            Provider provider = new Provider();
+            provider.Id = id;
 
+            return View(provider);
+        }
     }
 }
