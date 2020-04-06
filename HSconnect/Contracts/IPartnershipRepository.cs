@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	interface IPartnershipRepository : IRepositoryBase<Partnership>
+	public interface IPartnershipRepository : IRepositoryBase<Partnership>
 	{
 	}
 }

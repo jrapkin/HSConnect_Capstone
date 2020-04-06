@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	interface ICategoryRepository : IRepositoryBase<Category>
+	public interface ICategoryRepository : IRepositoryBase<Category>
 	{
 	}
 }

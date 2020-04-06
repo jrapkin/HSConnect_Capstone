@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	interface IManagedCareOrganizationRepository : IRepositoryBase<ManagedCareOrganization>
+	public interface IManagedCareOrganizationRepository : IRepositoryBase<ManagedCareOrganization>
 	{
 	}
 }
