@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-HSconnect-C2256F97-3C73-49FE-AEEB-8F3D2A16AB16</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\js\%2540microsoft\**" />
+    <Content Remove="wwwroot\js\%2540microsoft\**" />
+    <EmbeddedResource Remove="wwwroot\js\%2540microsoft\**" />
+    <None Remove="wwwroot\js\%2540microsoft\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.6.0" />
