@@ -14,7 +14,16 @@ namespace HSconnect.Data
 			: base(options)
 		{
 		}
+		public DbSet<Address> Addresses { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<Chart> Charts { get; set; }
+		public DbSet<Demographic> Demographics { get; set; }
+		public DbSet<ManagedCareOrganization> ManagedCareOrganizations { get; set; }
+		public DbSet<Member> Members { get; set; }
+		public DbSet<Partnership> Partnerships { get; set; }
 		public DbSet<Provider> Providers { get; set; }
+		public DbSet<Service> Services { get; set; }
+		public DbSet<ServiceOffered> ServicesOffered { get; set; }
 		public DbSet<SocialWorker> SocialWorkers { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
