@@ -13,6 +13,8 @@ namespace HSconnect.Models
 		[Key]
 		public int Id {get; set;}
 		public string ProviderName { get; set; }
+		public string PhoneNumber { get; set; }
+		public string Email { get; set; }
 		//partnership collection?
 		[ForeignKey("IdentityUser")]
 		public string IdentityUserId { get; set; }
