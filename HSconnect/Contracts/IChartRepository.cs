@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	interface IChartRepository : IRepositoryBase<Chart>
+	public interface IChartRepository : IRepositoryBase<Chart>
 	{
 	}
 }
