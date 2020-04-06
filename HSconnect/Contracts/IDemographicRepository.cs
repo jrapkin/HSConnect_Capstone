@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	interface IDemographicRepository : IRepositoryBase<Demographic>
+	public interface IDemographicRepository : IRepositoryBase<Demographic>
 	{
 	}
 }

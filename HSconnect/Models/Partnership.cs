@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Models
 {
+	//collection
 	public class Partnership
 	{
 		[Key]
