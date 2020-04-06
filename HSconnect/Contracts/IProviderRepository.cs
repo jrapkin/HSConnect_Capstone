@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace HSconnect.Contracts
 {
-	public interface IProviderRepository : IRepositoryBase<Provider>
-	{
-	}
+    public interface IProviderRepository : IRepositoryBase<Provider>
+    {
+        Provider GetProvider(int providerId);
+    }
 }
