@@ -9,10 +9,11 @@ namespace HSconnect.Models
 {
 	public class Provider
 	{
-		public int ProviderId {get; set;}
+
+		public int Id {get; set;}
 		public string ProviderName { get; set; }
 		[ForeignKey("IdentityUser")]
-		public int IdentityUserId { get; set; }
+		public string IdentityUserId { get; set; }
 		public IdentityUser IdentityUser { get; set; }
 	}
 }
