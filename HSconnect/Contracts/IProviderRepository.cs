@@ -8,5 +8,6 @@ namespace HSconnect.Contracts
 {
 	public interface IProviderRepository : IRepositoryBase<Provider>
 	{
+		
 	}
 }
