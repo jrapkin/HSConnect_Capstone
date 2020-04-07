@@ -20,7 +20,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\%40microsoft\" />
   </ItemGroup>
 
 </Project>
