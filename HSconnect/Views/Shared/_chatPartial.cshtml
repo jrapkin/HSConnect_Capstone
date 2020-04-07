@@ -4,7 +4,7 @@
 
  <div class="container">
         @if (SignInManager.IsSignedIn(User))
-        {<button onclick="openChat()">Open Instant Chat</button>
+        {<button onclick="openChat('@User.Identity.Name')">Open Instant Chat</button>
         <div id="chatApp"></div>
         }
 
