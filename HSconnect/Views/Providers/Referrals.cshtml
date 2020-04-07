@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HSconnect.Models.SocialWorker>
+﻿@model IEnumerable<HSconnect.Models.Chart>
 @{
     ViewData["Title"] = "Referrals";
 }
@@ -10,22 +10,46 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.SocialWorker.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.SocialWorker.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.SocialWorker.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                @Html.DisplayNameFor(model => model.SocialWorker.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Company)
+                @Html.DisplayNameFor(model => model.Member.FirstName)
             </th>
         </tr>
     </thead>
 
-</table>
 
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.FirstName)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>

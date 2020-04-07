@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<MVCCoreIdentityComp.Models.Resources>
+﻿@model IEnumerable<HSconnect.Models.Chart>
 @{
     ViewData["Title"] = "Resources";
 }
@@ -9,51 +9,46 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.//facility name)
-
+                @Html.DisplayNameFor(model => model.ServiceOffered.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.//category)
-
+                @Html.DisplayNameFor(model => model.ServiceOffered.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.//address)
-
+                @Html.DisplayNameFor(model => model.ServiceOffered.Provider.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.//phone number)
-
+                @Html.DisplayNameFor(model => model.ServiceOffered.Demographic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.//Restictions)
-
+                @Html.DisplayNameFor(model => model.ServiceOffered.Cost)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.//Cost)
-
-            </th>
-        </tr>    
-                 
-
+           
+        </tr>                     
     </thead>
 
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id ="item.Id">Details</a>
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOffered.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOffered.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOffered.Provider.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOffered.Demographic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceOffered.Cost)
+            </td>
 
-            </tr>
+        </tr>
         }
-
     </tbody>
-
-
-
-</table>*@
+</table>
 
