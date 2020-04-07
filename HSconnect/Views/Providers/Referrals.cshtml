@@ -7,6 +7,9 @@
 
 <table class="table">
 
+    
+    
+
     <thead>
         <tr>
             <th>
@@ -23,6 +26,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Member.FirstName)
+            </th>
+            <th>
+               Referral Status
+            </th>
+            <th>
+                Accepted
             </th>
         </tr>
     </thead>
@@ -47,6 +56,29 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Member.FirstName)
                 </td>
+                
+                    @if(item.ReferralAccepted == null)
+                    {
+                        <td>Pending</td>
+                    }
+                    else if (item.ReferralAccepted == false)
+                    {
+                         <td>Denied</td>
+                    }
+                    else
+                    {
+                        <td>Accepted</td>
+                    }
+
+                @if(item.ServiceIsActive == false)
+                {
+                    <td>Not Active</td>
+                }
+                else
+                {
+                    <td >Active</td>
+                }
+
 
             </tr>
         }
