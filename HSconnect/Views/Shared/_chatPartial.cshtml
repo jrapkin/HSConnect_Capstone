@@ -1,0 +1,11 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+ <div class="container">
+        @if (SignInManager.IsSignedIn(User))
+        {<button onclick="openChat()">Open Instant Chat</button>
+        <div id="chatApp"></div>
+        }
+
+ </div>

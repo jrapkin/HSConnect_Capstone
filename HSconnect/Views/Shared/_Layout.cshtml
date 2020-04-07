@@ -29,12 +29,19 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
-        <button onclick="openChat()">Open Instant Chat</button>
-        <div id="chatApp"></div>
         <main role="main" class="pb-3">
+
             @RenderBody()
         </main>
+    </div>
+    <div class="row" id="chatWindow">
+        @*<div class="container col-lg-4">*@
+        <div class="container">
+
+            <partial name="_chatPartial" />
+        </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
