@@ -13,11 +13,11 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
-		public List<ServiceOffered> GetServicesOfferedByProvider(int providerId) 
+		public ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId) 
 		{
 			return FindByCondition(s => s.ProviderId == providerId).ToList();
 		}
-		public List<ServiceOffered> GetServicesOfferedIncludeAll()
+		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{
 			return FindAll().ToList();
 		}

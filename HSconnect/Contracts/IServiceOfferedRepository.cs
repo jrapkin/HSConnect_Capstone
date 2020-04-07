@@ -9,7 +9,7 @@ namespace HSconnect.Contracts
 	public interface IServiceOfferedRepository : IRepositoryBase<ServiceOffered>
 	{
 		public ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
-		public ICollection<ServiceOffered> GetAllServicesOffered();
+		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
 		public ServiceOffered GetServiceOffered(int id);
 	}
 }

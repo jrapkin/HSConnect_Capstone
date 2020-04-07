@@ -10,7 +10,7 @@ namespace HSconnect.Contracts
 		ISocialWorkerRepository SocialWorker { get; }
 		IProviderRepository Provider { get; }
 		IServiceOfferedRepository ServiceOffered { get; }
-		IChartRepository Charts { get; }
+		IChartRepository Chart { get; }
 		IPartnershipRepository Partnership { get; }
 		void Save();
 	}

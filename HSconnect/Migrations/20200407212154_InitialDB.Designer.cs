@@ -4,14 +4,16 @@ using HSconnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HSconnect.Data.Migrations
+namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200407212154_InitialDB")]
+    partial class InitialDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,6 +78,9 @@ namespace HSconnect.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("ReferralAccepted")
                         .HasColumnType("bit");
 
@@ -89,6 +94,8 @@ namespace HSconnect.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("ServiceOfferedId");
 
@@ -229,8 +236,14 @@ namespace HSconnect.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderName")
                         .HasColumnType("nvarchar(max)");
@@ -307,6 +320,9 @@ namespace HSconnect.Data.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -314,6 +330,9 @@ namespace HSconnect.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -352,15 +371,15 @@ namespace HSconnect.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1271e133-2d25-4f58-936d-213489764d3c",
-                            ConcurrencyStamp = "a5a9765c-5f7a-4299-8c06-9198ad7218bc",
+                            Id = "ac73005a-2d85-478e-953c-b12675a235be",
+                            ConcurrencyStamp = "a3eb0b92-f94c-4b63-8cd1-dc131c092ab3",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
-                            Id = "e8bdf3d1-ed5b-4723-9f76-fc2d3bb039b6",
-                            ConcurrencyStamp = "a29b9031-b298-49c1-9004-40da0b09fc01",
+                            Id = "9de6e148-822b-4ebb-9194-7ae8c78af9f4",
+                            ConcurrencyStamp = "9b35d02e-c27b-49da-b992-80a419e3bb08",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
@@ -482,12 +501,10 @@ namespace HSconnect.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -524,12 +541,10 @@ namespace HSconnect.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -541,6 +556,10 @@ namespace HSconnect.Data.Migrations
 
             modelBuilder.Entity("HSconnect.Models.Chart", b =>
                 {
+                    b.HasOne("HSconnect.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
                     b.HasOne("HSconnect.Models.ServiceOffered", "ServiceOffered")
                         .WithMany()
                         .HasForeignKey("ServiceOfferedId");

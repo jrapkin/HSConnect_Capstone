@@ -14,7 +14,7 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
-		public List<Chart> GetChartsIncludeAll()
+		public ICollection<Chart> GetChartsIncludeAll()
 		{
 			return FindAll().Include(s => s.SocialWorker).Include(m => m.MemberId).Include(so => so.ServiceOffered).ToList();
 

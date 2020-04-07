@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HSconnect.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore;
 
 namespace HSconnect.Controllers
 {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AspNetCore;
 using HSconnect.Contracts;
 using HSconnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -34,15 +34,23 @@ namespace HSconnect.Controllers
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
-            //if there are charts that ties to this provider by services provided 
-            var providerCharts = _repo.Charts.GetChartsIncludeAll().ToList();
-            providerCharts = GetChartsByProvider(providerCharts, provider.Id);
+            if (_repo.Provider.FindByCondition(p => p.IdentityUserId == userId).Any())
+            {
+                var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+                //if there are charts that ties to this provider by services provided 
+                var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
+                providerCharts = GetChartsByProvider(providerCharts, provider.Id);
 
-            //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
-            //link to access to the partnerships (managed care orgs) **Will add this link in the header)
+                //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
+                //link to access to the partnerships (managed care orgs) **Will add this link in the header)
 
-            return View(providerCharts);
+                return View(providerCharts);
+            }
+            else
+            {
+                return RedirectToAction("Create");
+            }
+            
         }
         public IActionResult Details(int id)
         {
@@ -92,7 +100,7 @@ namespace HSconnect.Controllers
             var provider = _repo.Provider.GetProvider(id);
             _repo.Provider.Delete(provider);
             _repo.Save();
-            return RedirectToAction(nameof(Views_Home_Index));
+            return RedirectToAction();
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Partnership> FindProvidersPartnerships(Provider provider)
