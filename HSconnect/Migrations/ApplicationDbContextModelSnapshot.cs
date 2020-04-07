@@ -4,16 +4,14 @@ using HSconnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HSconnect.Data.Migrations
+namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200406164707_initial")]
-    partial class initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -354,15 +352,15 @@ namespace HSconnect.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1271e133-2d25-4f58-936d-213489764d3c",
-                            ConcurrencyStamp = "a5a9765c-5f7a-4299-8c06-9198ad7218bc",
+                            Id = "cb38878e-b041-4e4d-8157-295eef47ff8c",
+                            ConcurrencyStamp = "5996b71c-0f22-4e66-b6d6-7a5f7c0f92d3",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
-                            Id = "e8bdf3d1-ed5b-4723-9f76-fc2d3bb039b6",
-                            ConcurrencyStamp = "a29b9031-b298-49c1-9004-40da0b09fc01",
+                            Id = "adeeced8-f551-48d3-b2d8-3690ba7f684f",
+                            ConcurrencyStamp = "773594d3-0066-4546-843a-0a7f25d69b97",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
@@ -484,12 +482,10 @@ namespace HSconnect.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -526,12 +522,10 @@ namespace HSconnect.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
