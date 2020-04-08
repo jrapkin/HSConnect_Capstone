@@ -8,5 +8,6 @@ namespace HSconnect.Contracts
 {
 	public interface IAddressRepository : IRepositoryBase<Address>
 	{
+		void CreateAddress(Address address);
 	}
 }

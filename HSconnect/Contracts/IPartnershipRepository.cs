@@ -9,5 +9,6 @@ namespace HSconnect.Contracts
 	public interface IPartnershipRepository : IRepositoryBase<Partnership>
 	{
 		Partnership GetPartnership(int partnershipId);
+		ICollection<Partnership> GetPartnershipsTiedToProvider(int providerId);
 	}
 }

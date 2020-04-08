@@ -8,6 +8,7 @@ using HSconnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -66,6 +67,8 @@ namespace HSconnect.Controllers
             }
             return View(provider);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Provider provider)
         {
             //current user
@@ -84,35 +87,70 @@ namespace HSconnect.Controllers
 
             return View(provider);
         }
+        [HttpPost]
         public IActionResult Edit(int id, Provider provider)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Provider providerFromDB = _repo.Provider.GetProvider(id);
             providerFromDB.ProviderName = provider.ProviderName;
             providerFromDB.PhoneNumber = provider.PhoneNumber;
             providerFromDB.Email = provider.Email;
+            providerFromDB.IdentityUserId = userId;
 
             _repo.Save();
             return RedirectToAction(nameof(Index));
-        }
-        public IActionResult Delete(int id)
-        {
-            var provider = _repo.Provider.GetProvider(id);
-            _repo.Provider.Delete(provider);
-            _repo.Save();
-            return RedirectToAction();
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Partnership> FindProvidersPartnerships(Provider provider)
         {
             return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
         }
-        public IActionResult DisplayServices(int id)
+        public IActionResult DisplayServices(int id)//providerId
         {
             var servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(id);
 
             return View(servicesOffered);
         }
-        public IActionResult EditServiceOffered(int id, Provider provider)
+        public IActionResult CreateServiceOffered(int id)
+        {
+            Provider provider = _repo.Provider.GetProvider(id);
+            //_repo.Category.FindAll().ToList()
+                       
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateServiceOffered(Provider provider, Category category, Address address, Demographic demographic, Service service, string cost)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    if(_repo.Address.FindByCondition(a => a.Id == address.Id) == null)
+                    {
+                        _repo.Address.CreateAddress(address);
+                        _repo.Save();
+                    }
+                    //create new serviceOffered 
+                    _repo.ServiceOffered.CreateServiceOffered(provider, category, address, demographic, service);
+                    _repo.Save();
+
+                    return RedirectToAction(nameof(DisplayServices));
+                }
+
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                //if we got this far, something went wrong
+                return View();
+            }
+            
+        }
+        public IActionResult EditServiceOffered(int id, Provider provider)//serviceOfferedId and Provider
         {
             var serviceOffered = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == provider.Id).FirstOrDefault();
 
@@ -144,6 +182,31 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(DisplayServices));
         }
+        public IActionResult DisplayPartnerships(int id)//providerId
+        {
+            var partnerships = _repo.Partnership.GetPartnershipsTiedToProvider(id);
+            return View(partnerships);
+        }
+        public IActionResult CreatePartnership(Provider provider)
+        {
+            //Drop down menu for managed care Organizations and address?
+            ManagedCareOrganization managedCareOrganization = new ManagedCareOrganization();
+            Address address = new Address();
+
+            //add new partnership to managedCareOrganization
+            Partnership partnership = new Partnership();
+            partnership.ProviderId = provider.Id;
+            partnership.ManagedCareOrganizationId = managedCareOrganization.Id;
+            partnership.ManagedCareOrganization.Name = managedCareOrganization.Name;
+            partnership.ManagedCareOrganization.Address = managedCareOrganization.Address;
+
+            _repo.ManagedCareOrganization.Create(managedCareOrganization);
+            _repo.Address.Create(address);
+            _repo.Partnership.Create(partnership);
+            _repo.Save();
+
+            return RedirectToAction(nameof(DisplayPartnerships));
+        }
         public IActionResult EditPartnership(int id, Provider provider)
         {
             var partnership = _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).FirstOrDefault();
@@ -154,6 +217,11 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Details));
         }
-        
+        public IActionResult DeletePartnership(int id)
+        {
+            var partnership = _repo.Partnership.GetPartnership(id);
+            _repo.Partnership.Delete(partnership);
+            return RedirectToAction(nameof(DisplayPartnerships));
+        }
     }
 }
