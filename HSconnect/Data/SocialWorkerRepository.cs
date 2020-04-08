@@ -13,5 +13,7 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{ 
 		}
+		public SocialWorker GetSocialWorker(string socialWorkerUserId) => FindByCondition(i => i.IdentityUserId == socialWorkerUserId).SingleOrDefault();
+		public void CreateSocialWorker(SocialWorker socialWorker) => Create(socialWorker);
 	}
 }

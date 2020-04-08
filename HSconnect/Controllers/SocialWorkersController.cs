@@ -6,6 +6,8 @@ using HSconnect.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore;
+using System.Security.Claims;
+using HSconnect.Models;
 
 namespace HSconnect.Controllers
 {
@@ -19,7 +21,18 @@ namespace HSconnect.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (_repo.SocialWorker.FindByCondition(p => p.IdentityUserId == userId).Any())
+            {
+                SocialWorker socialWorker = _repo.SocialWorker.GetSocialWorker(userId);
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Create");
+            }
+
         }
     }
 }

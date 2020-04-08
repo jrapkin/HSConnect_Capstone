@@ -8,5 +8,7 @@ namespace HSconnect.Contracts
 {
 	public interface ISocialWorkerRepository : IRepositoryBase<SocialWorker>
 	{
+		SocialWorker GetSocialWorker(string socialWorkerUserId);
+		void CreateSocialWorker(SocialWorker socialWorker);
 	}
 }
