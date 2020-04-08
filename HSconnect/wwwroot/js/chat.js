@@ -4,17 +4,11 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 document.getElementById("sendButton").disabled = true;
 
-//function populateMessageList() {
-//    connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").value, document.getElementById("userToInput").value).catch(function (err) {
-//        return console.error(err.toString());
-//    });
-//    for (let i = 0; i < savedMessages.length; i++) {
-//        let savedMessage = document.createElement("li");
-//        savedMessage.textContent = savedMessages[i];
-//        document.getElementById("messagesList").appendChild(savedMessage);
-//    }
-//};
+
+document.getElementById("userToInput").addEventListener("change", populateMessageList);
+
 function populateMessageList() {
+    document.getElementById("messagesList").innerHTML = "";
     connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").innerText, document.getElementById("userToInput").value).then(
         function (savedMessages) {
             for (let i = 0; i < savedMessages.length; i++) {
