@@ -9,5 +9,6 @@ namespace HSconnect.Contracts
     public interface IMessageRepository : IRepositoryBase<Message>
     {
         ICollection<Message> GetMessagesByUser(string userFromId, string userToId);
+        void CreateMessage(string userFromId, string userToId, string messageContent);
     }
 }

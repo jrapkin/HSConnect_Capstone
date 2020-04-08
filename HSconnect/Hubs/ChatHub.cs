@@ -2,6 +2,7 @@
 using HSconnect.Models;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HSconnect.Hubs
@@ -17,9 +18,14 @@ namespace HSconnect.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-        public ICollection<Message> GetArchivedMessages(string userFromId, string userToId)
+        public ICollection<string> GetArchivedMessages(string userFromId, string userToId)
         {
-            return _repo.Message.GetMessagesByUser(userFromId, userToId);
+            return _repo.Message.GetMessagesByUser(userFromId, userToId).Select(m => m.UserFromID + " says " + m.UserToId).ToList();
+        }
+        public void ArchiveMessage(string userFromId, string userToId, string messageContent)
+        {
+            _repo.Message.CreateMessage(userFromId, userToId, messageContent);
+            _repo.Save();
         }
     }
 }

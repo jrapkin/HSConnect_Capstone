@@ -4,10 +4,8 @@
 
  <div class="container">
         @if (SignInManager.IsSignedIn(User))
-        {<button onclick="openChat('@User.Identity.Name') populateMessageList('')" id="toggleChat">Open Instant Chat</button>
+        {<button onclick="openChat('@User.Identity.Name')" id="toggleChat">Open Instant Chat</button>
         <div id="chatApp"></div>
         }
 
  </div>
- <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true">
- </asp:ScriptManager>
