@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200407125149_StartingTheDatabaseOver")]
-    partial class StartingTheDatabaseOver
+    [Migration("20200408192007_AddedTimeStampToMessageModel")]
+    partial class AddedTimeStampToMessageModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,6 +78,9 @@ namespace HSconnect.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("ReferralAccepted")
                         .HasColumnType("bit");
 
@@ -91,6 +94,8 @@ namespace HSconnect.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("ServiceOfferedId");
 
@@ -202,6 +207,30 @@ namespace HSconnect.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("HSconnect.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserFromID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserToId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("HSconnect.Models.Partnership", b =>
                 {
                     b.Property<int>("Id")
@@ -231,8 +260,14 @@ namespace HSconnect.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderName")
                         .HasColumnType("nvarchar(max)");
@@ -309,6 +344,9 @@ namespace HSconnect.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -316,6 +354,9 @@ namespace HSconnect.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -354,15 +395,15 @@ namespace HSconnect.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cb38878e-b041-4e4d-8157-295eef47ff8c",
-                            ConcurrencyStamp = "5996b71c-0f22-4e66-b6d6-7a5f7c0f92d3",
+                            Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
+                            ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
-                            Id = "adeeced8-f551-48d3-b2d8-3690ba7f684f",
-                            ConcurrencyStamp = "773594d3-0066-4546-843a-0a7f25d69b97",
+                            Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
+                            ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
@@ -539,6 +580,10 @@ namespace HSconnect.Migrations
 
             modelBuilder.Entity("HSconnect.Models.Chart", b =>
                 {
+                    b.HasOne("HSconnect.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
                     b.HasOne("HSconnect.Models.ServiceOffered", "ServiceOffered")
                         .WithMany()
                         .HasForeignKey("ServiceOfferedId");

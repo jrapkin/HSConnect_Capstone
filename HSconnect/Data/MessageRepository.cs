@@ -26,7 +26,8 @@ namespace HSconnect.Data
             {
                 UserFromID = userFromId,
                 UserToId = userToId,
-                MessageContent = messageContent
+                MessageContent = messageContent,
+                TimeStamp = DateTime.Now
             };
             Create(message);
         }

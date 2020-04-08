@@ -76,6 +76,9 @@ namespace HSconnect.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("ReferralAccepted")
                         .HasColumnType("bit");
 
@@ -89,6 +92,8 @@ namespace HSconnect.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("ServiceOfferedId");
 
@@ -210,6 +215,9 @@ namespace HSconnect.Migrations
                     b.Property<string>("MessageContent")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserFromID")
                         .HasColumnType("nvarchar(max)");
 
@@ -250,8 +258,14 @@ namespace HSconnect.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProviderName")
                         .HasColumnType("nvarchar(max)");
@@ -328,6 +342,9 @@ namespace HSconnect.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -335,6 +352,9 @@ namespace HSconnect.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -374,14 +394,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "c4bd7e62-560d-44b1-b84b-b498b92c5f91",
+                            ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "f51f6280-d3c4-401e-be18-cef6ff8f0e7e",
+                            ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
@@ -558,6 +578,10 @@ namespace HSconnect.Migrations
 
             modelBuilder.Entity("HSconnect.Models.Chart", b =>
                 {
+                    b.HasOne("HSconnect.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
                     b.HasOne("HSconnect.Models.ServiceOffered", "ServiceOffered")
                         .WithMany()
                         .HasForeignKey("ServiceOfferedId");

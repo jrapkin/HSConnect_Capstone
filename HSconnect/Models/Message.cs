@@ -13,5 +13,6 @@ namespace HSconnect.Models
         public string UserFromID { get; set; }
         public string UserToId { get; set; }
         public string MessageContent { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
 }

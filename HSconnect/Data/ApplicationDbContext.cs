@@ -34,12 +34,14 @@ namespace HSconnect.Data
 				.HasData(
 					new IdentityRole
 					{
+						Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
 						Name = "Social Worker",
 						NormalizedName = "SOCIALWORKER"
 					},
 
 					new IdentityRole
 					{
+						Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
 						Name = "Provider",
 						NormalizedName = "PROVIDER"
 					}

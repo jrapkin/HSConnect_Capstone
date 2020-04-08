@@ -4,33 +4,55 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 document.getElementById("sendButton").disabled = true;
 
-//function populateMessageList(savedMessages) {
+//function populateMessageList() {
+//    connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").value, document.getElementById("userToInput").value).catch(function (err) {
+//        return console.error(err.toString());
+//    });
 //    for (let i = 0; i < savedMessages.length; i++) {
-//        document.getElementById("messagesList").appendChild(savedMessages[i]);
+//        let savedMessage = document.createElement("li");
+//        savedMessage.textContent = savedMessages[i];
+//        document.getElementById("messagesList").appendChild(savedMessage);
 //    }
 //};
+function populateMessageList() {
+    connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").value, document.getElementById("userToInput").value).then(
+        function (savedMessages) {
+            for (let i = 0; i < savedMessages.length; i++) {
+                let savedMessage = document.createElement("li");
+                savedMessage.textContent = savedMessages[i];
+                document.getElementById("messagesList").appendChild(savedMessage);
+            }
+        },
+        function (err) {
+        return console.error(err.toString());
+    });
+    
+};
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("ReceiveMessage", function (user, message, timeStamp) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
+    var encodedMsg = timeStamp + " " + user + " says " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
 });
 
 connection.start().then(function () {
+    populateMessageList();
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
+    var userFrom = document.getElementById("userFromInput").value;
+    var userTo = document.getElementById("userToInput").value;
     var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+    var timeStamp = new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes();
+    connection.invoke("SendMessage", userFrom, message, timeStamp.toString()).catch(function (err) {
         return console.error(err.toString());
     });
-    connection.invoke("ArchiveMessage", user, user, message).catch(function (err) {
+    connection.invoke("ArchiveMessage", userFrom, userTo, message).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
