@@ -69,7 +69,7 @@ namespace HSconnect.Controllers
             var servicesOffering = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == id);
             return View(provider);
         }
-        public IActionResult Create()
+        public IActionResult CreateProvider()
         {
             Provider provider = new Provider();
             {
@@ -79,7 +79,7 @@ namespace HSconnect.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Provider provider)
+        public IActionResult CreateProvider(Provider provider)
         {
             //current user
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -90,7 +90,7 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Edit(int id)
+        public IActionResult EditProvider(int id)
         {
             Provider provider = new Provider();
             provider.Id = id;
@@ -98,7 +98,7 @@ namespace HSconnect.Controllers
             return View(provider);
         }
         [HttpPost]
-        public IActionResult Edit(int id, Provider provider)
+        public IActionResult EditProvider(int id, Provider provider)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Provider providerFromDB = _repo.Provider.GetProvider(id);
@@ -156,6 +156,15 @@ namespace HSconnect.Controllers
             }
             
         }
+        public IActionResult EditServiceOffered(int id)
+        {
+            ServiceOffered serviceOffered = new ServiceOffered();
+            serviceOffered.Id = id;
+            return View(serviceOffered);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditServiceOffered(int id, Provider provider)//serviceOfferedId and Provider
         {
             var serviceOffered = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == provider.Id).FirstOrDefault();
@@ -181,12 +190,26 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(DisplayServices));
         }
-        public IActionResult DeleteService(int id)
+        public IActionResult DeleteServiceOffered(int id)
         {
-            var service = _repo.ServiceOffered.GetServiceOffered(id);
-            _repo.ServiceOffered.Delete(service);
-            _repo.Save();
-            return RedirectToAction(nameof(DisplayServices));
+            ServiceOffered serviceOffered = new ServiceOffered();
+            serviceOffered.Id = id;
+            return View(serviceOffered);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteServiceOffered(int id, ServiceOffered serviceOffered)
+        {
+            try
+            {
+                _repo.ServiceOffered.Delete(serviceOffered);
+                _repo.Save();
+                return RedirectToAction(nameof(DisplayServices));
+            }
+            catch
+            {
+                return View();
+            }
         }
         public IActionResult DisplayPartnerships(int id)//providerId
         {
@@ -227,6 +250,15 @@ namespace HSconnect.Controllers
             }
             
         }
+        public IActionResult EditPartnership(int id)
+        {
+            Partnership partnership = new Partnership();
+            partnership.Id = id;
+            return View(partnership);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditPartnership(int id, Provider provider)
         {
             var partnership = _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).FirstOrDefault();
@@ -239,9 +271,23 @@ namespace HSconnect.Controllers
         }
         public IActionResult DeletePartnership(int id)
         {
-            var partnership = _repo.Partnership.GetPartnership(id);
-            _repo.Partnership.Delete(partnership);
-            return RedirectToAction(nameof(DisplayPartnerships));
+            Partnership partnership = new Partnership();
+            partnership.Id = id;
+            return View(partnership);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePartnership(int id, Partnership partnership)
+        {
+            try
+            {
+                _repo.Partnership.Delete(partnership);
+                return RedirectToAction(nameof(DisplayPartnerships));
+            }
+            catch
+            {
+                return View();
+            }
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Chart> GetChartsByProvider(List<Chart> charts, int providerId)
