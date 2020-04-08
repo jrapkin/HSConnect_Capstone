@@ -11,7 +11,9 @@ namespace HSconnect.Data
 	{
 		public ProviderRepository(ApplicationDbContext applicationDbContext)
 			: base(applicationDbContext)
+
 		{ 
 		}
+		public Provider GetProvider(int providerId) => FindByCondition(i => i.Id == providerId).SingleOrDefault();
 	}
 }
