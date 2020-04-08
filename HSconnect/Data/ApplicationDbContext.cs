@@ -20,6 +20,7 @@ namespace HSconnect.Data
 		public DbSet<Demographic> Demographics { get; set; }
 		public DbSet<ManagedCareOrganization> ManagedCareOrganizations { get; set; }
 		public DbSet<Member> Members { get; set; }
+		public DbSet<Message> Messages { get; set; }
 		public DbSet<Partnership> Partnerships { get; set; }
 		public DbSet<Provider> Providers { get; set; }
 		public DbSet<Service> Services { get; set; }

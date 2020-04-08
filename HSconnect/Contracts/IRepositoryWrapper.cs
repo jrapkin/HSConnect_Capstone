@@ -9,6 +9,7 @@ namespace HSconnect.Contracts
 	{
 		ISocialWorkerRepository SocialWorker { get; }
 		IProviderRepository Provider { get; }
+		IMessageRepository Message { get; }
 		void Save();
 	}
 }
