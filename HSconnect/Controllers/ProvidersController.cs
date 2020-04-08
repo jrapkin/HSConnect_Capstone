@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -122,6 +123,17 @@ namespace HSconnect.Controllers
             _repo.Category.GetAllCategories();
             _repo.Demographic.GetAllDemographics();
             _repo.Service.GetAllServices();
+
+            ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
+
+            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+
+            ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
                        
             return View();
         }
@@ -160,6 +172,18 @@ namespace HSconnect.Controllers
         {
             ServiceOffered serviceOffered = new ServiceOffered();
             serviceOffered.Id = id;
+
+            ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
+
+            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+
+            ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
+
             return View(serviceOffered);
 
         }
@@ -299,6 +323,17 @@ namespace HSconnect.Controllers
         private List<Partnership> FindProvidersPartnerships(Provider provider)
         {
             return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
+        }
+        private Dictionary<bool?, string> CreateNullableBoolDictionary(string nullValue, string falseValue, string trueValue)
+        {
+            Dictionary<bool?, string> dictionary = new Dictionary<bool?, string>()
+            {
+                { null, nullValue },
+                { true, trueValue },
+                { false, falseValue }
+            };
+
+            return dictionary;
         }
     }
 }
