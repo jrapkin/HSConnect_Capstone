@@ -11,18 +11,23 @@ function openChat(nameOfUserFrom, nameOfUserTo, savedMessages) {
             "<div class=\"container\">" +
                 "<div class=\"row\">&nbsp;</div>" +
                 "<div class=\"row\">" +
-                    "<div class=\"col-2\">User</div >" +
-                "<div class=\"col-4\">" +
-                    "<input type=\"text\" id=\"userFromInput\" value=\"" + nameOfUserFrom + "\" />" +
-                    "<input type=\"text\" id=\"userToInput\" value=\"" + nameOfUserTo + "\" />" + 
+                    "<div class=\"col-2\">From</div>" +
+                    "<div class=\"col-4\" id=\"userFromInput\"<strong>" + nameOfUserFrom + "</strong></div>" +
+                "</div>" +
+                "<div class=\"row\">" +
+                    "<div class=\"col-2\">To</div>" +
+                    "<div class=\"col-4\">" +
+                        "<input type=\"text\" id=\"userToInput\" value=\"" + nameOfUserTo + "\" />" + 
+                    "</div>" +
+                "</div >" +
+                "<div class=\"row\">" +
+                    "<div class=\"col-2\">Message</div>" +
+                    "<div class=\"col-4\">" +
+                        "<input type=\"text\" id=\"messageInput\" />" +
+                    "</div>" +
                 "</div >" +
             "</div >" +
-            "<div class=\"row\">" +
-                "<div class=\"col-2\">Message</div>" +
-                "<div class=\"col-4\">" +
-                    "<input type=\"text\" id=\"messageInput\" />" +
-                "</div>" + 
-            "</div >" +
+            
             "<div class=\"row\">&nbsp;</div>" +
                 "<div class=\"row\">" +
                     "<div class=\"col-6\">" +

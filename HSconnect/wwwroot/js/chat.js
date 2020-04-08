@@ -15,7 +15,7 @@ document.getElementById("sendButton").disabled = true;
 //    }
 //};
 function populateMessageList() {
-    connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").value, document.getElementById("userToInput").value).then(
+    connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").innerText, document.getElementById("userToInput").value).then(
         function (savedMessages) {
             for (let i = 0; i < savedMessages.length; i++) {
                 let savedMessage = document.createElement("li");
@@ -30,7 +30,7 @@ function populateMessageList() {
 };
 
 connection.on("ReceiveMessage", function (userFrom, userTo, message, timeStamp) {
-    if (userTo === document.getElementById("userFromInput").value) {
+    if (userTo === document.getElementById("userFromInput").innerText) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var encodedMsg = timeStamp + " " + userFrom + " says " + msg;
         var li = document.createElement("li");
@@ -47,7 +47,7 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    var userFrom = document.getElementById("userFromInput").value;
+    var userFrom = document.getElementById("userFromInput").innerText;
     var userTo = document.getElementById("userToInput").value;
     var message = document.getElementById("messageInput").value;
     var timeStamp = new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes();
