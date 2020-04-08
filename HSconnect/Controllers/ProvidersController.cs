@@ -25,24 +25,34 @@ namespace HSconnect.Controllers
         {
             _repo = repo;
         }
-        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
-        private List<Chart> GetChartsByProvider(List<Chart> charts, int providerId)
+        public IActionResult DisplayReferrals()
         {
-            charts = charts.Where(c => c.ServiceOffered.ProviderId == providerId).ToList();
-            return charts;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+
+            //if there are charts that ties to this provider by services provided 
+            var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
+            providerCharts = GetChartsByProvider(providerCharts, provider.Id);
+
+            return View(providerCharts);
+
         }
         public IActionResult Index()
         {
+            //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
+            //link to access to the partnerships (managed care orgs) **Will add this link in the header)
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (_repo.Provider.FindByCondition(p => p.IdentityUserId == userId).Any())
             {
                 var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+
                 //if there are charts that ties to this provider by services provided 
                 var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
                 providerCharts = GetChartsByProvider(providerCharts, provider.Id);
 
-                //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
-                //link to access to the partnerships (managed care orgs) **Will add this link in the header)
+                
+
 
                 return View(providerCharts);
             }
@@ -100,11 +110,6 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
-        private List<Partnership> FindProvidersPartnerships(Provider provider)
-        {
-            return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
-        }
         public IActionResult DisplayServices(int id)//providerId
         {
             var servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(id);
@@ -114,7 +119,9 @@ namespace HSconnect.Controllers
         public IActionResult CreateServiceOffered(int id)
         {
             Provider provider = _repo.Provider.GetProvider(id);
-            //_repo.Category.FindAll().ToList()
+            _repo.Category.GetAllCategories();
+            _repo.Demographic.GetAllDemographics();
+            _repo.Service.GetAllServices();
                        
             return View();
         }
@@ -137,7 +144,6 @@ namespace HSconnect.Controllers
 
                     return RedirectToAction(nameof(DisplayServices));
                 }
-
                 catch
                 {
                     return View();
@@ -187,25 +193,39 @@ namespace HSconnect.Controllers
             var partnerships = _repo.Partnership.GetPartnershipsTiedToProvider(id);
             return View(partnerships);
         }
-        public IActionResult CreatePartnership(Provider provider)
+        public IActionResult CreatePartnership(int id)
         {
-            //Drop down menu for managed care Organizations and address?
-            ManagedCareOrganization managedCareOrganization = new ManagedCareOrganization();
-            Address address = new Address();
+            Provider provider = _repo.Provider.GetProvider(id);
+            _repo.ManagedCareOrganization.GetAllManagedCareOrganizations();
 
-            //add new partnership to managedCareOrganization
-            Partnership partnership = new Partnership();
-            partnership.ProviderId = provider.Id;
-            partnership.ManagedCareOrganizationId = managedCareOrganization.Id;
-            partnership.ManagedCareOrganization.Name = managedCareOrganization.Name;
-            partnership.ManagedCareOrganization.Address = managedCareOrganization.Address;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePartnership(Provider provider, ManagedCareOrganization managedCareOrganization)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //add new partnership to managedCareOrganization
+                    _repo.Partnership.CreatePartnership(provider, managedCareOrganization);
 
-            _repo.ManagedCareOrganization.Create(managedCareOrganization);
-            _repo.Address.Create(address);
-            _repo.Partnership.Create(partnership);
-            _repo.Save();
+                    _repo.Save();
 
-            return RedirectToAction(nameof(DisplayPartnerships));
+                    return RedirectToAction(nameof(DisplayPartnerships));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                //if we got this far, something went wrong
+                return View();
+            }
+            
         }
         public IActionResult EditPartnership(int id, Provider provider)
         {
@@ -222,6 +242,17 @@ namespace HSconnect.Controllers
             var partnership = _repo.Partnership.GetPartnership(id);
             _repo.Partnership.Delete(partnership);
             return RedirectToAction(nameof(DisplayPartnerships));
+        }
+        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
+        private List<Chart> GetChartsByProvider(List<Chart> charts, int providerId)
+        {
+            charts = charts.Where(c => c.ServiceOffered.ProviderId == providerId).ToList();
+            return charts;
+        }
+        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
+        private List<Partnership> FindProvidersPartnerships(Provider provider)
+        {
+            return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
         }
     }
 }

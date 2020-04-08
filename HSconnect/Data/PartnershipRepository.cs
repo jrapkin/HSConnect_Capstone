@@ -20,5 +20,11 @@ namespace HSconnect.Data
 		{
 			return FindAll().Include(m => m.ManagedCareOrganization).ToList();
 		}
+		public void CreatePartnership(Provider provider, ManagedCareOrganization managedCareOrganization)
+		{
+			Partnership partnership = new Partnership();
+			partnership.ProviderId = provider.Id;
+			partnership.ManagedCareOrganizationId = managedCareOrganization.Id;
+		}
 	}
 }

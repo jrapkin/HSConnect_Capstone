@@ -13,5 +13,9 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
+		public ICollection<Service> GetAllServices()
+		{
+			return FindAll().ToList();
+		}
 	}
 }

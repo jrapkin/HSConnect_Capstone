@@ -8,5 +8,6 @@ namespace HSconnect.Contracts
 {
 	public interface IServiceRepository : IRepositoryBase<Service>
 	{
+		ICollection<Service> GetAllServices();
 	}
 }
