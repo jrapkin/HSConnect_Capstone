@@ -29,12 +29,14 @@ function populateMessageList() {
     
 };
 
-connection.on("ReceiveMessage", function (user, message, timeStamp) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = timeStamp + " " + user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+connection.on("ReceiveMessage", function (userFrom, userTo, message, timeStamp) {
+    if (userTo === document.getElementById("userFromInput").value) {
+        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var encodedMsg = timeStamp + " " + userFrom + " says " + msg;
+        var li = document.createElement("li");
+        li.textContent = encodedMsg;
+        document.getElementById("messagesList").appendChild(li);
+    };
 });
 
 connection.start().then(function () {
@@ -49,7 +51,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     var userTo = document.getElementById("userToInput").value;
     var message = document.getElementById("messageInput").value;
     var timeStamp = new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes();
-    connection.invoke("SendMessage", userFrom, message, timeStamp.toString()).catch(function (err) {
+    connection.invoke("SendMessage", userFrom, userTo, message, timeStamp.toString()).catch(function (err) {
         return console.error(err.toString());
     });
     connection.invoke("ArchiveMessage", userFrom, userTo, message).catch(function (err) {

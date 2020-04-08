@@ -15,9 +15,9 @@ namespace HSconnect.Hubs
         {
             _repo = repo;
         }
-        public async Task SendMessage(string user, string message, string timeStamp)
+        public async Task SendMessage(string userFrom, string userTo, string message, string timeStamp)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message, timeStamp);
+            await Clients.All.SendAsync("ReceiveMessage", userFrom, userTo, message, timeStamp);
         }
         public ICollection<string> GetArchivedMessages(string userFromId, string userToId)
         {
