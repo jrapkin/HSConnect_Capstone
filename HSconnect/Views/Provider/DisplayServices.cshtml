@@ -9,7 +9,7 @@
 
 <p>
     <a asp-action="CreateService">Add New Service to Offer</a> |
-    <a asp-action="Details">Return to Provider Information</a> |
+    <a asp-action="Details">Return to Provider Information</a> 
 </p>
 <table class="table">
     <thead>
@@ -42,19 +42,31 @@
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Provider.Id)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
+                @Html.DisplayFor(modelItem => item.Address.StreetAddress)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address.City)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Demographic.Id)
+                @Html.DisplayFor(modelItem => item.Address.State)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Service.Id)
+                @Html.DisplayFor(modelItem => item.Address.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.FamilyFriendly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.SmokingIsAllowed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
                 <a asp-action="EditService" asp-route-id="@item.Id">Edit</a> |
