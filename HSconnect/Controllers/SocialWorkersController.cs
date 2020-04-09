@@ -88,6 +88,24 @@ namespace HSconnect.Controllers
                 return View();
             }
         }
+        public IActionResult EditMember(int? id)
+        {
+            if(id ==null)
+            {
+                return NotFound();
+            }
+            var member = _repo.Member.GetMemberIncludeAll(id);
 
+            return View(member);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditMember(int? id, Member member)
+        {
+            _repo.Member.Update(member);
+            _repo.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

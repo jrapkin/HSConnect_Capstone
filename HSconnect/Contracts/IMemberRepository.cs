@@ -9,7 +9,10 @@ namespace HSconnect.Contracts
 	public interface IMemberRepository : IRepositoryBase<Member>
 	{
 		public void CreateMember(Member member);
-		public Member GetMemberById(int memberId);
+		public Member GetMemberById(int? memberId);
+
+		public Member GetMemberIncludeAll(int? memberId);
+		public ICollection<Member> GetMembersIncludeAll();
 
 	}
 }
