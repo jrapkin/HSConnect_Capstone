@@ -73,3 +73,6 @@ body {
     float: right;
     /*width: 40%;*/
 }
+#chatApp {
+    display: none;
+}
