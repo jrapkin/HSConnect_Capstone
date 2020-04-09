@@ -21,7 +21,7 @@ namespace HSconnect.Hubs
         }
         public ICollection<string> GetArchivedMessages(string userFromId, string userToId)
         {
-            List<string> messages = _repo.Message.GetMessagesByUser(userFromId, userToId).Select(m => m.UserFromID + " says " + m.MessageContent).ToList();
+            List<string> messages = _repo.Message.GetMessagesByUser(userFromId, userToId).Select(m => m.TimeStamp.ToShortDateString() + " " + m.UserFromID + " says " + m.MessageContent).ToList();
             return messages;
         }
         public void ArchiveMessage(string userFromId, string userToId, string messageContent)

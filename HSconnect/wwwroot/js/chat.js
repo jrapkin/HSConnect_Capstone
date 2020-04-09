@@ -10,25 +10,38 @@ if (document.getElementById("sendButton") !== null) {
 
     function populateMessageList() {
         document.getElementById("messagesList").innerHTML = "";
-        let chatHistory = document.createElement("p");
-        chatHistory.setAttribute("id", "recentMessagesLabel");
-        document.getElementById("messagesList").appendChild(chatHistory);
-        document.getElementById("recentMessagesLabel").innerHTML = "<strong>Chat History</strong>";
         connection.invoke("GetArchivedMessages", document.getElementById("userFromInput").innerText, document.getElementById("userToInput").value).then(
             function (savedMessages) {
-                for (let i = savedMessages.length-5; i < savedMessages.length; i++) {
-                    let savedMessage = document.createElement("li");
-                    savedMessage.textContent = savedMessages[i];
-                    document.getElementById("messagesList").appendChild(savedMessage);
+                let numberOfSavedMessagesToPrint;
+                if (savedMessages.length > 0) {
+                    appendElement("messagesList", "p", "Recent Messages:");
+                    if (savedMessages.length >= 5) {
+                        numberOfSavedMessagesToPrint = savedMessages.length - 5;
+                    }
+                    else {
+                        numberOfSavedMessagesToPrint = 0;
+                    }
+                    for (let i = numberOfSavedMessagesToPrint; i < savedMessages.length; i++) {
+                        let savedMessage = document.createElement("li");
+                        savedMessage.textContent = savedMessages[i];
+                        document.getElementById("messagesList").appendChild(savedMessage);
+                    }
                 }
+                
                 let hr = document.createElement("hr");
                 document.getElementById("messagesList").appendChild(hr);
+                appendElement("messagesList", "p", "New Messages:");
             },
             function (err) {
             return console.error(err.toString());
         });
     
     };
+    function appendElement(idOfElementToAppendTo, elementType, textContent) {
+        let currentMessagesLabel = document.createElement(elementType);
+        currentMessagesLabel.textContent = textContent;
+        document.getElementById(idOfElementToAppendTo).appendChild(currentMessagesLabel);
+    }
 
     connection.on("ReceiveMessage", function (userFrom, userTo, message, timeStamp) {
         if (userTo === document.getElementById("userFromInput").innerText || userFrom === document.getElementById("userFromInput").innerText) {
