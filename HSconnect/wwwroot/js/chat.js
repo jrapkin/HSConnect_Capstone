@@ -27,9 +27,7 @@ if (document.getElementById("sendButton") !== null) {
                         document.getElementById("messagesList").appendChild(savedMessage);
                     }
                 }
-                
-                let hr = document.createElement("hr");
-                document.getElementById("messagesList").appendChild(hr);
+                appendElement("messagesList", "hr");
                 appendElement("messagesList", "p", "New Messages:");
             },
             function (err) {
@@ -37,9 +35,11 @@ if (document.getElementById("sendButton") !== null) {
         });
     
     };
-    function appendElement(idOfElementToAppendTo, elementType, textContent) {
+    function appendElement(idOfElementToAppendTo, elementType, textContent = null) {
         let currentMessagesLabel = document.createElement(elementType);
-        currentMessagesLabel.textContent = textContent;
+        if (textContent !== null) {
+            currentMessagesLabel.textContent = textContent;
+        }
         document.getElementById(idOfElementToAppendTo).appendChild(currentMessagesLabel);
     }
 
