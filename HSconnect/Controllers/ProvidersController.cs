@@ -67,6 +67,7 @@ namespace HSconnect.Controllers
             }
             return View(provider);
         }
+        [HttpPost]
         public IActionResult Create(Provider provider)
         {
             //current user

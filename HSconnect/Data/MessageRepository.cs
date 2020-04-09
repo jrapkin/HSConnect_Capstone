@@ -18,7 +18,7 @@ namespace HSconnect.Data
         }
         public ICollection<Message> GetMessagesByUser(string userFromId, string userToId)
         {
-            return FindByCondition(m => m.UserFromID == userFromId && m.UserToId == userToId).ToList();
+            return FindByCondition(m => (m.UserFromID == userFromId && m.UserToId == userToId) || (m.UserFromID == userToId && m.UserToId == userFromId)).ToList();
         }
         public void CreateMessage(string userFromId, string userToId, string messageContent)
         {
