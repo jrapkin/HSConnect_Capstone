@@ -5,6 +5,23 @@
     <UserSecretsId>aspnet-HSconnect-C2256F97-3C73-49FE-AEEB-8F3D2A16AB16</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="img\**" />
+    <Compile Remove="js\**" />
+    <Content Remove="img\**" />
+    <Content Remove="js\**" />
+    <EmbeddedResource Remove="img\**" />
+    <EmbeddedResource Remove="js\**" />
+    <None Remove="img\**" />
+    <None Remove="js\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\agency.css" />
+    <None Include="wwwroot\css\agency.min.css" />
+    <None Include="wwwroot\img\erika-giraud-7KhbREQPFD4-unsplash.jpg" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.6.0" />
