@@ -11,8 +11,8 @@ namespace HSconnect.Contracts
 		public void CreateMember(Member member);
 		public Member GetMemberById(int? memberId);
 
-		public Member GetMemberIncludeAll(int? memberId);
-		public ICollection<Member> GetMembersIncludeAll();
+		public Task<Member> GetMemberIncludeAll(int? memberId);
+		public Task<ICollection<Member>> GetMembersIncludeAll();
 
 	}
 }

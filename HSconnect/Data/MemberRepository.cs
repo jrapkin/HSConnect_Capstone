@@ -16,14 +16,13 @@ namespace HSconnect.Data
 		}
 		public void CreateMember(Member member) => Create(member);
 		public Member GetMemberById(int? memberId) => FindByCondition(m => m.Id == memberId).FirstOrDefault();
-		public Member GetMemberIncludeAll(int? memberId) => FindByCondition(m => m.Id == memberId).Include(a => a.Address)
-																	  .Include(m => m.ManagedCareOrganization)
-																	  .Include(d => d.Demographic)
-																	  .Include(c => c.Chart).FirstOrDefault();
-	
-		public ICollection<Member> GetMembersIncludeAll() => FindAll().Include(a => a.Address).Include(m => m.ManagedCareOrganization)
+		public async Task<Member> GetMemberIncludeAll(int? memberId) =>await FindByCondition(m => m.Id == memberId).Include(a => a.Address)
+																												   .Include(m => m.ManagedCareOrganization)
+																												   .Include(d => d.Demographic)
+																												   .Include(c => c.Chart).FirstOrDefaultAsync();
+		public async Task<ICollection<Member>> GetMembersIncludeAll() => await FindAll().Include(a => a.Address).Include(m => m.ManagedCareOrganization)
 																	  .Include(d => d.Demographic)
 																	  .Include(c => c.Chart)
-																	  .ThenInclude(s => s.ServiceOffered).ToList();
+																	  .ThenInclude(s => s.ServiceOffered).ToListAsync();
 	}
 }

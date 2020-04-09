@@ -107,5 +107,27 @@ namespace HSconnect.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> DeleteMember(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var member = await _repo.Member.GetMemberIncludeAll(id);
+            return View(member);
+
+        }
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+        public IActionResult ConfirmDeleteMember(Member member)
+        {
+            if (member == null)
+            {
+                return NotFound();
+            }
+            _repo.Member.Delete(member);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
