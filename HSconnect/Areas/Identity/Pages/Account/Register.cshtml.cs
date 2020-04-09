@@ -121,6 +121,8 @@ namespace HSconnect.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            var roles = _roleManager.Roles;
+            Roles = new SelectList(roles, "Name", "Name");
             return Page();
         }
     }

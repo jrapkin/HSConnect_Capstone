@@ -18,6 +18,7 @@ namespace HSconnect.Contracts
 		IDemographicRepository Demographic { get; }
 		IServiceRepository Service { get; }
 		
+		IMessageRepository Message { get; }
 		void Save();
 	}
 }
