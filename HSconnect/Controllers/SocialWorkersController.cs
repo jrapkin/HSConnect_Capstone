@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore;
 using System.Security.Claims;
 using HSconnect.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HSconnect.Controllers
 {
@@ -43,7 +44,7 @@ namespace HSconnect.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 try
                 {
                     var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,7 +67,7 @@ namespace HSconnect.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateMember(Member member, Address address, Demographic demographic, ManagedCareOrganization managedCareOrganization)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -75,7 +76,7 @@ namespace HSconnect.Controllers
                     member.ManagedCareOrganizationId = managedCareOrganization.Id;
                     _repo.Member.CreateMember(member);
                     _repo.Save();
-                    return RedirectToAction(nameof(Index));    
+                    return RedirectToAction(nameof(Index));
                 }
                 catch
                 {
@@ -90,7 +91,7 @@ namespace HSconnect.Controllers
         }
         public IActionResult EditMember(int? id)
         {
-            if(id ==null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -117,8 +118,8 @@ namespace HSconnect.Controllers
             return View(member);
 
         }
-       [HttpPost]
-       [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ConfirmDeleteMember(Member member)
         {
             if (member == null)
@@ -126,6 +127,7 @@ namespace HSconnect.Controllers
                 return NotFound();
             }
             _repo.Member.Delete(member);
+            _repo.Save();
             return RedirectToAction(nameof(Index));
         }
 
@@ -152,6 +154,7 @@ namespace HSconnect.Controllers
                     chart.ServiceOffered = selectedServices;
                     chart.SocialWorker = socialWorker;
                     _repo.Chart.CreateChart(chart);
+                    _repo.Save();
                 }
                 catch
                 {
@@ -170,6 +173,16 @@ namespace HSconnect.Controllers
         {
             var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
             return View(servicesOffered);
+        }
+        private Dictionary<bool?, string> CreateBoolDictionary(string nullValue, string falseValue, string trueValue)
+        {
+            Dictionary<bool?, string> dictionary = new Dictionary<bool?, string>()
+            {
+                { null, nullValue },
+                { true, trueValue },
+                { false, falseValue }
+            };
+            return dictionary;
         }
     }
 }

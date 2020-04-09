@@ -8,11 +8,11 @@ namespace HSconnect.Contracts
 {
 	public interface IMemberRepository : IRepositoryBase<Member>
 	{
-		public void CreateMember(Member member);
-		public Member GetMemberById(int? memberId);
+		void CreateMember(Member member);
+		Member GetMemberById(int? memberId);
 
-		public Task<Member> GetMemberIncludeAll(int? memberId);
-		public Task<ICollection<Member>> GetMembersIncludeAll();
+		Task<Member> GetMemberIncludeAll(int? memberId);
+		Task<ICollection<Member>> GetMembersIncludeAll();
 
 	}
 }
