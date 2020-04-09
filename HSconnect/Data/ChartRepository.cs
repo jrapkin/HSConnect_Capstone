@@ -19,5 +19,10 @@ namespace HSconnect.Data
 			return FindAll().Include(s => s.SocialWorker).Include(m => m.MemberId).Include(so => so.ServiceOffered).ToList();
 
 		}
+		public void CreateChart(Chart chart) => Create(chart);
+		public async Task<ICollection<Chart>> GetChartsByMemberId(int? id) => await FindByCondition(c => c.MemberId == id)
+																					.Include(sw => sw.SocialWorker)
+																					.Include(s => s.ServiceOffered)
+																					.ToListAsync();
 	}
 }

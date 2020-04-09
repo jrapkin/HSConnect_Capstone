@@ -129,5 +129,47 @@ namespace HSconnect.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult CreateReferral(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var member = _repo.Member.GetMemberById(id);
+            return View(member);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateReferral(Chart chart, Member member, ServiceOffered selectedServices)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+                    chart.Member = member;
+                    chart.ServiceOffered = selectedServices;
+                    chart.SocialWorker = socialWorker;
+                    _repo.Chart.CreateChart(chart);
+                }
+                catch
+                {
+                    return View(chart);
+                }
+            }
+            //if we got here its broken
+            return View();
+        }
+        public async Task<IActionResult> ViewMemberReferrals(int? id)
+        {
+            var charts = await _repo.Chart.GetChartsByMemberId(id);
+            return View(charts);
+        }
+        public async Task<IActionResult> ViewResources()
+        {
+            var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
+            return View(servicesOffered);
+        }
     }
 }

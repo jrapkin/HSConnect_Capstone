@@ -10,6 +10,7 @@ namespace HSconnect.Contracts
 	{
 		public ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
+		public async Task<ICollection<ServiceOffered>> GetServiceOfferedIncludeAllAsync();
 		public ServiceOffered GetServiceOffered(int id);
 	}
 }
