@@ -20,6 +20,8 @@ namespace HSconnect.Models
 		[ForeignKey("IdentityUser")]
 		public string IdentityUserId { get; set; }
 		public IdentityUser IdentityUser { get; set; }
+		[NotMapped]
+		public ICollection<Chart> Charts { get; set; }
 
 	}
 }

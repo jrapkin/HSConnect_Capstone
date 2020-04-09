@@ -12,6 +12,9 @@ namespace HSconnect.Contracts
 		IServiceOfferedRepository ServiceOffered { get; }
 		IChartRepository Chart { get; }
 		IPartnershipRepository Partnership { get; }
+		IMemberRepository Member { get; }
+		IAddressRepository Address { get; }
+		IServiceRepository Service { get; }
 		void Save();
 	}
 }

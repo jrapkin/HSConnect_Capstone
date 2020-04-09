@@ -16,6 +16,5 @@ namespace HSconnect.Models
 		public int? MemberIncome { get; set; }
 		public int? MemberAge { get; set; }
 		public string Gender { get; set; }
-
 	}
 }

@@ -13,5 +13,8 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
+		public void CreateMember(Member member) => Create(member);
+		public Member GetMemberById(int memberId) => FindByCondition(m => m.Id == memberId).FirstOrDefault();
+
 	}
 }
