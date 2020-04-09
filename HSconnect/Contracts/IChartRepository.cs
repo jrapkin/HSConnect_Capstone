@@ -8,6 +8,7 @@ namespace HSconnect.Contracts
 {
 	public interface IChartRepository : IRepositoryBase<Chart>
 	{
-		public ICollection<Chart> GetChartsIncludeAll();
+		ICollection<Chart> GetChartsIncludeAll();
+		ICollection<Chart> GetChartsByProvider(int providerId);
 	}
 }

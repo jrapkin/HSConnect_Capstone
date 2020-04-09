@@ -16,15 +16,18 @@ namespace HSconnect.Models
 		public int? ProviderId { get; set; }
 		public Provider Provider { get; set; }
 		[ForeignKey("Category")]
+		[Display(Name = "Category")]
 		public int? CategoryId { get; set; }
 		public Category Category { get; set; }
 		[ForeignKey("Address")]
 		public int? AddressId { get; set; }
 		public Address Address { get; set; }
 		[ForeignKey("Demographic")]
+		[Display(Name = "Demographic")]
 		public int? DemographicId { get; set; }
 		public Demographic Demographic { get; set; }
 		[ForeignKey("Service")]
+		[Display(Name = "Service")]
 		public int? ServiceId { get; set; }
 		public Service Service { get; set; }
 	}

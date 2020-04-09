@@ -8,7 +8,8 @@ using HSconnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -25,26 +26,33 @@ namespace HSconnect.Controllers
         {
             _repo = repo;
         }
-        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
-        private List<Chart> GetChartsByProvider(List<Chart> charts, int providerId)
+        public IActionResult DisplayReferrals()
         {
-            charts = charts.Where(c => c.ServiceOffered.ProviderId == providerId).ToList();
-            return charts;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+
+            //if there are charts that ties to this provider by services provided 
+            var providerCharts = _repo.Chart.GetChartsByProvider(provider.Id);
+
+            return View(providerCharts);
+
         }
         public IActionResult Index()
         {
+            //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
+            //link to access to the partnerships (managed care orgs) **Will add this link in the header)
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (_repo.Provider.FindByCondition(p => p.IdentityUserId == userId).Any())
             {
                 var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+                provider.Charts = _repo.Chart.GetChartsByProvider(provider.Id);
+
                 //if there are charts that ties to this provider by services provided 
-                var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
-                providerCharts = GetChartsByProvider(providerCharts, provider.Id);
+                
 
-                //link to services offered (add/edit services) **MOVED THIS LINK into DETAILS**
-                //link to access to the partnerships (managed care orgs) **Will add this link in the header)
 
-                return View(providerCharts);
+                return View(provider);
             }
             else
             {
@@ -67,6 +75,8 @@ namespace HSconnect.Controllers
             }
             return View(provider);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Provider provider)
         {
             //current user
@@ -85,35 +95,100 @@ namespace HSconnect.Controllers
 
             return View(provider);
         }
+        [HttpPost]
         public IActionResult Edit(int id, Provider provider)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Provider providerFromDB = _repo.Provider.GetProvider(id);
             providerFromDB.ProviderName = provider.ProviderName;
             providerFromDB.PhoneNumber = provider.PhoneNumber;
             providerFromDB.Email = provider.Email;
+            providerFromDB.IdentityUserId = userId;
 
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Delete(int id)
-        {
-            var provider = _repo.Provider.GetProvider(id);
-            _repo.Provider.Delete(provider);
-            _repo.Save();
-            return RedirectToAction();
-        }
-        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
-        private List<Partnership> FindProvidersPartnerships(Provider provider)
-        {
-            return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
-        }
-        public IActionResult DisplayServices(int id)
+        public IActionResult DisplayServices(int id)//providerId
         {
             var servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(id);
 
             return View(servicesOffered);
         }
-        public IActionResult EditServiceOffered(int id, Provider provider)
+        public IActionResult CreateServiceOffered(int id)
+        {
+            Provider provider = _repo.Provider.GetProvider(id);
+            _repo.Category.GetAllCategories();
+            _repo.Demographic.GetAllDemographics();
+            _repo.Service.GetAllServices();
+
+            ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
+
+            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+
+            ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
+                       
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateServiceOffered(Provider provider, Category category, Address address, Demographic demographic, Service service, string cost)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    if(_repo.Address.FindByCondition(a => a.Id == address.Id) == null)
+                    {
+                        _repo.Address.CreateAddress(address);
+                        _repo.Save();
+                    }
+                    //create new serviceOffered 
+                    _repo.ServiceOffered.CreateServiceOffered(provider, category, address, demographic, service);
+                    _repo.Save();
+
+                    return RedirectToAction(nameof(DisplayServices));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                //if we got this far, something went wrong
+                return View();
+            }
+            
+        }
+        public IActionResult EditServiceOffered(int id)
+        {
+            ServiceOffered serviceOffered = new ServiceOffered();
+            serviceOffered.Id = id;
+
+            ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
+
+            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Male Only", "Co-ed", "Female Only");
+            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+            Dictionary<bool?, string> isAgeSensitive = CreateNullableBoolDictionary("Not Applicable", "Seniors Only", "18 and up");
+            ViewData["Seniors"] = new SelectList(isAgeSensitive, "Key", "Value");
+
+            ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
+
+            return View(serviceOffered);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditServiceOffered(int id, Provider provider)//serviceOfferedId and Provider
         {
             var serviceOffered = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == provider.Id).FirstOrDefault();
 
@@ -138,13 +213,75 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(DisplayServices));
         }
-        public IActionResult DeleteService(int id)
+        public IActionResult DeleteServiceOffered(int id)
         {
-            var service = _repo.ServiceOffered.GetServiceOffered(id);
-            _repo.ServiceOffered.Delete(service);
-            _repo.Save();
-            return RedirectToAction(nameof(DisplayServices));
+            ServiceOffered serviceOffered = new ServiceOffered();
+            serviceOffered.Id = id;
+            return View(serviceOffered);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteServiceOffered(int id, ServiceOffered serviceOffered)
+        {
+            try
+            {
+                _repo.ServiceOffered.Delete(serviceOffered);
+                _repo.Save();
+                return RedirectToAction(nameof(DisplayServices));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public IActionResult DisplayPartnerships(int id)//providerId
+        {
+            var partnerships = _repo.Partnership.GetPartnershipsTiedToProvider(id);
+            return View(partnerships);
+        }
+        public IActionResult CreatePartnership(int id)
+        {
+            Provider provider = _repo.Provider.GetProvider(id);
+            _repo.ManagedCareOrganization.GetAllManagedCareOrganizations();
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePartnership(Provider provider, ManagedCareOrganization managedCareOrganization)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //add new partnership to managedCareOrganization
+                    _repo.Partnership.CreatePartnership(provider, managedCareOrganization);
+
+                    _repo.Save();
+
+                    return RedirectToAction(nameof(DisplayPartnerships));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                //if we got this far, something went wrong
+                return View();
+            }
+            
+        }
+        public IActionResult EditPartnership(int id)
+        {
+            Partnership partnership = new Partnership();
+            partnership.Id = id;
+            return View(partnership);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditPartnership(int id, Provider provider)
         {
             var partnership = _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).FirstOrDefault();
@@ -155,6 +292,41 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Details));
         }
-        
+        public IActionResult DeletePartnership(int id)
+        {
+            Partnership partnership = new Partnership();
+            partnership.Id = id;
+            return View(partnership);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePartnership(int id, Partnership partnership)
+        {
+            try
+            {
+                _repo.Partnership.Delete(partnership);
+                return RedirectToAction(nameof(DisplayPartnerships));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
+        private List<Partnership> FindProvidersPartnerships(Provider provider)
+        {
+            return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
+        }
+        private Dictionary<bool?, string> CreateNullableBoolDictionary(string nullValue, string falseValue, string trueValue)
+        {
+            Dictionary<bool?, string> dictionary = new Dictionary<bool?, string>()
+            {
+                { null, nullValue },
+                { true, trueValue },
+                { false, falseValue }
+            };
+
+            return dictionary;
+        }
     }
 }

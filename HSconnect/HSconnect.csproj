@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Remove="img\**" />
     <Compile Remove="js\**" />
     <Content Remove="img\**" />
@@ -20,18 +21,34 @@
     <None Include="wwwroot\css\agency.css" />
     <None Include="wwwroot\css\agency.min.css" />
     <None Include="wwwroot\img\erika-giraud-7KhbREQPFD4-unsplash.jpg" />
+=======
+    <Compile Remove="wwwroot\js\%2540microsoft\**" />
+    <Content Remove="wwwroot\js\%2540microsoft\**" />
+    <EmbeddedResource Remove="wwwroot\js\%2540microsoft\**" />
+    <None Remove="wwwroot\js\%2540microsoft\**" />
+>>>>>>> 2f058a419af3a627477832bef1007ffebd6ad589
   </ItemGroup>
 
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\%40microsoft\" />
   </ItemGroup>
 
 </Project>

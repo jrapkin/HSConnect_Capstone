@@ -13,5 +13,6 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{ 
 		}
+		public void CreateAddress(Address address) => Create(address);
 	}
 }

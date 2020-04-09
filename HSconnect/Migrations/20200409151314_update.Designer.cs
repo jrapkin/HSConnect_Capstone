@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200407212154_InitialDB")]
-    partial class InitialDB
+    [Migration("20200409151314_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -128,6 +128,9 @@ namespace HSconnect.Migrations
 
                     b.Property<int?>("MemberIncome")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("SmokingIsAllowed")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -371,15 +374,15 @@ namespace HSconnect.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac73005a-2d85-478e-953c-b12675a235be",
-                            ConcurrencyStamp = "a3eb0b92-f94c-4b63-8cd1-dc131c092ab3",
+                            Id = "5f51492c-baed-421e-8659-f7de61dca06f",
+                            ConcurrencyStamp = "7568be1f-95ec-4453-8cdb-451a4d249185",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
-                            Id = "9de6e148-822b-4ebb-9194-7ae8c78af9f4",
-                            ConcurrencyStamp = "9b35d02e-c27b-49da-b992-80a419e3bb08",
+                            Id = "0ffb2055-d9f5-4e48-b798-52c1f544e1ab",
+                            ConcurrencyStamp = "6a4dcf8e-9024-4b77-8135-f77fcf47c8bd",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
