@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class AddedTimeStampToMessageModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,6 +92,22 @@ namespace HSconnect.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Demographics", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserFromID = table.Column<string>(nullable: true),
+                    UserToId = table.Column<string>(nullable: true),
+                    MessageContent = table.Column<string>(nullable: true),
+                    TimeStamp = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -432,12 +448,12 @@ namespace HSconnect.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "ac73005a-2d85-478e-953c-b12675a235be", "a3eb0b92-f94c-4b63-8cd1-dc131c092ab3", "Social Worker", "SOCIALWORKER" });
+                values: new object[] { "36a8f961-ab5d-4a34-930d-e9c193fed417", "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c", "Social Worker", "SOCIALWORKER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9de6e148-822b-4ebb-9194-7ae8c78af9f4", "9b35d02e-c27b-49da-b992-80a419e3bb08", "Provider", "PROVIDER" });
+                values: new object[] { "f12efeac-df68-4b53-a60b-ed98c601565f", "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8", "Provider", "PROVIDER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -600,6 +616,9 @@ namespace HSconnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Partnerships");

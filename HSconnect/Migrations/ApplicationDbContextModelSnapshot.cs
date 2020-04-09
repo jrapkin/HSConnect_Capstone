@@ -205,6 +205,30 @@ namespace HSconnect.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("HSconnect.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserFromID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserToId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("HSconnect.Models.Partnership", b =>
                 {
                     b.Property<int>("Id")
@@ -369,15 +393,15 @@ namespace HSconnect.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac73005a-2d85-478e-953c-b12675a235be",
-                            ConcurrencyStamp = "a3eb0b92-f94c-4b63-8cd1-dc131c092ab3",
+                            Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
+                            ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
                             Name = "Social Worker",
                             NormalizedName = "SOCIALWORKER"
                         },
                         new
                         {
-                            Id = "9de6e148-822b-4ebb-9194-7ae8c78af9f4",
-                            ConcurrencyStamp = "9b35d02e-c27b-49da-b992-80a419e3bb08",
+                            Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
+                            ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

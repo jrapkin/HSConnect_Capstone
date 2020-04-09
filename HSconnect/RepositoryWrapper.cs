@@ -17,6 +17,7 @@ namespace HSconnect.Contracts
 		private IDemographicRepository _demographic;
 		private IManagedCareOrganizationRepository _managedCareOrganization;
 		private IMemberRepository _member;
+		private IMessageRepository _message;
 		private IPartnershipRepository _partnership;
 		private IServiceRepository _service;
 		private IServiceOfferedRepository _serviceOffered;
@@ -110,6 +111,17 @@ namespace HSconnect.Contracts
 					_member = new MemberRepository(_context);
 				}
 				return _member;
+			}
+		}
+		public IMessageRepository Message
+		{
+			get
+			{
+				if (_message == null)
+				{
+					_message = new MessageRepository(_context);
+				}
+				return _message;
 			}
 		}
 		public IPartnershipRepository Partnership

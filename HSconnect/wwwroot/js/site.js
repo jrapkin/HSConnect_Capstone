@@ -1,4 +1,11 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿"use strict";
+var chatApp = document.getElementById("chatApp");
+chatApp.style.display = "none";
+function openChat() {
+    if (chatApp.style.display == "none") {
+        chatApp.style.display = "block";
+    }
+    else {
+        chatApp.style.display = "none";
+    };
+}
