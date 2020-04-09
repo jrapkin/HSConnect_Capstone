@@ -13,5 +13,9 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
+		public ICollection<ManagedCareOrganization> GetAllManagedCareOrganizations()
+		{
+			return FindAll().ToList();
+		}
 	}
 }

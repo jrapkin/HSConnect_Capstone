@@ -32,5 +32,14 @@ namespace HSconnect.Data
 		{
 			return FindByCondition(s => s.Id == id).FirstOrDefault();
 		}
+		public void CreateServiceOffered(Provider provider, Category category, Address address, Demographic demographic, Service service)
+		{
+			ServiceOffered serviceOffered = new ServiceOffered();
+			serviceOffered.ProviderId = provider.Id;
+			serviceOffered.CategoryId = category.Id;
+			serviceOffered.AddressId = address.Id;
+			serviceOffered.DemographicId = demographic.Id;
+			serviceOffered.ServiceId = service.Id;
+		}
 	}
 }

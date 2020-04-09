@@ -1,5 +1,6 @@
 ﻿using HSconnect.Contracts;
 using HSconnect.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace HSconnect.Data
 		public CategoryRepository(ApplicationDbContext applicationDbContext)
 			: base(applicationDbContext)
 		{
+		}
+		public ICollection<Category> GetAllCategories()
+		{
+			return FindAll().ToList();
 		}
 	}
 }

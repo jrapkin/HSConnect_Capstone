@@ -12,6 +12,12 @@ namespace HSconnect.Contracts
 		IServiceOfferedRepository ServiceOffered { get; }
 		IChartRepository Chart { get; }
 		IPartnershipRepository Partnership { get; }
+		IManagedCareOrganizationRepository ManagedCareOrganization { get; }
+		IAddressRepository Address { get; }
+		ICategoryRepository Category { get; }
+		IDemographicRepository Demographic { get; }
+		IServiceRepository Service { get; }
+		
 		IMessageRepository Message { get; }
 		IMemberRepository Member { get; }
 		IAddressRepository Address { get; }
