@@ -32,8 +32,7 @@ namespace HSconnect.Controllers
             var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
 
             //if there are charts that ties to this provider by services provided 
-            var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
-            providerCharts = GetChartsByProvider(providerCharts, provider.Id);
+            var providerCharts = _repo.Chart.GetChartsByProvider(provider.Id);
 
             return View(providerCharts);
 
@@ -47,15 +46,13 @@ namespace HSconnect.Controllers
             if (_repo.Provider.FindByCondition(p => p.IdentityUserId == userId).Any())
             {
                 var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+                provider.Charts = _repo.Chart.GetChartsByProvider(provider.Id);
 
                 //if there are charts that ties to this provider by services provided 
-                var providerCharts = _repo.Chart.GetChartsIncludeAll().ToList();
-                providerCharts = GetChartsByProvider(providerCharts, provider.Id);
-
                 
 
 
-                return View(providerCharts);
+                return View(provider);
             }
             else
             {
@@ -70,7 +67,7 @@ namespace HSconnect.Controllers
             var servicesOffering = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == id);
             return View(provider);
         }
-        public IActionResult CreateProvider()
+        public IActionResult Create()
         {
             Provider provider = new Provider();
             {
@@ -80,7 +77,7 @@ namespace HSconnect.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateProvider(Provider provider)
+        public IActionResult Create(Provider provider)
         {
             //current user
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -91,7 +88,7 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult EditProvider(int id)
+        public IActionResult Edit(int id)
         {
             Provider provider = new Provider();
             provider.Id = id;
@@ -99,7 +96,7 @@ namespace HSconnect.Controllers
             return View(provider);
         }
         [HttpPost]
-        public IActionResult EditProvider(int id, Provider provider)
+        public IActionResult Edit(int id, Provider provider)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Provider providerFromDB = _repo.Provider.GetProvider(id);
@@ -175,12 +172,14 @@ namespace HSconnect.Controllers
 
             ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
 
-            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Male Only", "Co-ed", "Female Only");
             ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
             Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
             ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
             Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
             ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+            Dictionary<bool?, string> isAgeSensitive = CreateNullableBoolDictionary("Not Applicable", "Seniors Only", "18 and up");
+            ViewData["Seniors"] = new SelectList(isAgeSensitive, "Key", "Value");
 
             ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
 
@@ -312,12 +311,6 @@ namespace HSconnect.Controllers
             {
                 return View();
             }
-        }
-        //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
-        private List<Chart> GetChartsByProvider(List<Chart> charts, int providerId)
-        {
-            charts = charts.Where(c => c.ServiceOffered.ProviderId == providerId).ToList();
-            return charts;
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Partnership> FindProvidersPartnerships(Provider provider)

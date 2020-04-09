@@ -19,5 +19,9 @@ namespace HSconnect.Data
 			return FindAll().Include(s => s.SocialWorker).Include(m => m.Member).Include(so => so.ServiceOffered).ToList();
 
 		}
+		public ICollection<Chart> GetChartsByProvider(int providerId)
+		{
+			return FindByCondition(c => c.ServiceOffered.ProviderId == providerId).ToList();
+		}
 	}
 }

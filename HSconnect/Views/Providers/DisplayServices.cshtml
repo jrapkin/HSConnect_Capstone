@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>DisplayServices</h1>
+<h1>Display Services</h1>
 
 <p>
-    <a asp-action="CreateService">Add New Service to Offer</a> |
+    <a asp-action="CreateServiceOffered">Add New Service to Offer</a> |
     <a asp-action="Details">Return to Provider Information</a> 
 </p>
 <table class="table">
@@ -69,8 +69,8 @@
                 @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
-                <a asp-action="EditService" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="DeleteService" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditServiceOffered" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="DeleteServiceOffered" asp-route-id="@item.Id">Delete</a>
 
             </td>
         </tr>
