@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using HSconnect.Contracts;
 using HSconnect.Models;
+using HSconnect.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using MimeKit;
 
 namespace HSconnect.Controllers
 {
@@ -311,6 +313,22 @@ namespace HSconnect.Controllers
             {
                 return View();
             }
+        }
+        public IActionResult SendMassMessage()
+        {
+            Message message = new Message();
+            message.UserFromID = this.User.FindFirstValue(ClaimTypes.Name);
+            return View(message);
+        }
+        [HttpPost]
+        public IActionResult SendMassMessage(Message message)
+        {
+            List<string> recipients = message.UserToId.Split(", ").ToList();
+            MimeMessage emailToSend = MailKitAPI.CreateEmail(message.UserFromID, recipients, message.MessageContent);
+            MailKitAPI.SendEmail(emailToSend, API_Keys.EmailAddress, API_Keys.EmailPassword);
+            _repo.Message.Update(message);
+            _repo.Save();
+            return RedirectToAction(nameof(Index));
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Partnership> FindProvidersPartnerships(Provider provider)
