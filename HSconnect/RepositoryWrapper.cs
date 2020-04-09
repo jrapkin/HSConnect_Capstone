@@ -20,6 +20,10 @@ namespace HSconnect.Contracts
 		private IPartnershipRepository _partnership;
 		private IServiceRepository _service;
 		private IServiceOfferedRepository _serviceOffered;
+		public RepositoryWrapper(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 		public IProviderRepository Provider
 		{
 			get

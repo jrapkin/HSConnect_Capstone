@@ -13,5 +13,6 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
+		public Partnership GetPartnership(int partnershipId) => FindByCondition(i => i.Id == partnershipId).SingleOrDefault();
 	}
 }
