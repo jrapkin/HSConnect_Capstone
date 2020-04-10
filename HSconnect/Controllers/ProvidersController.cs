@@ -111,9 +111,11 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult DisplayServices(int id)//providerId
+        public IActionResult DisplayServices()//providerId
         {
-            var servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(id);
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
+            IEnumerable<ServiceOffered> servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(providerId);
 
             return View(servicesOffered);
         }
