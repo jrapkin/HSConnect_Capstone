@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class initial : Migration
+    public partial class CompleteDbReset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,8 +87,7 @@ namespace HSconnect.Migrations
                     IsAgeSensitive = table.Column<bool>(nullable: true),
                     MemberIncome = table.Column<int>(nullable: true),
                     MemberAge = table.Column<int>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    IsCoEd = table.Column<bool>(nullable: true),
+                    IsMale = table.Column<bool>(nullable: true),
                     SmokingIsAllowed = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
@@ -461,8 +460,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "15a4da8e-0227-47a0-8c42-ab2e4da008d6", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "8a5ac507-c88e-4fdc-9ceb-ba8dffd00b93", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "0519f2dc-3060-4f44-9093-b36bc2967517", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "ae82ac23-2292-4f94-9b31-160ceb3bdb49", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(

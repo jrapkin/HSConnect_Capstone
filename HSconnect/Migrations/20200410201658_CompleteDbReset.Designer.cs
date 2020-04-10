@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200410160311_ReplacedGenderAndCoEdInDemographicWithIsMale")]
-    partial class ReplacedGenderAndCoEdInDemographicWithIsMale
+    [Migration("20200410201658_CompleteDbReset")]
+    partial class CompleteDbReset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -532,14 +532,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "f0990ffb-88a2-4a09-a6dc-f2dbc5946217",
+                            ConcurrencyStamp = "0519f2dc-3060-4f44-9093-b36bc2967517",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "5d2e591d-31e1-4cd9-95e3-d15fedae7fce",
+                            ConcurrencyStamp = "ae82ac23-2292-4f94-9b31-160ceb3bdb49",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

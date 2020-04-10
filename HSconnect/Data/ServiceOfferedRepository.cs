@@ -34,6 +34,7 @@ namespace HSconnect.Data
 			serviceOffered.AddressId = address.Id;
 			serviceOffered.DemographicId = demographic.Id;
 			serviceOffered.ServiceId = service.Id;
+			Create(serviceOffered);
 		}
 	}
 }
