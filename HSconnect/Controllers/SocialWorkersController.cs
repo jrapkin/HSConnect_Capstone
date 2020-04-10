@@ -26,8 +26,11 @@ namespace HSconnect.Controllers
             if (_repo.SocialWorker.FindByCondition(s => s.IdentityUserId == userId).Any())
             {
                 SocialWorker socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-                socialWorker.Charts.Where(c => c.SocialWorkerId == socialWorker.Id);
-                return View();
+                if (socialWorker.Charts != null)
+                {
+                    socialWorker.Charts.Where(c => c.SocialWorkerId == socialWorker.Id);
+                }
+                return View(socialWorker);
             }
             else
             {
@@ -61,7 +64,8 @@ namespace HSconnect.Controllers
         }
         public IActionResult CreateMember()
         {
-            return View();
+            var managedCareOrg = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations();
+            return View(managedCareOrg);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -169,7 +173,7 @@ namespace HSconnect.Controllers
             var charts = await _repo.Chart.GetChartsByMemberId(id);
             return View(charts);
         }
-        public async Task<IActionResult> ViewResources()
+        public async Task<IActionResult> Resources()
         {
             var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
             return View(servicesOffered);

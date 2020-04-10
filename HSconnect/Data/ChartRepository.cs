@@ -23,6 +23,7 @@ namespace HSconnect.Data
 		{
 			return FindByCondition(c => c.ServiceOffered.ProviderId == providerId).ToList();
 		}
+
 		public void CreateChart(Chart chart) => Create(chart);
 		public async Task<ICollection<Chart>> GetChartsByMemberId(int? id) => await FindByCondition(c => c.MemberId == id)
 																					.Include(sw => sw.SocialWorker)

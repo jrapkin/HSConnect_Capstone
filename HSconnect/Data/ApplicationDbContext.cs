@@ -36,7 +36,7 @@ namespace HSconnect.Data
 					{
 						Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
 						Name = "Social Worker",
-						NormalizedName = "SOCIALWORKER"
+						NormalizedName = "SOCIAL WORKER"
 					},
 
 					new IdentityRole

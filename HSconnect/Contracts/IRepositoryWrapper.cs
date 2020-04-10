@@ -17,11 +17,9 @@ namespace HSconnect.Contracts
 		ICategoryRepository Category { get; }
 		IDemographicRepository Demographic { get; }
 		IServiceRepository Service { get; }
-		
 		IMessageRepository Message { get; }
 		IMemberRepository Member { get; }
-		IAddressRepository Address { get; }
-		IServiceRepository Service { get; }
+
 		void Save();
 	}
 }
