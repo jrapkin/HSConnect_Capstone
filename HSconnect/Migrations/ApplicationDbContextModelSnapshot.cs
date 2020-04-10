@@ -399,7 +399,7 @@ namespace HSconnect.Migrations
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
                             ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
                             Name = "Social Worker",
-                            NormalizedName = "SOCIALWORKER"
+                            NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
