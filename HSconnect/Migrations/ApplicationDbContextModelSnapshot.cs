@@ -396,8 +396,6 @@ namespace HSconnect.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5f51492c-baed-421e-8659-f7de61dca06f",
-                            ConcurrencyStamp = "7568be1f-95ec-4453-8cdb-451a4d249185",
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
                             ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
                             Name = "Social Worker",
@@ -405,8 +403,6 @@ namespace HSconnect.Migrations
                         },
                         new
                         {
-                            Id = "0ffb2055-d9f5-4e48-b798-52c1f544e1ab",
-                            ConcurrencyStamp = "6a4dcf8e-9024-4b77-8135-f77fcf47c8bd",
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
                             ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
                             Name = "Provider",
