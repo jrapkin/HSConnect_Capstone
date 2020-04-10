@@ -35,16 +35,13 @@
             </div>
         </nav>
     </header>
-
     <div class="container">
-        <main role="main" class="pb-3">
-
+        <main role="main" class="pb-3 position-absolute w-75" style="z-index:-1;">
             @RenderBody()
         </main>
     </div>
-    <div class="row col-lg-6" id="chatWindow">
+    <div id="chatWindow" class="z-index-popover p-3">
         <div class="container">
-
             <partial name="_chatPartial" />
         </div>
     </div>
