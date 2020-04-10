@@ -18,12 +18,14 @@ namespace HSconnect.Data
 		{
 			return FindByCondition(s => s.ProviderId == providerId).ToList();
 		}
-		public async Task<ICollection<ServiceOffered>> GetServiceOfferedIncludeAllAsync() => await FindAll()
-																								   .Include(p => p.Provider)
-																								   .Include(c => c.Category)
-																								   .Include(a => a.Address)
-																								   .Include(s => s.Service)
-																								   .ToListAsync();
+		public async Task<ICollection<ServiceOffered>> GetServiceOfferedIncludeAllAsync()
+		{ 
+			return await FindAll()
+				.Include(p => p.Provider)
+				.Include(c => c.Category)
+				.Include(a => a.Address)
+				.Include(s => s.Service).ToListAsync();
+		}
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{
 			return FindAll().ToList();

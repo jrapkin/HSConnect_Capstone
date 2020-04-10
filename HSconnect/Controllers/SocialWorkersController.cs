@@ -64,42 +64,53 @@ namespace HSconnect.Controllers
         }
         public IActionResult CreateMember()
         {
-            var managedCareOrg = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations();
-            return View(managedCareOrg);
+            Dictionary<int, string> genderDictionary = CreateBoolDictionary("Not Applicable", "Male", "Female");
+            ViewData["Gender"] = new SelectList(genderDictionary, "Key", "Value");
+            ViewData["Managed Care Organization"] = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations());
+            return View();
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateMember(Member member, Address address, Demographic demographic, ManagedCareOrganization managedCareOrganization)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (_repo.Address.GetByAddress(address) ==null)
                 {
-                    member.AddressId = address.Id;
-                    member.DemographicId = demographic.Id;
-                    member.ManagedCareOrganizationId = managedCareOrganization.Id;
-                    _repo.Member.CreateMember(member);
+                    _repo.Address.CreateAddress(address);
                     _repo.Save();
-                    return RedirectToAction(nameof(Index));
                 }
-                catch
+                else
                 {
-                    return View(member);
+                    Address addressFromDb = _repo.Address.GetByAddress(address);
+                    address.Id = addressFromDb.Id;
                 }
+
+                member.AddressId = address.Id;
+                member.ManagedCareOrganizationId = managedCareOrganization.Id;
+                _repo.Member.CreateMember(member);
+                _repo.Save();
+                return RedirectToAction(nameof(Index));
             }
-            else
+            catch
             {
-                //if we got this far something went wrong
-                return View();
+                return View(member);
             }
         }
-        public IActionResult EditMember(int? id)
+
+        public async IActionResult EditMember(int? id)
         {
+            MemberViewModel viewModel = new MemberViewModel();
+
+            viewModel.Member = await _repo.Member.GetMemberByIdIncludeAll(id);
+            viewModel.Address = await _repo.Address.GetAddressByIdAsync(viewModel.Member.AddressId);
+            viewModel = 
             if (id == null)
             {
                 return NotFound();
             }
-            var member = _repo.Member.GetMemberIncludeAll(id);
+            var member = 
 
             return View(member);
         }
@@ -118,7 +129,7 @@ namespace HSconnect.Controllers
             {
                 return NotFound();
             }
-            var member = await _repo.Member.GetMemberIncludeAll(id);
+            var member = await _repo.Member.GetMemberByIdIncludeAll(id);
             return View(member);
 
         }
@@ -178,15 +189,30 @@ namespace HSconnect.Controllers
             var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
             return View(servicesOffered);
         }
-        private Dictionary<bool?, string> CreateBoolDictionary(string nullValue, string falseValue, string trueValue)
+        private Dictionary<int, string> CreateBoolDictionary(string nullValue, string falseValue, string trueValue)
         {
-            Dictionary<bool?, string> dictionary = new Dictionary<bool?, string>()
+            Dictionary<int, string> dictionary = new Dictionary<int, string>()
             {
-                { null, nullValue },
-                { true, trueValue },
-                { false, falseValue }
+                { 0, nullValue },
+                { 1, trueValue },
+                { 2, falseValue }
             };
+
             return dictionary;
+        }
+        private bool? ConvertToNullableBool(int resultFromForm)
+        {
+            switch (resultFromForm)
+            {
+                case 0:
+                    return null;
+                case 1:
+                    return true;
+                case 2:
+                    return false;
+            }
+
+            return ConvertToNullableBool(resultFromForm);
         }
     }
 }

@@ -12,7 +12,7 @@
     <a asp-action="DisplayPartnerships">Display Partnerships</a>
 </p>
 <p>
-    @if (Model.Charts.Where(c => c.ReferralAccepted.HasValue).FirstOrDefault() == null)
+    @if (Model.Charts.Where(c => !c.ReferralAccepted.HasValue).ToArray().Length > 0)
     {
     <div class="col-3 text-white">
         <a class="btn-primary active btn-small btn-block" asp-action="DisplayReferrals">View New Referrals</a>
