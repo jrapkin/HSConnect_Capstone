@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200408192007_AddedTimeStampToMessageModel")]
-    partial class AddedTimeStampToMessageModel
+    [Migration("20200410140857_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,26 @@ namespace HSconnect.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Wauwatosa",
+                            County = "Milwaukee",
+                            State = "WI",
+                            StreetAddress = "10201 West Innovation Drive, Suite 100",
+                            ZipCode = "53226"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Milwaukee",
+                            County = "Milwaukee",
+                            State = "WI",
+                            StreetAddress = "1555 N Rivercenter Drive, Suite #206",
+                            ZipCode = "53212"
+                        });
                 });
 
             modelBuilder.Entity("HSconnect.Models.Category", b =>
@@ -66,6 +86,48 @@ namespace HSconnect.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Healthcare"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "RCAC"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Child Welfare"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Crimial Justice/Corrections"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Education"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Mental Health"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Military Support"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Women"
+                        });
                 });
 
             modelBuilder.Entity("HSconnect.Models.Chart", b =>
@@ -117,7 +179,10 @@ namespace HSconnect.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAgeSensitive")
+                    b.Property<bool?>("IsAgeSensitive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsCoEd")
                         .HasColumnType("bit");
 
                     b.Property<int?>("LowIncomeThreshold")
@@ -128,6 +193,9 @@ namespace HSconnect.Migrations
 
                     b.Property<int?>("MemberIncome")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("SmokingIsAllowed")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -152,6 +220,20 @@ namespace HSconnect.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("ManagedCareOrganizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressId = 1,
+                            Name = "My Choice Family Care"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddressId = 2,
+                            Name = "Independent Care Health Plan"
+                        });
                 });
 
             modelBuilder.Entity("HSconnect.Models.Member", b =>
@@ -292,6 +374,63 @@ namespace HSconnect.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Housing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Meal Plans"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Foster Care"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Child Protection Investigation"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Adoption"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Meal Plans"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Legal Assistance"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Safe Environment"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Rehabilitation Program"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Caregiver Assistance"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Skilled Nursing"
+                        });
                 });
 
             modelBuilder.Entity("HSconnect.Models.ServiceOffered", b =>
@@ -396,14 +535,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
+                            ConcurrencyStamp = "15a4da8e-0227-47a0-8c42-ab2e4da008d6",
                             Name = "Social Worker",
-                            NormalizedName = "SOCIALWORKER"
+                            NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
+                            ConcurrencyStamp = "8a5ac507-c88e-4fdc-9ceb-ba8dffd00b93",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

@@ -8,6 +8,7 @@ using HSconnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace HSconnect.Controllers
                 provider.Charts = _repo.Chart.GetChartsByProvider(provider.Id);
 
                 //if there are charts that ties to this provider by services provided 
-                
+
 
 
                 return View(provider);
@@ -58,7 +59,7 @@ namespace HSconnect.Controllers
             {
                 return RedirectToAction("Create");
             }
-            
+
         }
         public IActionResult Details(int id)
         {
@@ -114,57 +115,71 @@ namespace HSconnect.Controllers
 
             return View(servicesOffered);
         }
-        public IActionResult CreateServiceOffered(int id)
+        public IActionResult CreateServiceOffered()
         {
-            Provider provider = _repo.Provider.GetProvider(id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ServiceOfferedViewModel viewModel = new ServiceOfferedViewModel();
+
+            viewModel.Provider = _repo.Provider.GetProviderByUserId(userId);
             _repo.Category.GetAllCategories();
             _repo.Demographic.GetAllDemographics();
             _repo.Service.GetAllServices();
 
             ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
 
-            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            Dictionary<int, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
             ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
-            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            Dictionary<int, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
             ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
-            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            Dictionary<int, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
             ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+            Dictionary<int, string> ageSensitive = CreateNullableBoolDictionary("Not Applicable", "Above 60", "18 and up");
+            ViewData["AgeSensitive"] = new SelectList(ageSensitive, "Key", "Value");
 
             ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
-                       
-            return View();
+
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateServiceOffered(Provider provider, Category category, Address address, Demographic demographic, Service service, string cost)
+        public IActionResult CreateServiceOffered(ServiceOfferedViewModel resultsFromForm)
         {
-            if(ModelState.IsValid)
-            {
-                try
-                {
-                    if(_repo.Address.FindByCondition(a => a.Id == address.Id) == null)
-                    {
-                        _repo.Address.CreateAddress(address);
-                        _repo.Save();
-                    }
-                    //create new serviceOffered 
-                    _repo.ServiceOffered.CreateServiceOffered(provider, category, address, demographic, service);
-                    _repo.Save();
 
-                    return RedirectToAction(nameof(DisplayServices));
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
+            try
             {
-                //if we got this far, something went wrong
-                return View();
+                
+                if (_repo.Address.GetByAddress(resultsFromForm.Address) == null)
+                {
+                    _repo.Address.CreateAddress(resultsFromForm.Address);
+                    _repo.Save();
+                }
+                else
+                {
+                    resultsFromForm.Address = _repo.Address.GetByAddress(resultsFromForm.Address);
+                }
+                Demographic demographicToAdd = new Demographic();
+                demographicToAdd.IsMale = ConvertToNullableBool(resultsFromForm.IsMale);
+                demographicToAdd.FamilyFriendly = ConvertToNullableBool(resultsFromForm.FamilySelection);
+                demographicToAdd.SmokingIsAllowed = ConvertToNullableBool(resultsFromForm.SmokingSelection);
+                demographicToAdd.IsAgeSensitive = ConvertToNullableBool(resultsFromForm.AgeSensitive);
+                _repo.Demographic.CreateDemographic(demographicToAdd);
+                _repo.Save();
+
+                //if(_repo.Service.FindByCondition(s => s.Id == service.Id) == null)
+                //create new serviceOffered 
+                _repo.ServiceOffered.CreateServiceOffered(resultsFromForm.Cost, resultsFromForm.Provider, resultsFromForm.Category, resultsFromForm.Address, demographicToAdd, resultsFromForm.Service);
+                _repo.Save();
+
+
+                return RedirectToAction(nameof(DisplayServices));
             }
-            
+            catch
+            {
+                return View(resultsFromForm);
+            }
         }
+
+    
         public IActionResult EditServiceOffered(int id)
         {
             ServiceOffered serviceOffered = new ServiceOffered();
@@ -172,14 +187,14 @@ namespace HSconnect.Controllers
 
             ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
 
-            Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Male Only", "Co-ed", "Female Only");
-            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
-            Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
-            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
-            Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
-            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
-            Dictionary<bool?, string> isAgeSensitive = CreateNullableBoolDictionary("Not Applicable", "Seniors Only", "18 and up");
-            ViewData["Seniors"] = new SelectList(isAgeSensitive, "Key", "Value");
+            //Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Male Only", "Co-ed", "Female Only");
+            //ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            //Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            //ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            //Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            //ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+            //Dictionary<bool?, string> isAgeSensitive = CreateNullableBoolDictionary("Not Applicable", "Seniors Only", "18 and up");
+            //ViewData["Seniors"] = new SelectList(isAgeSensitive, "Key", "Value");
 
             ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
 
@@ -317,16 +332,30 @@ namespace HSconnect.Controllers
         {
             return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
         }
-        private Dictionary<bool?, string> CreateNullableBoolDictionary(string nullValue, string falseValue, string trueValue)
+        private Dictionary<int, string> CreateNullableBoolDictionary(string nullValue, string falseValue, string trueValue)
         {
-            Dictionary<bool?, string> dictionary = new Dictionary<bool?, string>()
+            Dictionary<int, string> dictionary = new Dictionary<int, string>()
             {
-                { null, nullValue },
-                { true, trueValue },
-                { false, falseValue }
+                { 0, nullValue },
+                { 1, trueValue },
+                { 2, falseValue }
             };
 
             return dictionary;
+        }
+        private bool? ConvertToNullableBool(int resultFromForm)
+        {
+            switch(resultFromForm)
+            {
+                case 0:
+                    return null;
+                case 1:
+                    return true;
+                case 2:
+                    return false;
+            }
+
+            return ConvertToNullableBool(resultFromForm);
         }
     }
 }

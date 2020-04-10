@@ -9,5 +9,6 @@ namespace HSconnect.Contracts
 	public interface IDemographicRepository : IRepositoryBase<Demographic>
 	{
 		ICollection<Demographic> GetAllDemographics();
+		void CreateDemographic(Demographic demographic);
 	}
 }

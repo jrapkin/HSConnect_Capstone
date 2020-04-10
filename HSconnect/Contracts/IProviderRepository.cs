@@ -9,5 +9,6 @@ namespace HSconnect.Contracts
     public interface IProviderRepository : IRepositoryBase<Provider>
     {
         Provider GetProvider(int providerId);
+        Provider GetProviderByUserId(string userId);
     }
 }

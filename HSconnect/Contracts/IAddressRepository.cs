@@ -9,5 +9,7 @@ namespace HSconnect.Contracts
 	public interface IAddressRepository : IRepositoryBase<Address>
 	{
 		void CreateAddress(Address address);
+		Address GetByAddress(Address address);
+		Address GetAddressById(Address address);
 	}
 }

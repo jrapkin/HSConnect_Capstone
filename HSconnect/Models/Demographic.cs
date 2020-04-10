@@ -15,8 +15,7 @@ namespace HSconnect.Models
 		public bool? IsAgeSensitive { get; set; }
 		public int? MemberIncome { get; set; }
 		public int? MemberAge { get; set; }
-		public string Gender { get; set; }
-		public bool? IsCoEd {get; set;}
+		public bool? IsMale {get; set;}
 		public bool? SmokingIsAllowed { get; set; }
 	}
 }

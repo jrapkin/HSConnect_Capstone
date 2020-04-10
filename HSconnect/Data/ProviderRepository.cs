@@ -15,5 +15,6 @@ namespace HSconnect.Data
 		{ 
 		}
 		public Provider GetProvider(int providerId) => FindByCondition(i => i.Id == providerId).SingleOrDefault();
+		public Provider GetProviderByUserId(string userId) => FindByCondition(p => p.IdentityUserId == userId).FirstOrDefault();
 	}
 }

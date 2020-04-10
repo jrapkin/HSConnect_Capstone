@@ -11,6 +11,6 @@ namespace HSconnect.Contracts
 		ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
 		ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
 		ServiceOffered GetServiceOffered(int id);
-		void CreateServiceOffered(Provider provider, Category category, Address address, Demographic demographic, Service service);
+		void CreateServiceOffered(string cost, Provider provider, Category category, Address address, Demographic demographic, Service service);
 	}
 }
