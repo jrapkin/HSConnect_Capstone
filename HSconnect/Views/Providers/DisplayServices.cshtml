@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HSconnect.Models.ServiceOffered>
+
+@{
+    ViewData["Title"] = "DisplayServices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Display Services</h1>
+
+<p>
+    <a asp-action="CreateServiceOffered">Add New Service to Offer</a> |
+    <a asp-action="Details">Return to Provider Information</a> 
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Demographic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Service)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.FamilyFriendly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Demographic.SmokingIsAllowed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Name)
+            </td>
+            <td>
+                <a asp-action="EditServiceOffered" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="DeleteServiceOffered" asp-route-id="@item.Id">Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

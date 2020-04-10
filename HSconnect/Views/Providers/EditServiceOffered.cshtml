@@ -1,0 +1,68 @@
+﻿@model HSconnect.Models.ServiceOffered
+
+@{
+    ViewData["Title"] = "EditServiceOffered";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Service Offered</h1>
+
+<h4>Service Offered</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditServiceOffered">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" value="@Model.Cost" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ProviderId" />
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddressId" class="control-label"></label>
+                <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                <span asp-validation-for="AddressId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemographicId" class="control-label"></label>
+                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Genders"></select>
+                <span asp-validation-for="DemographicId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemographicId" class="control-label"></label>
+                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Smoking"></select>
+                <span asp-validation-for="DemographicId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemographicId" class="control-label"></label>
+                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.FamilySize"></select>
+                <span asp-validation-for="DemographicId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DemographicId" class="control-label"></label>
+                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Seniors"></select>
+                <span asp-validation-for="DemographicId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.Services"></select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="DisplayServices">Return to Service Offered</a>
+</div>
+

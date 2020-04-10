@@ -13,5 +13,9 @@ namespace HSconnect.Data
 			: base(applicationDbContext)
 		{
 		}
+		public ICollection<Demographic> GetAllDemographics()
+		{
+			return FindAll().ToList();
+		}
 	}
 }
