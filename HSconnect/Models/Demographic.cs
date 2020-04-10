@@ -13,8 +13,6 @@ namespace HSconnect.Models
 		public bool? FamilyFriendly { get; set; }
 		public int? LowIncomeThreshold { get; set; }
 		public bool? IsAgeSensitive { get; set; }
-		public int? MemberIncome { get; set; }
-		public int? MemberAge { get; set; }
 		public bool? IsMale {get; set;}
 		public bool? SmokingIsAllowed { get; set; }
 	}

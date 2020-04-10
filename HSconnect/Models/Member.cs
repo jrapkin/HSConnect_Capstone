@@ -20,6 +20,10 @@ namespace HSconnect.Models
 		public string EmailAddress { get; set; }
 		[Required]
 		public int Income { get; set; }
+		[Required]
+		public bool? IsMale { get; set; }
+		[Required]
+		public int Age { get; set; }
 		public bool IsActiveMember { get; set; }
 		[ForeignKey("Address")]
 		public int? AddressId { get; set; }
@@ -27,9 +31,6 @@ namespace HSconnect.Models
 		[ForeignKey("Chart")]
 		public int? ChartId { get; set; }
 		public Chart Chart { get; set; }
-		[ForeignKey("Demographic")]
-		public int? DemographicId { get; set; }
-		public Demographic Demographic { get; set; }
 		[ForeignKey("ManagedCareOrganization")]
 		public int? ManagedCareOrganizationId { get; set; }
 		public ManagedCareOrganization ManagedCareOrganization { get; set; }

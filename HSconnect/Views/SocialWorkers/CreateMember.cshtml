@@ -11,24 +11,23 @@
     <div class="col-md-4">
         <form asp-action="CreateMember">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" class="form-control" />
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">Member First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Member Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+                <label asp-for="PhoneNumber" class="control-label">Member Phone Number</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmailAddress" class="control-label"></label>
+                <label asp-for="EmailAddress" class="control-label">Member Email Address</label>
                 <input asp-for="EmailAddress" class="form-control" />
                 <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
@@ -43,50 +42,49 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Address.StreetAddress" class="control-label"></label>
-                <input asp-for="@Model.Address.StreetAddress" class="form-control" />
-                <span asp-validation-for="@Model.Address.StreetAddress" class="text-danger"></span>
+                <label asp-for="Address.StreetAddress" class="control-label">Street Address</label>
+                <input asp-for="Address.StreetAddress" class="form-control" />
+                <span asp-validation-for="Address.StreetAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Address.City" class="control-label"></label>
-                <input asp-for="@Model.Address.City" class="form-control" />
-                <span asp-validation-for="@Model.Address.City" class="text-danger"></span>
+                <label asp-for="Address.City" class="control-label">City</label>
+                <input asp-for="Address.City" class="form-control" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Address.County" class="control-label"></label>
-                <input asp-for="@Model.Address.County" class="form-control" />
-                <span asp-validation-for="@Model.Address.County" class="text-danger"></span>
+                <label asp-for="Address.County" class="control-label">County</label>
+                <input asp-for="Address.County" class="form-control" />
+                <span asp-validation-for="Address.County" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Address.State" class="control-label"></label>
-                <input asp-for="@Model.Address.State" class="form-control" />
-                <span asp-validation-for="@Model.Address.State" class="text-danger"></span>
+                <label asp-for="Address.State" class="control-label">State</label>
+                <input asp-for="Address.State" class="form-control" />
+                <span asp-validation-for="Address.State" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Address.ZipCode" class="control-label"></label>
-                <input asp-for="@Model.Address.ZipCode" class="form-control" />
-                <span asp-validation-for="@Model.Address.ZipCode" class="text-danger"></span>
+                <label asp-for="Address.ZipCode" class="control-label">Zip Code</label>
+                <input asp-for="Address.ZipCode" class="form-control" />
+                <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Demographic.MemberIncome" class="control-label"></label>
-                <input asp-for="@Model.Demographic.MemberIncome" class="form-control" />
-                <span asp-validation-for="@Model.Demographic.MemberIncome" class="text-danger"></span>
+                <label asp-for="Income" class="control-label">Member Income</label>
+                <input asp-for="Income" class="form-control" />
+                <span asp-validation-for="Income" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Demographic.MemberAge" class="control-label"></label>
-                <input asp-for="@Model.Demographic.MemberAge" class="form-control" />
-                <span asp-validation-for="@Model.Demographic.MemberAge" class="text-danger"></span>
+                <label asp-for="Age" class="control-label">Member Age</label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Demographic.Gender" class="control-label"></label>
-                <input asp-for="@Model.Demographic.Gender" class="form-control" />
-                <span asp-validation-for="@Model.Demographic.Gender" class="text-danger"></span>
+                <label asp-for="IsMale" class="control-label">Gender</label>
+                <input asp-for="IsMale" class="form-control" />
+                <select asp-for="IsMale" class="form-control" asp-items="ViewBag.Gender"></select>
             </div>
-            To-DO: ADD List for managed care org
             <div class="form-group">
                 <label asp-for="ManagedCareOrganizationId" class="control-label"></label>
                 <input asp-for="ManagedCareOrganizationId" class="form-control" />
-                <span asp-validation-for="ManagedCareOrganizationId" class="text-danger"></span>
+                <select asp-for="ManagedCareOrganization.Id" class="form-control" asp-items="ViewBag.ManagedCareOrganizationId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
