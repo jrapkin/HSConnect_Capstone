@@ -4,14 +4,16 @@ using HSconnect.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200409210632_Intitial")]
+    partial class Intitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,10 @@ namespace HSconnect.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAgeSensitive")
+                    b.Property<bool?>("IsAgeSensitive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsCoEd")
                         .HasColumnType("bit");
 
                     b.Property<int?>("LowIncomeThreshold")
@@ -397,14 +402,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "78f6c17c-3c8b-42f9-b81c-2f058d1dab5c",
+                            ConcurrencyStamp = "f97d3aed-8b07-4776-b44a-5bfe52f138b7",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "3ce1b49b-4916-4bf6-aa8f-99d7d0809ae8",
+                            ConcurrencyStamp = "e1d47975-82f0-48ec-9944-5d5e130f9cd9",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

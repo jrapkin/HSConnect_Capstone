@@ -13,13 +13,13 @@ namespace HSconnect.Services
     {
         public static MimeMessage CreateEmail(string from, List<string> to, string messageBodyText)
         {
-            string[] fromAddressParts = from.Split(", ");
-            MailboxAddress fromAddress = new MailboxAddress(fromAddressParts[0], fromAddressParts[1]);
+            //string[] fromAddressParts = from.Split(", ");
+            MailboxAddress fromAddress = new MailboxAddress("", from);
             List<MailboxAddress> toAddresses = new List<MailboxAddress>();
             foreach (string address in to)
             {
-                string[] toAddressParts = address.Split(", ");
-                toAddresses.Add(new MailboxAddress(toAddressParts[0], toAddressParts[1]));
+                //string[] toAddressParts = address.Split(", ");
+                toAddresses.Add(new MailboxAddress("", address));
             }
             return CreateEmail(fromAddress, toAddresses, messageBodyText);
         }

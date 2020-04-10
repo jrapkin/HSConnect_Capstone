@@ -78,7 +78,7 @@ body {
 =======
 #chatWindow {
     float: right;
-    /*width: 40%;*/
+    z-index: -1;
 }
 #chatApp {
     display: none;

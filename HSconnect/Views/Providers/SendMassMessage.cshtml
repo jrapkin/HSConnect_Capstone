@@ -1,0 +1,37 @@
+﻿@model HSconnect.Models.Message
+
+@{
+    ViewData["Title"] = "SendMassMessage";
+}
+
+<h1>SendMassMessage</h1>
+
+<h4>Message</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SendMassMessage">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserFromID" />
+            <div class="form-group">
+                <label asp-for="UserToId" class="control-label"></label>
+                <input asp-for="UserToId" class="form-control" />
+                <span asp-validation-for="UserToId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MessageContent" class="control-label"></label>
+                <textarea asp-for="MessageContent" class="form-control"></textarea>
+                <span asp-validation-for="MessageContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
