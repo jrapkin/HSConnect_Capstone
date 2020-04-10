@@ -119,6 +119,11 @@ namespace HSconnect.Controllers
 
             return View(servicesOffered);
         }
+        public IActionResult DisplayServiceOfferedDetails(int id)
+        {
+            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServiceOffered(id);
+            return View(serviceOffered);
+        }
         public IActionResult CreateServiceOffered()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -376,19 +381,6 @@ namespace HSconnect.Controllers
             }
 
             return ConvertToNullableBool(resultFromForm);
-        }
-        private ServiceOffered ConnectLinkedObjectToServiceOffered(ServiceOffered serviceOffered)
-        {
-            ServiceOffered serviceOfferedToReturn = serviceOffered;
-            Address address = _repo.Address.GetAddressById(serviceOffered.AddressId.Value);
-            Category category = _repo.Category.FindByCondition(c => c.Id == serviceOffered.CategoryId).FirstOrDefault();
-            Demographic demographic = _repo.Demographic.FindByCondition(d => d.Id == serviceOffered.DemographicId).FirstOrDefault();
-            Service service = _repo.Service.FindByCondition(s => s.Id == serviceOffered.ServiceId).FirstOrDefault();
-            serviceOfferedToReturn.Address = address;
-            serviceOfferedToReturn.Category = category;
-            serviceOfferedToReturn.Demographic = demographic;
-            serviceOfferedToReturn.Service = service;
-            return serviceOfferedToReturn;
         }
     }
 }
