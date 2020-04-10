@@ -14,9 +14,9 @@ namespace HSconnect.Data
 		{ 
 		}
 		public void CreateAddress(Address address) => Create(address);
-		public Address GetAddressById(Address address)
+		public Address GetAddressById(int id)
 		{
-			return FindByCondition(a => a.Id == address.Id).SingleOrDefault();
+			return FindByCondition(a => a.Id == id).SingleOrDefault();
 		}
 		public Address GetByAddress(Address address)
 		{

@@ -111,7 +111,7 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult DisplayServices()//providerId
+        public IActionResult DisplayServices()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
@@ -377,5 +377,9 @@ namespace HSconnect.Controllers
 
             return ConvertToNullableBool(resultFromForm);
         }
+        //private ServiceOffered ConnectLinkedObjectToServiceOffered (ServiceOffered serviceOffered)
+        //{
+        //    Address address = _repo.Address.GetAddressById(serviceOffered.AddressId);
+        //}
     }
 }

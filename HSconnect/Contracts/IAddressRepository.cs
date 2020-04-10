@@ -10,6 +10,6 @@ namespace HSconnect.Contracts
 	{
 		void CreateAddress(Address address);
 		Address GetByAddress(Address address);
-		Address GetAddressById(Address address);
+		Address GetAddressById(int id);
 	}
 }
