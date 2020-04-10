@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HSconnect.Data
 {
@@ -19,7 +20,23 @@ namespace HSconnect.Data
 		}
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{
-			return FindAll().ToList();
+			return FindAll().Include(s => s.Address).Include(s => s.Category).Include(s => s.Provider).Include(s => s.Service).ToList();
+		}
+		public async Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync()
+		{
+			return await FindAll()
+				.Include(p => p.Provider)
+				.Include(c => c.Category)
+				.Include(a => a.Address)
+				.Include(s => s.Service).ToListAsync();
+		}
+		public async Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync(int providerId)
+		{
+			return await FindAll()
+				.Include(p => p.Provider)
+				.Include(c => c.Category)
+				.Include(a => a.Address)
+				.Include(s => s.Service).Where(s => s.ProviderId == providerId).ToListAsync();
 		}
 		public ServiceOffered GetServiceOffered(int id)
 		{

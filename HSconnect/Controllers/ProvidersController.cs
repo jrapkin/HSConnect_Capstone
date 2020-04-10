@@ -111,11 +111,11 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult DisplayServices()
+        public async Task<IActionResult> DisplayServices()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
-            IEnumerable<ServiceOffered> servicesOffered = _repo.ServiceOffered.GetServicesOfferedByProvider(providerId);
+            IEnumerable<ServiceOffered> servicesOffered = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync(providerId);
 
             return View(servicesOffered);
         }
@@ -377,9 +377,18 @@ namespace HSconnect.Controllers
 
             return ConvertToNullableBool(resultFromForm);
         }
-        //private ServiceOffered ConnectLinkedObjectToServiceOffered (ServiceOffered serviceOffered)
-        //{
-        //    Address address = _repo.Address.GetAddressById(serviceOffered.AddressId);
-        //}
+        private ServiceOffered ConnectLinkedObjectToServiceOffered(ServiceOffered serviceOffered)
+        {
+            ServiceOffered serviceOfferedToReturn = serviceOffered;
+            Address address = _repo.Address.GetAddressById(serviceOffered.AddressId.Value);
+            Category category = _repo.Category.FindByCondition(c => c.Id == serviceOffered.CategoryId).FirstOrDefault();
+            Demographic demographic = _repo.Demographic.FindByCondition(d => d.Id == serviceOffered.DemographicId).FirstOrDefault();
+            Service service = _repo.Service.FindByCondition(s => s.Id == serviceOffered.ServiceId).FirstOrDefault();
+            serviceOfferedToReturn.Address = address;
+            serviceOfferedToReturn.Category = category;
+            serviceOfferedToReturn.Demographic = demographic;
+            serviceOfferedToReturn.Service = service;
+            return serviceOfferedToReturn;
+        }
     }
 }

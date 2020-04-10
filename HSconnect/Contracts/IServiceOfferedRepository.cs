@@ -10,6 +10,8 @@ namespace HSconnect.Contracts
 	{
 		ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
 		ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
+		Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync();
+		Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync(int providerId);
 		ServiceOffered GetServiceOffered(int id);
 		void CreateServiceOffered(string cost, Provider provider, Category category, Address address, Demographic demographic, Service service);
 	}
