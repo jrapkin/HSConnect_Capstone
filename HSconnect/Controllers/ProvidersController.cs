@@ -121,7 +121,7 @@ namespace HSconnect.Controllers
         }
         public IActionResult DisplayServiceOfferedDetails(int id)
         {
-            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServiceOffered(id);
+            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServicesOfferedIncludeAll().Where(s => s.Id == id).FirstOrDefault();
             return View(serviceOffered);
         }
         public IActionResult CreateServiceOffered()

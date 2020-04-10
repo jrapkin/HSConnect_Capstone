@@ -20,7 +20,7 @@ namespace HSconnect.Data
 		}
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{
-			return FindAll().Include(s => s.Address).Include(s => s.Category).Include(s => s.Provider).Include(s => s.Service).ToList();
+			return FindAll().Include(s => s.Address).Include(s => s.Category).Include(s => s.Provider).Include(s => s.Service).Include(s => s.Demographic).ToList();
 		}
 		public async Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync()
 		{
@@ -28,7 +28,8 @@ namespace HSconnect.Data
 				.Include(p => p.Provider)
 				.Include(c => c.Category)
 				.Include(a => a.Address)
-				.Include(s => s.Service).ToListAsync();
+				.Include(s => s.Service)
+				.Include(s => s.Demographic).ToListAsync();
 		}
 		public async Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync(int providerId)
 		{
@@ -36,7 +37,8 @@ namespace HSconnect.Data
 				.Include(p => p.Provider)
 				.Include(c => c.Category)
 				.Include(a => a.Address)
-				.Include(s => s.Service).Where(s => s.ProviderId == providerId).ToListAsync();
+				.Include(s => s.Service)
+				.Include(s => s.Demographic).Where(s => s.ProviderId == providerId).ToListAsync();
 		}
 		public ServiceOffered GetServiceOffered(int id)
 		{
