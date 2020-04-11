@@ -337,7 +337,7 @@ namespace HSconnect.Controllers
         {
             return _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).ToList();
         }
-        private Dictionary<int, string> CreateNullableBoolDictionary(string nullValue, string falseValue, string trueValue)
+        private Dictionary<int, string> CreateNullableBoolDictionary(string nullValue, string trueValue, string falseValue)
         {
             Dictionary<int, string> dictionary = new Dictionary<int, string>()
             {
