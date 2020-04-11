@@ -63,11 +63,10 @@ namespace HSconnect.Controllers
             }
 
         }
-        public IActionResult Details(int id)
+        public IActionResult Details()
         {
-            var provider = _repo.Provider.GetProvider(id);
-            //link to add/edit services offered
-            var servicesOffering = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == id);
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Provider provider = _repo.Provider.GetProviderByUserId(userId);
             return View(provider);
         }
         public IActionResult Create()
