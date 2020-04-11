@@ -228,7 +228,12 @@ namespace HSconnect.Controllers
             serviceOffered.Category = _repo.Category.FindByCondition(c => c.Id == serviceOfferedViewModel.Category.Id).FirstOrDefault();
             serviceOffered.Cost = serviceOfferedViewModel.Cost;
             serviceOffered.DemographicId = serviceOfferedViewModel.Demographic.Id;
-            serviceOffered.Demographic = serviceOfferedViewModel.Demographic;
+            serviceOffered.Demographic = new Demographic();
+            serviceOffered.Demographic.Id = serviceOfferedViewModel.Demographic.Id;
+            serviceOffered.Demographic.FamilyFriendly = ConvertToNullableBool(serviceOfferedViewModel.FamilySelection);
+            serviceOffered.Demographic.IsAgeSensitive = ConvertToNullableBool(serviceOfferedViewModel.AgeSensitive);
+            serviceOffered.Demographic.IsMale = ConvertToNullableBool(serviceOfferedViewModel.GenderSelection);
+            serviceOffered.Demographic.SmokingIsAllowed = ConvertToNullableBool(serviceOfferedViewModel.SmokingSelection);
             serviceOffered.Id = serviceOfferedViewModel.ServiceOfferedId;
             serviceOffered.Provider = _repo.Provider.GetProviderByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             serviceOffered.ProviderId = serviceOffered.Provider.Id;
