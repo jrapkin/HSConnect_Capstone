@@ -327,13 +327,14 @@ namespace HSconnect.Controllers
         }
         public IActionResult DeletePartnership(int id)
         {
-            Partnership partnership = new Partnership();
-            partnership.Id = id;
+            Partnership partnership = _repo.Partnership.GetPartnership(id);
+            partnership.ManagedCareOrganization = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations().Where(m => m.Id == partnership.ManagedCareOrganizationId).FirstOrDefault();
+            partnership.ManagedCareOrganization.Address = _repo.Address.GetAddressById(partnership.ManagedCareOrganization.AddressId.Value);
             return View(partnership);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePartnership(int id, Partnership partnership)
+        public IActionResult DeletePartnership(Partnership partnership)
         {
             try
             {
