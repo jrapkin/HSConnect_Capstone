@@ -14,5 +14,6 @@ namespace HSconnect.Contracts
 		Address GetAddressById(int? addressId);
 		Task<Address> GetAddressByIdAsync(int? addressId);
 		Task<Address> GetByAddressAsync(Address address);
+		Address GetAddressById(int id);
 	}
 }

@@ -85,7 +85,10 @@ namespace HSconnect.Migrations
                     FamilyFriendly = table.Column<bool>(nullable: true),
                     LowIncomeThreshold = table.Column<int>(nullable: true),
                     IsAgeSensitive = table.Column<bool>(nullable: true),
-                    IsMale = table.Column<bool>(nullable: true),
+                    MemberIncome = table.Column<int>(nullable: true),
+                    MemberAge = table.Column<int>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    IsCoEd = table.Column<bool>(nullable: true),
                     SmokingIsAllowed = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
@@ -276,10 +279,11 @@ namespace HSconnect.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Company = table.Column<string>(nullable: true),
                     IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -378,8 +382,6 @@ namespace HSconnect.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: false),
                     Income = table.Column<int>(nullable: false),
-                    IsMale = table.Column<bool>(nullable: false),
-                    Age = table.Column<int>(nullable: false),
                     IsActiveMember = table.Column<bool>(nullable: false),
                     AddressId = table.Column<int>(nullable: true),
                     ChartId = table.Column<int>(nullable: true),
@@ -459,8 +461,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "67f0b903-4716-4bdc-bdbc-7e96a5d09ef0", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "849f8903-b82a-4e5c-9039-55bbbbb60cf9", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "15a4da8e-0227-47a0-8c42-ab2e4da008d6", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "8a5ac507-c88e-4fdc-9ceb-ba8dffd00b93", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(

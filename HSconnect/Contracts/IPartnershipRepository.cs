@@ -10,6 +10,7 @@ namespace HSconnect.Contracts
 	{
 		Partnership GetPartnership(int partnershipId);
 		ICollection<Partnership> GetPartnershipsTiedToProvider(int providerId);
+		ICollection<Partnership> GetPartnershipsTiedToProviderIncludeAll(int providerId);
 		void CreatePartnership(Provider provider, ManagedCareOrganization managedCareOrganization);
 	}
 }

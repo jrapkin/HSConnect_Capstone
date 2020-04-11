@@ -18,5 +18,6 @@ namespace HSconnect.Models
         public int FamilySelection { get; set; }
         public int SmokingSelection { get; set; }
         public int AgeSensitive { get; set; }
+        public int ServiceOfferedId { get; set; }
     }
 }
