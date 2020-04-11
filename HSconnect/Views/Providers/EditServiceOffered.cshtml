@@ -17,14 +17,14 @@
             <input type="hidden" asp-for="Address.Id" />
             <input type="hidden" asp-for="Demographic.Id" />
             <div class="form-group">
-                <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" value="@Model.Cost" />
-                <span asp-validation-for="Cost" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Category.Id" class="control-label"></label>
                 <select asp-for="Category.Id" class="form-control" asp-items="ViewBag.Categories"></select>
                 <span asp-validation-for="Category.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Id" class="control-label"></label>
+                <select asp-for="Service.Id" class="form-control" asp-items="ViewBag.Services"></select>
+                <span asp-validation-for="Service.Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address.StreetAddress" class="control-label"></label>
@@ -72,9 +72,9 @@
                 <span asp-validation-for="Demographic.IsAgeSensitive" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Service.Id" class="control-label"></label>
-                <select asp-for="Service.Id" class="form-control" asp-items="ViewBag.Services"></select>
-                <span asp-validation-for="Service.Id" class="text-danger"></span>
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" value="@Model.Cost" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

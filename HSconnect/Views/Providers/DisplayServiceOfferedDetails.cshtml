@@ -77,13 +77,13 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Demographic.FamilyFriendly)
         </dt>
-        @if (!Model.Demographic.IsMale.HasValue)
+        @if (!Model.Demographic.FamilyFriendly.HasValue)
         {
             <dd class="col-sm-10">
                 Not Applicable
             </dd>
         }
-        else if (Model.Demographic.IsMale.Value == false)
+        else if (Model.Demographic.FamilyFriendly.Value == false)
         {
             <dd class="col-sm-10">
                 Family Friendly
@@ -93,6 +93,27 @@
         {
             <dd class="col-sm-10">
                 Individual
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.IsAgeSensitive)
+        </dt>
+        @if (!Model.Demographic.IsAgeSensitive.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.IsAgeSensitive.Value == false)
+        {
+            <dd class="col-sm-10">
+                Above 60
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                18 and Up
             </dd>
         }
         <dt class="col-sm-2">
