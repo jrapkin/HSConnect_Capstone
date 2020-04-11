@@ -193,6 +193,7 @@ namespace HSconnect.Controllers
         {
             ServiceOffered serviceOffered = _repo.ServiceOffered.GetServicesOfferedIncludeAll(id).FirstOrDefault();
             ServiceOfferedViewModel serviceOfferedViewModel = new ServiceOfferedViewModel();
+            serviceOfferedViewModel.ServiceOfferedId = serviceOffered.Id;
             serviceOfferedViewModel.Address = serviceOffered.Address;
             serviceOfferedViewModel.Category = serviceOffered.Category;
             serviceOfferedViewModel.Demographic = serviceOffered.Demographic;
