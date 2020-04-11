@@ -41,49 +41,50 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SocialWorker.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SocialWorker.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SocialWorker.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SocialWorker.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Member.FirstName)
-                </td>
-                
-                    @if(item.ReferralAccepted == null)
-                    {
-                        <td>Pending</td>
-                    }
-                    else if (item.ReferralAccepted == false)
-                    {
-                         <td>Denied</td>
-                         //PUT BUTTON HERE
-                    }
-                    else
-                    {
-                        <td>Accepted</td>
-                        //PUT BUTTON HERE
-                    }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SocialWorker.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SocialWorker.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SocialWorker.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SocialWorker.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.FirstName)
+            </td>
 
-                @if(item.ServiceIsActive == false)
-                {
-                    <td>Not Active</td>
-                }
-                else
-                {
-                    <td >Active</td>
-                }
+            @if (item.ReferralAccepted == null)
+            {
+                <td>Pending</td>
+                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+            }
+            else if (item.ReferralAccepted == false)
+            {
+                <td>Denied</td>
+                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+            }
+            else
+            {
+                <td>Accepted</td>
+                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+            }
+
+            @if (item.ServiceIsActive == false)
+            {
+                <td>Not Active</td>
+            }
+            else
+            {
+                <td>Active</td>
+            }
 
 
-            </tr>
+        </tr>
         }
     </tbody>
 

@@ -146,10 +146,8 @@ namespace HSconnect.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateServiceOffered(ServiceOfferedViewModel resultsFromForm)
         {
-
             try
             {
-                
                 if (_repo.Address.GetByAddress(resultsFromForm.Address) == null)
                 {
                     _repo.Address.CreateAddress(resultsFromForm.Address);
@@ -352,6 +350,25 @@ namespace HSconnect.Controllers
             _repo.Message.Update(message);
             _repo.Save();
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult ToggleReferralStatus(int referralId)
+        {
+            Chart referral = new Chart();
+            if (!referral.ReferralAccepted.HasValue)
+            {
+                referral.ReferralAccepted = true;
+            }
+            else if (referral.ReferralAccepted.Value == true)
+            {
+                referral.ReferralAccepted = false;
+            }
+            else
+            {
+                referral.ReferralAccepted = null;
+            }
+            _repo.Chart.Update(referral);
+            _repo.Save();
+            return RedirectToAction(nameof(DisplayReferrals), referralId);
         }
         //MOVE TO BOTTOM WHEN DONE WITH CONTROLLER
         private List<Partnership> FindProvidersPartnerships(Provider provider)
