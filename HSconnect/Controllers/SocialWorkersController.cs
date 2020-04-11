@@ -94,6 +94,14 @@ namespace HSconnect.Controllers
                 viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;              
                 _repo.Member.CreateMember(viewModelFromForm.Member);
                 _repo.Save();
+                Chart newChart = new Chart()
+                {
+                    MemberId = viewModelFromForm.Member.Id,
+                    SocialWorkerId = viewModelFromForm.SocialWorker.Id,
+                    ServiceIsActive = viewModelFromForm.Member.IsActiveMember
+                };
+                _repo.Chart.CreateChart(newChart);
+                _repo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -105,7 +113,8 @@ namespace HSconnect.Controllers
         public async Task<IActionResult> EditMember(int? id)
         {
             MemberViewModel viewModel = new MemberViewModel();
-
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            viewModel.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
             viewModel.Member = await _repo.Member.GetMemberByIdIncludeAll(id);
             viewModel.Address = await _repo.Address.GetAddressByIdAsync(viewModel.Member.AddressId);
             viewModel.ManagedCareOrganizations = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList(), "Id", "Name");
