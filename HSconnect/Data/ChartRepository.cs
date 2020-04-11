@@ -37,5 +37,9 @@ namespace HSconnect.Data
 																.Include(s => s.ServiceOffered)
 																.ToListAsync();
 		}
+		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int memberId)
+		{
+			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).ToList();
+		}
 	}
 }

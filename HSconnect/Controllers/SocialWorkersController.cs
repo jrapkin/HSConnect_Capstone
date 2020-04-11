@@ -27,7 +27,11 @@ namespace HSconnect.Controllers
             if (_repo.SocialWorker.FindByCondition(s => s.IdentityUserId == userId).Any())
             {
                 viewModel.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-                viewModel.Charts = _repo.Chart.GetChartsBySocialWorkerIdIncludeAll(viewModel.SocialWorker.Id).ToList();
+                if (_repo.Chart.FindByCondition(c => c.SocialWorkerId == viewModel.SocialWorker.Id).Any())
+                {
+                    viewModel.Charts = _repo.Chart.GetChartsBySocialWorkerIdIncludeAll(viewModel.SocialWorker.Id).ToList();
+                }
+                
                 return View(viewModel);
             }
             else
@@ -181,25 +185,21 @@ namespace HSconnect.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateReferral(Chart chart, Member member, ServiceOffered selectedServices)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-                    chart.Member = member;
-                    chart.ServiceOffered = selectedServices;
-                    chart.SocialWorker = socialWorker;
-                    _repo.Chart.CreateChart(chart);
-                    _repo.Save();
-                }
-                catch
-                {
-                    return View(chart);
-                }
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+                chart.Member = member;
+                chart.ServiceOffered = selectedServices;
+                chart.SocialWorker = socialWorker;
+                _repo.Chart.CreateChart(chart);
+                _repo.Save();
+                return RedirectToAction(nameof(Index));
             }
-            //if we got here its broken
-            return View();
+            catch
+            {
+                return View(chart);
+            }
         }
         public async Task<IActionResult> ViewMemberReferrals(int? id)
         {
