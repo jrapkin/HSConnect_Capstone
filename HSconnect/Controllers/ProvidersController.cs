@@ -247,24 +247,20 @@ namespace HSconnect.Controllers
         }
         public IActionResult DeleteServiceOffered(int id)
         {
-            ServiceOffered serviceOffered = new ServiceOffered();
-            serviceOffered.Id = id;
+            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServiceOffered(id);
             return View(serviceOffered);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteServiceOffered(int id, ServiceOffered serviceOffered)
+        public IActionResult DeleteServiceOffered(ServiceOffered serviceOffered)
         {
-            try
-            {
-                _repo.ServiceOffered.Delete(serviceOffered);
-                _repo.Save();
-                return RedirectToAction(nameof(DisplayServices));
-            }
-            catch
-            {
-                return View();
-            }
+            ServiceOffered serviceOfferedToBeDeleted = _repo.ServiceOffered.GetServicesOfferedIncludeAll().FirstOrDefault(s => s.Id == serviceOffered.Id);
+            _repo.ServiceOffered.Delete(_repo.ServiceOffered.GetServiceOffered(serviceOfferedToBeDeleted.Id));
+            _repo.Address.Delete(_repo.Address.GetAddressById(serviceOfferedToBeDeleted.AddressId.Value));
+            _repo.Demographic.Delete(_repo.Demographic.FindByCondition(d => d.Id == serviceOfferedToBeDeleted.DemographicId).FirstOrDefault());
+            _repo.Save();
+            return RedirectToAction(nameof(DisplayServices));
+
         }
         public IActionResult DisplayPartnerships(int id)//providerId
         {
