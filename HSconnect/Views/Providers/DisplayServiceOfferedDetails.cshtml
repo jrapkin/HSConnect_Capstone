@@ -12,12 +12,6 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-        <dd class="col-sm-10">
-            $@Html.DisplayFor(model => model.Cost)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Provider)
         </dt>
         <dd class="col-sm-10">
@@ -79,6 +73,54 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Service.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.FamilyFriendly)
+        </dt>
+        @if (!Model.Demographic.IsMale.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.IsMale.Value == false)
+        {
+            <dd class="col-sm-10">
+                Family Friendly
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                Individual
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.SmokingIsAllowed)
+        </dt>
+        @if (!Model.Demographic.IsMale.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.IsMale.Value == false)
+        {
+            <dd class="col-sm-10">
+                No Smoking
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                Smoking is Allowed
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd class="col-sm-10">
+            $@Html.DisplayFor(model => model.Cost)
         </dd>
     </dl>
 </div>
