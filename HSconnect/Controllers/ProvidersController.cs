@@ -339,6 +339,7 @@ namespace HSconnect.Controllers
             try
             {
                 _repo.Partnership.Delete(partnership);
+                _repo.Save();
                 return RedirectToAction(nameof(DisplayPartnerships));
             }
             catch
