@@ -8,14 +8,10 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="DisplayServices">Display Services Offering</a> |
-    <a asp-action="DisplayPartnerships">Display Partnerships</a>
-</p>
-<p>
     @if (Model.Charts.Where(c => c.ReferralAccepted.HasValue).FirstOrDefault() == null)
     {
     <div class="col-3 text-white">
-        <a class="btn-primary active btn-small btn-block" asp-action="DisplayReferrals">View New Referrals</a>
+        <a class="btn-primary active btn-small btn-block" asp-action="DisplayNewReferrals" asp-route-id="@null">View New Referrals</a>
     </div>
     }
 </p>

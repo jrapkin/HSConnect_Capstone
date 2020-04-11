@@ -31,14 +31,23 @@ namespace HSconnect.Controllers
         }
         public IActionResult DisplayReferrals()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
 
             //if there are charts that ties to this provider by services provided 
-            var providerCharts = _repo.Chart.GetChartsByProvider(provider.Id);
+            IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId);
 
             return View(providerCharts);
+        }
+        public IActionResult DisplayReferrals(bool? referralStatus)
+        {
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
 
+            //if there are charts that ties to this provider by services provided 
+            IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId).Where(c => c.ReferralAccepted == referralStatus);
+
+            return View(providerCharts);
         }
         public IActionResult Index()
         {
