@@ -14,12 +14,8 @@
         <form asp-action="EditServiceOffered">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ServiceOfferedId" />
-            @*<input type="hidden" asp-for="ProviderId" />*@
-            @*<input type="hidden" asp-for="Provider" />*@
             <input type="hidden" asp-for="Address.Id" />
-            @*<input type="hidden" asp-for="Address.Id" />*@
             <input type="hidden" asp-for="Demographic.Id" />
-            @*<input type="hidden" asp-for="Demographic.Id" />*@
             <div class="form-group">
                 <label asp-for="Cost" class="control-label"></label>
                 <input asp-for="Cost" class="form-control" value="@Model.Cost" />
