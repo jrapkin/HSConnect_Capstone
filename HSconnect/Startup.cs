@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using HSconnect.ActionFilters;
 using HSconnect.Contracts;
+using HSconnect.Models;
 using HSconnect.Hubs;
+using HSconnect.Services;
 
 namespace HSconnect
 {
@@ -48,6 +50,8 @@ namespace HSconnect
 			services.AddControllersWithViews();
 			services.AddRazorPages();
 			services.AddSignalR();
+
+			services.AddScoped<IGetCoordinatesRequest, GeocodeAPI>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

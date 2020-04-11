@@ -13,19 +13,22 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using HSconnect.Contracts;
 
 namespace HSconnect.Controllers
 {
     [Authorize(Roles = "Provider")]
     public class ProvidersController : Controller
     {
+        private IGetCoordinatesRequest _getCoordinates;
         private IRepositoryWrapper _repo;
 
         public IdentityUser IdentityUser { get; private set; }
 
-        public ProvidersController(IRepositoryWrapper repo)
+        public ProvidersController(IRepositoryWrapper repo, IGetCoordinatesRequest getCoordinates) 
         {
             _repo = repo;
+            _getCoordinates = getCoordinates;
         }
         public IActionResult DisplayReferrals()
         {
@@ -152,11 +155,17 @@ namespace HSconnect.Controllers
                 {
                     _repo.Address.CreateAddress(resultsFromForm.Address);
                     _repo.Save();
+                    string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
+                    _getCoordinates.GetCoordinatesUsingGeocode(url);
                 }
                 else
                 {
                     resultsFromForm.Address = _repo.Address.GetByAddress(resultsFromForm.Address);
+                    string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
+                    _getCoordinates.GetCoordinatesUsingGeocode(url);
                 }
+                
+
                 Demographic demographicToAdd = new Demographic();
                 demographicToAdd.IsMale = ConvertToNullableBool(resultsFromForm.IsMale);
                 demographicToAdd.FamilyFriendly = ConvertToNullableBool(resultsFromForm.FamilySelection);
