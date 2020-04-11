@@ -1,0 +1,69 @@
+﻿@model HSconnect.Models.ServiceOffered
+@{
+    ViewData["Title"] = "ViewResources";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DisplayServices</h1>
+<dl class="row">
+    <dt class="col-sm-2">
+        Name
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Provider.ProviderName) @Html.DisplayFor(model => model.Provider.ProviderName)
+    </dd>
+</dl>
+
+<div>
+    <dl class="row">
+        @if (Model.Address != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address.StreetAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address.StreetAddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address.City)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address.City)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address.State)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address.State)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address.ZipCode)
+            </dd>
+        }
+        @if (Model.Category != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+        }
+        @if(Model.Demographic != null)
+        {
+            //TO DO: Add dictionary/viewdata to be able to display based on bool value
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Demographic) 
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Demographic)
+            </dd>
+        }
+    </dl>
+</div>
+
+

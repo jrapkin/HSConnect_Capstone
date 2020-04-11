@@ -17,9 +17,7 @@ namespace HSconnect.Models
 		public int? LowIncomeThreshold { get; set; }
 		[Display(Name="Age Specific?")]
 		public bool? IsAgeSensitive { get; set; }
-		public int? MemberIncome { get; set; }
-		public int? MemberAge { get; set; }
-		[Display(Name="Gender Specific?")]
+		[Display(Name = "Gender Specific?")]
 		public bool? IsMale {get; set;}
 		[Display(Name="Smoking Allowed?")]
 		public bool? SmokingIsAllowed { get; set; }

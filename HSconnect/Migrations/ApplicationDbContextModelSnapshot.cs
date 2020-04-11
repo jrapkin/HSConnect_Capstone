@@ -183,12 +183,6 @@ namespace HSconnect.Migrations
                     b.Property<int?>("LowIncomeThreshold")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MemberAge")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MemberIncome")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("SmokingIsAllowed")
                         .HasColumnType("bit");
 
@@ -241,6 +235,9 @@ namespace HSconnect.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ChartId")
                         .HasColumnType("int");
 
@@ -259,6 +256,10 @@ namespace HSconnect.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActiveMember")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsMale")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -475,22 +476,23 @@ namespace HSconnect.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -530,14 +532,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "0519f2dc-3060-4f44-9093-b36bc2967517",
+                            ConcurrencyStamp = "67f0b903-4716-4bdc-bdbc-7e96a5d09ef0",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "ae82ac23-2292-4f94-9b31-160ceb3bdb49",
+                            ConcurrencyStamp = "849f8903-b82a-4e5c-9039-55bbbbb60cf9",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

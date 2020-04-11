@@ -1,0 +1,97 @@
+﻿@model HSconnect.Models.MemberViewModel
+
+@{
+    ViewData["Title"] = "Edit Member";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h1> Edit @Model.Member.FirstName @Model.Member.LastName</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditMember">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Member.Id" />
+            <input type="hidden" asp-for="Address.Id" />
+            <input type="hidden" asp-for="SocialWorker.Id" />
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="Member.FirstName" class="control-label">Member First Name</label>
+                    <input asp-for="Member.FirstName" class="form-control" />
+                    <span asp-validation-for="Member.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Member.LastName" class="control-label">Member Last Name</label>
+                    <input asp-for="Member.LastName" class="form-control" />
+                    <span asp-validation-for="Member.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Member.PhoneNumber" class="control-label">Member Phone Number</label>
+                    <input asp-for="Member.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Member.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Member.EmailAddress" class="control-label">Member Email Address</label>
+                    <input asp-for="Member.EmailAddress" class="form-control" />
+                    <span asp-validation-for="Member.EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Member.Age" class="control-label">Member Age</label>
+                    <input asp-for="Member.Age" class="form-control" />
+                    <span asp-validation-for="Member.Age" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Member.Income" class="control-label"> Member Income</label>
+                    <input asp-for="Member.Income" class="form-control" />
+                    <span asp-validation-for="Member.Income" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GenderSelection" class="control-label">Gender</label>
+                    <select asp-for="GenderSelection" class="form-control" asp-items="@Model.Gender"></select>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Member.IsActiveMember" /> @Html.DisplayNameFor(model => model.Member.IsActiveMember)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address.StreetAddress" class="control-label">Street Address</label>
+                    <input asp-for="Address.StreetAddress" class="form-control" />
+                    <span asp-validation-for="Address.StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address.City" class="control-label">City</label>
+                    <input asp-for="Address.City" class="form-control" />
+                    <span asp-validation-for="Address.City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address.County" class="control-label">County</label>
+                    <input asp-for="Address.County" class="form-control" />
+                    <span asp-validation-for="Address.County" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address.State" class="control-label">State</label>
+                    <input asp-for="Address.State" class="form-control" />
+                    <span asp-validation-for="Address.State" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address.ZipCode" class="control-label">Zip Code</label>
+                    <input asp-for="Address.ZipCode" class="form-control" />
+                    <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManagedCareOrganizationId" class="control-label"> Managed Care Organization</label>
+                    <select asp-for="ManagedCareOrganizationId" class="form-control" asp-items="@Model.ManagedCareOrganizations"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

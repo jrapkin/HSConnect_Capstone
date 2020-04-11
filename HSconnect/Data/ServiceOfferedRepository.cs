@@ -1,5 +1,6 @@
 ﻿using HSconnect.Contracts;
 using HSconnect.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,14 @@ namespace HSconnect.Data
 		public ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId) 
 		{
 			return FindByCondition(s => s.ProviderId == providerId).ToList();
+		}
+		public async Task<ICollection<ServiceOffered>> GetServiceOfferedIncludeAllAsync()
+		{ 
+			return await FindAll()
+				.Include(p => p.Provider)
+				.Include(c => c.Category)
+				.Include(a => a.Address)
+				.Include(s => s.Service).ToListAsync();
 		}
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{
