@@ -91,23 +91,17 @@ namespace HSconnect.Controllers
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Edit(int id)
+        public IActionResult Edit()
         {
-            Provider provider = new Provider();
-            provider.Id = id;
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Provider provider = _repo.Provider.GetProviderByUserId(userId);
 
             return View(provider);
         }
         [HttpPost]
-        public IActionResult Edit(int id, Provider provider)
+        public IActionResult Edit(Provider provider)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Provider providerFromDB = _repo.Provider.GetProvider(id);
-            providerFromDB.ProviderName = provider.ProviderName;
-            providerFromDB.PhoneNumber = provider.PhoneNumber;
-            providerFromDB.Email = provider.Email;
-            providerFromDB.IdentityUserId = userId;
-
+            _repo.Provider.Update(provider);
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
