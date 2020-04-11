@@ -192,8 +192,17 @@ namespace HSconnect.Controllers
         public IActionResult EditServiceOffered(int id)
         {
             ServiceOffered serviceOffered = _repo.ServiceOffered.GetServicesOfferedIncludeAll(id).FirstOrDefault();
+            ServiceOfferedViewModel serviceOfferedViewModel = new ServiceOfferedViewModel();
+            serviceOfferedViewModel.Address = serviceOffered.Address;
+            serviceOfferedViewModel.Category = serviceOffered.Category;
+            serviceOfferedViewModel.Demographic = serviceOffered.Demographic;
+            serviceOfferedViewModel.Service = serviceOffered.Service;
+            serviceOfferedViewModel.AgeSensitive = ConvertNullableBoolToInt(serviceOffered.Demographic.IsAgeSensitive);
+            serviceOfferedViewModel.FamilySelection = ConvertNullableBoolToInt(serviceOffered.Demographic.FamilyFriendly);
+            serviceOfferedViewModel.GenderSelection = ConvertNullableBoolToInt(serviceOffered.Demographic.IsMale);
+            serviceOfferedViewModel.SmokingSelection = ConvertNullableBoolToInt(serviceOffered.Demographic.SmokingIsAllowed);
+            serviceOfferedViewModel.Cost = serviceOffered.Cost;
             ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
-
             Dictionary<int, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
             ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
             Dictionary<int, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
@@ -204,13 +213,26 @@ namespace HSconnect.Controllers
             ViewData["AgeSensitive"] = new SelectList(ageSensitive, "Key", "Value");
             ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
             serviceOffered.Provider = new Provider();
-            return View(serviceOffered);
+            return View(serviceOfferedViewModel);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditServiceOffered(ServiceOffered serviceOffered)
+        public IActionResult EditServiceOffered(ServiceOfferedViewModel serviceOfferedViewModel)
         {
+            ServiceOffered serviceOffered = new ServiceOffered();
+            serviceOffered.AddressId = serviceOfferedViewModel.Address.Id;
+            serviceOffered.Address = serviceOfferedViewModel.Address;
+            serviceOffered.CategoryId = serviceOfferedViewModel.Category.Id;
+            serviceOffered.Category = _repo.Category.FindByCondition(c => c.Id == serviceOfferedViewModel.Category.Id).FirstOrDefault();
+            serviceOffered.Cost = serviceOfferedViewModel.Cost;
+            serviceOffered.DemographicId = serviceOfferedViewModel.Demographic.Id;
+            serviceOffered.Demographic = serviceOfferedViewModel.Demographic;
+            serviceOffered.Id = serviceOfferedViewModel.ServiceOfferedId;
+            serviceOffered.Provider = _repo.Provider.GetProviderByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            serviceOffered.ProviderId = serviceOffered.Provider.Id;
+            serviceOffered.ServiceId = serviceOfferedViewModel.Service.Id;
+            serviceOffered.Service = _repo.Service.FindByCondition(s => s.Id == serviceOfferedViewModel.Service.Id).FirstOrDefault();
             _repo.ServiceOffered.Update(serviceOffered);
             _repo.Address.Update(serviceOffered.Address);
             _repo.Demographic.Update(serviceOffered.Demographic);
@@ -361,6 +383,21 @@ namespace HSconnect.Controllers
             }
 
             return ConvertToNullableBool(resultFromForm);
+        }
+        private int ConvertNullableBoolToInt(bool? nullableBool)
+        {
+            if (!nullableBool.HasValue)
+            {
+                return 0;
+            }
+            else if (nullableBool.Value == true)
+            {
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
         }
     }
 }
