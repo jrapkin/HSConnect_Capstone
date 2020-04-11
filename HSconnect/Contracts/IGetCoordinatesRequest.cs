@@ -8,7 +8,7 @@ namespace HSconnect.Contracts
 {
     public interface IGetCoordinatesRequest
     {
-        Task<double[]> GetCoordinatesUsingGeocode(string url);
+        void GetCoordinatesUsingGeocode(string url, Address address);
         string GetAddressAsURL(Address address);
     }
 }

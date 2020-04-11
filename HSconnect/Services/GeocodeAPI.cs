@@ -14,9 +14,10 @@ namespace HSconnect.Services
     //static?
     public class GeocodeAPI : IGetCoordinatesRequest
     {
-        public GeocodeAPI()
+        private IRepositoryWrapper _repo;
+        public GeocodeAPI(IRepositoryWrapper repo)
         {
-
+            _repo = repo;
         }
         //public async Task<GetCoordinates> GetCoordinates()
         //{
@@ -33,7 +34,7 @@ namespace HSconnect.Services
 
         //}
 
-        public async Task<double[]> GetCoordinatesUsingGeocode(string url)
+        public async void GetCoordinatesUsingGeocode(string url, Address address)
         {
             double lat;
             double lng;
@@ -46,26 +47,24 @@ namespace HSconnect.Services
                 lat = Double.Parse(dataAsJObject["results"]["geometry"]["location"]["lat"].ToString());
                 lng = Double.Parse(dataAsJObject["results"]["geometry"]["location"]["lng"].ToString());
             }
-            double[] coordinates = new double[2];
-            coordinates[0] = lat;
-            coordinates[1] = lng;
-            return coordinates;
+            address.Lat = lat;
+            address.Lng = lng;
+            _repo.Address.Update(address);
+            _repo.Save();
         }
         public string GetAddressAsURL(Address address)
         {
             string api = "https://maps.googleapis.com/maps/api/geocode/json?address=";
             string streetAddress;
-            string county;
             string city;
             string state;
             string zipcode;
             streetAddress = address.StreetAddress.Replace(' ', '+');
             city = address.City.Replace(' ', '+');
-            county = address.County.Replace(' ', '+');
             state = address.State.Replace(' ', '+');
             zipcode = address.ZipCode.Replace(' ', '+');
 
-            string url = api + streetAddress + "," + county + "," + city + "," + state + "," + zipcode + $"i&key={API_Keys.GeocodeAndGoogleMapsKey}";
+            string url = api + streetAddress + ",+" + city + ",+" + state + "," + zipcode + $"&key={API_Keys.GeocodeAndGoogleMapsKey}";
             return url;
         }
     }

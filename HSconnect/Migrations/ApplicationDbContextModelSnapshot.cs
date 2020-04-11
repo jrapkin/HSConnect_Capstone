@@ -34,6 +34,12 @@ namespace HSconnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
+
                     b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,6 +62,8 @@ namespace HSconnect.Migrations
                             Id = 1,
                             City = "Wauwatosa",
                             County = "Milwaukee",
+                            Lat = 0.0,
+                            Lng = 0.0,
                             State = "WI",
                             StreetAddress = "10201 West Innovation Drive, Suite 100",
                             ZipCode = "53226"
@@ -65,6 +73,8 @@ namespace HSconnect.Migrations
                             Id = 2,
                             City = "Milwaukee",
                             County = "Milwaukee",
+                            Lat = 0.0,
+                            Lng = 0.0,
                             State = "WI",
                             StreetAddress = "1555 N Rivercenter Drive, Suite #206",
                             ZipCode = "53212"
@@ -530,14 +540,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "f0990ffb-88a2-4a09-a6dc-f2dbc5946217",
+                            ConcurrencyStamp = "f44535d2-f1a8-464d-9063-78a49125dbd8",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "5d2e591d-31e1-4cd9-95e3-d15fedae7fce",
+                            ConcurrencyStamp = "04313fb9-6fb9-4c1a-aa01-6e8b2176ba3a",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

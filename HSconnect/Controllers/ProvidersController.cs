@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using HSconnect.Contracts;
+//using HSconnect.Contracts;
 
 namespace HSconnect.Controllers
 {
@@ -156,13 +156,13 @@ namespace HSconnect.Controllers
                     _repo.Address.CreateAddress(resultsFromForm.Address);
                     _repo.Save();
                     string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
-                    _getCoordinates.GetCoordinatesUsingGeocode(url);
+                    _getCoordinates.GetCoordinatesUsingGeocode(url, resultsFromForm.Address);
                 }
                 else
                 {
                     resultsFromForm.Address = _repo.Address.GetByAddress(resultsFromForm.Address);
                     string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
-                    _getCoordinates.GetCoordinatesUsingGeocode(url);
+                    _getCoordinates.GetCoordinatesUsingGeocode(url, resultsFromForm.Address);
                 }
                 
 

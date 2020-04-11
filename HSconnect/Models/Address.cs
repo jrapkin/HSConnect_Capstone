@@ -20,5 +20,7 @@ namespace HSconnect.Models
 		public string State { get; set; }
 		[Required]
 		public string ZipCode { get; set; }
+		public double Lat { get; set; }
+		public double Lng { get; set; }
 	}
 }

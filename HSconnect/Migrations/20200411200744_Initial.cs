@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,9 @@ namespace HSconnect.Migrations
                     City = table.Column<string>(nullable: false),
                     County = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
-                    ZipCode = table.Column<string>(nullable: false)
+                    ZipCode = table.Column<string>(nullable: false),
+                    Lat = table.Column<double>(nullable: false),
+                    Lng = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,8 +89,7 @@ namespace HSconnect.Migrations
                     IsAgeSensitive = table.Column<bool>(nullable: true),
                     MemberIncome = table.Column<int>(nullable: true),
                     MemberAge = table.Column<int>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    IsCoEd = table.Column<bool>(nullable: true),
+                    IsMale = table.Column<bool>(nullable: true),
                     SmokingIsAllowed = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
@@ -449,11 +450,11 @@ namespace HSconnect.Migrations
 
             migrationBuilder.InsertData(
                 table: "Addresses",
-                columns: new[] { "Id", "City", "County", "State", "StreetAddress", "ZipCode" },
+                columns: new[] { "Id", "City", "County", "Lat", "Lng", "State", "StreetAddress", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, "Wauwatosa", "Milwaukee", "WI", "10201 West Innovation Drive, Suite 100", "53226" },
-                    { 2, "Milwaukee", "Milwaukee", "WI", "1555 N Rivercenter Drive, Suite #206", "53212" }
+                    { 1, "Wauwatosa", "Milwaukee", 0.0, 0.0, "WI", "10201 West Innovation Drive, Suite 100", "53226" },
+                    { 2, "Milwaukee", "Milwaukee", 0.0, 0.0, "WI", "1555 N Rivercenter Drive, Suite #206", "53212" }
                 });
 
             migrationBuilder.InsertData(
@@ -461,8 +462,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "15a4da8e-0227-47a0-8c42-ab2e4da008d6", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "8a5ac507-c88e-4fdc-9ceb-ba8dffd00b93", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "f44535d2-f1a8-464d-9063-78a49125dbd8", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "04313fb9-6fb9-4c1a-aa01-6e8b2176ba3a", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(
