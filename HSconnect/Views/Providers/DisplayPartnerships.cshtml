@@ -20,7 +20,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ManagedCareOrganization.Address)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +29,16 @@
                 @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address)
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.ZipCode)
             </td>
             <td>
                 <a asp-action="EditPartnership" asp-route-id="@item.Id">Edit</a> |

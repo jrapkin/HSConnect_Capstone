@@ -1,4 +1,4 @@
-﻿@model HSconnect.Models.Partnership
+﻿@model HSconnect.Models.PartnershipViewModel
 
 @{
     ViewData["Title"] = "EditPartnership";
@@ -13,16 +13,11 @@
     <div class="col-md-4">
         <form asp-action="EditPartnership">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="ProviderId" class="control-label"></label>
-                <select asp-for="ProviderId" class="form-control" asp-items="ViewBag.ProviderId"></select>
-                <span asp-validation-for="ProviderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManagedCareOrganizationId" class="control-label"></label>
-                <select asp-for="ManagedCareOrganizationId" class="form-control" asp-items="ViewBag.ManagedCareOrganizationId"></select>
-                <span asp-validation-for="ManagedCareOrganizationId" class="text-danger"></span>
+                <input type="hidden" asp-for="PartnershipId" />
+                <label asp-for="ManagedCareOrganizationSelectionId" class="control-label"></label>
+                <select asp-for="ManagedCareOrganizationSelectionId" class="form-control" asp-items='new SelectList(Model.ManagedCareOrganizations, "Id", "Name")'></select>
+                <span asp-validation-for="ManagedCareOrganizationSelectionId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

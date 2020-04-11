@@ -261,13 +261,11 @@ namespace HSconnect.Controllers
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
-            var partnerships = _repo.Partnership.GetPartnershipsTiedToProvider(providerId);
+            var partnerships = _repo.Partnership.GetPartnershipsTiedToProviderIncludeAll(providerId);
             return View(partnerships);
         }
         public IActionResult CreatePartnership()
         {
-            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
             PartnershipViewModel partnershipViewModel = new PartnershipViewModel();
             partnershipViewModel.ManagedCareOrganizations = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList();
             return View(partnershipViewModel);
@@ -281,6 +279,7 @@ namespace HSconnect.Controllers
                 string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 Provider provider = _repo.Provider.GetProviderByUserId(userId);
                 ManagedCareOrganization managedCareOrganization = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations().Where(m => m.Id == partnershipViewModel.ManagedCareOrganizationSelectionId).FirstOrDefault();
+                managedCareOrganization.Address = _repo.Address.GetAddressById(managedCareOrganization.AddressId.Value);
                 try
                 {
                     _repo.Partnership.CreatePartnership(provider, managedCareOrganization);
@@ -302,21 +301,29 @@ namespace HSconnect.Controllers
         }
         public IActionResult EditPartnership(int id)
         {
-            Partnership partnership = _repo.Partnership.GetPartnership(id);
-            return View(partnership);
-
+            PartnershipViewModel partnershipViewModel = new PartnershipViewModel();
+            partnershipViewModel.PartnershipId = id;
+            partnershipViewModel.ManagedCareOrganizations = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList();
+            return View(partnershipViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPartnership(int id, Provider provider)
+        public IActionResult EditPartnership(PartnershipViewModel partnershipViewModel)
         {
-            var partnership = _repo.Partnership.FindByCondition(p => p.ProviderId == provider.Id).FirstOrDefault();
-
-            Partnership updatedPartnership = _repo.Partnership.GetPartnership(id);
-            updatedPartnership.ManagedCareOrganization.Name = partnership.ManagedCareOrganization.Name;
-
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
+            ManagedCareOrganization managedCareOrganization = _repo.ManagedCareOrganization.GetAllManagedCareOrganizations().Where(m => m.Id == partnershipViewModel.ManagedCareOrganizationSelectionId).FirstOrDefault();
+            Partnership partnership = new Partnership()
+            {
+                Id = partnershipViewModel.PartnershipId,
+                ProviderId = providerId,
+                Provider = _repo.Provider.GetProvider(providerId),
+                ManagedCareOrganizationId = managedCareOrganization.Id,
+                ManagedCareOrganization = managedCareOrganization
+            };
+            _repo.Partnership.Update(partnership);
             _repo.Save();
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(DisplayPartnerships));
         }
         public IActionResult DeletePartnership(int id)
         {

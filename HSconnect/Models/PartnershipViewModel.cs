@@ -9,5 +9,6 @@ namespace HSconnect.Models
     {
         public List<ManagedCareOrganization> ManagedCareOrganizations { get; set; }
         public int ManagedCareOrganizationSelectionId { get; set; }
+        public int PartnershipId { get; set; }
     }
 }
