@@ -12,42 +12,30 @@
     <h4>Service Offered</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Provider)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Provider.Id)
-        </dd class>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Category)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.Id)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.StreetAddress)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.StreetAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address.City)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Demographic)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Service.Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Demographic.Id)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Service)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Service.Id)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Service.Name)
+        </dd>
     </dl>
     
     <form asp-action="DeleteServiceOffered">

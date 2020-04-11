@@ -25,7 +25,8 @@ namespace HSconnect.Data
 				.Include(p => p.Provider)
 				.Include(c => c.Category)
 				.Include(a => a.Address)
-				.Include(s => s.Service).ToListAsync();
+				.Include(s => s.Service)
+				.Include(s => s.Demographic).ToListAsync();
 		}
 		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll()
 		{

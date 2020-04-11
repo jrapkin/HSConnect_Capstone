@@ -242,7 +242,7 @@ namespace HSconnect.Controllers
         }
         public IActionResult DeleteServiceOffered(int id)
         {
-            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServiceOffered(id);
+            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServicesOfferedIncludeAll(id).FirstOrDefault();
             return View(serviceOffered);
         }
         [HttpPost]
@@ -250,9 +250,11 @@ namespace HSconnect.Controllers
         public IActionResult DeleteServiceOffered(ServiceOffered serviceOffered)
         {
             ServiceOffered serviceOfferedToBeDeleted = _repo.ServiceOffered.GetServicesOfferedIncludeAll().FirstOrDefault(s => s.Id == serviceOffered.Id);
+            Address address = serviceOfferedToBeDeleted.Address;
             _repo.ServiceOffered.Delete(_repo.ServiceOffered.GetServiceOffered(serviceOfferedToBeDeleted.Id));
+            _repo.Save();
             _repo.Address.Delete(_repo.Address.GetAddressById(serviceOfferedToBeDeleted.AddressId.Value));
-            _repo.Demographic.Delete(_repo.Demographic.FindByCondition(d => d.Id == serviceOfferedToBeDeleted.DemographicId).FirstOrDefault());
+            _repo.Demographic.Delete(serviceOfferedToBeDeleted.Demographic);
             _repo.Save();
             return RedirectToAction(nameof(DisplayServices));
 
