@@ -14,10 +14,10 @@ namespace HSconnect.Models
 		public bool ServiceIsActive { get; set; }
 		public bool? ReferralAccepted { get; set; }
 		public DateTime Date { get; set; }
-		[ForeignKey ("Member")]
+		[ForeignKey("Member")]
 		public int? MemberId { get; set; }
 		public Member Member { get; set; }
-		[ForeignKey ("SocialWorker")]
+		[ForeignKey("SocialWorker")]
 		public int? SocialWorkerId { get; set; }
 		public SocialWorker SocialWorker { get; set; }
 		[ForeignKey("ServiceOffered")]

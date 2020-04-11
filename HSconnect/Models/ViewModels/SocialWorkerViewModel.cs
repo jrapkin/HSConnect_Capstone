@@ -8,8 +8,10 @@ namespace HSconnect.Models
 {
 	public class SocialWorkerViewModel
 	{
-		SocialWorker SocialWorker { get; set; }
-		ServiceOffered ServiceOffered { get; set; }
-		List<Demographic> Demographics { get; set; }
+		public SocialWorker SocialWorker { get; set; }
+		public ServiceOffered ServiceOffered { get; set; }
+		public List<Member> Members { get; set; }
+		public List<Chart> Charts { get; set; }
+
 	}
 }

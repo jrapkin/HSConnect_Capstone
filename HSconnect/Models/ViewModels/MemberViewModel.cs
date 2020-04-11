@@ -13,10 +13,9 @@ namespace HSconnect.Models
 		public Member Member { get; set; }
 		public SocialWorker SocialWorker { get; set; }
 		public Address Address { get; set; }
-		public ServiceOffered ServiceOffered { get; set; }
-		public ManagedCareOrganization ManagedCareOrganization { get; set; }
-		public List<Demographic> Demographics { get; set; }
-		public SelectList ListOfOrganizations { get; set; }
-
+		public SelectList ManagedCareOrganizations { get; set; }
+		public SelectList Gender { get; set; }
+		public int ManagedCareOrganizationId { get; set; }
+		public int GenderSelection { get; set; }
 	}
 }

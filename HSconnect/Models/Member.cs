@@ -24,6 +24,8 @@ namespace HSconnect.Models
 		public bool? IsMale { get; set; }
 		[Required]
 		public int Age { get; set; }
+		[Required]
+		[Display (Name ="Active Member")]
 		public bool IsActiveMember { get; set; }
 		[ForeignKey("Address")]
 		public int? AddressId { get; set; }

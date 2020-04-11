@@ -39,7 +39,10 @@ namespace HSconnect.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            string email = this.User.FindFirstValue(ClaimTypes.Email);
+            SocialWorker socialWorker = new SocialWorker();
+            socialWorker.Email = email;
+            return View(socialWorker);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,61 +67,73 @@ namespace HSconnect.Controllers
         }
         public IActionResult CreateMember()
         {
+            MemberViewModel viewModel = new MemberViewModel();
+            viewModel.ManagedCareOrganizations = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList(), "Id", "Name");
             Dictionary<int, string> genderDictionary = CreateBoolDictionary("Not Applicable", "Male", "Female");
-            ViewData["Gender"] = new SelectList(genderDictionary, "Key", "Value");
-            ViewData["Managed Care Organization"] = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations());
-            return View();
+            viewModel.Gender = new SelectList(genderDictionary, "Key", "Value");
+
+            return View(viewModel);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateMember(Member member, Address address, Demographic demographic, ManagedCareOrganization managedCareOrganization)
+        public IActionResult CreateMember(MemberViewModel viewModelFromForm)
         {
             try
             {
-                if (_repo.Address.GetByAddress(address) ==null)
+                if (_repo.Address.GetByAddress(viewModelFromForm.Address) ==null)
                 {
-                    _repo.Address.CreateAddress(address);
+                    _repo.Address.CreateAddress(viewModelFromForm.Address);
                     _repo.Save();
                 }
                 else
                 {
-                    Address addressFromDb = _repo.Address.GetByAddress(address);
-                    address.Id = addressFromDb.Id;
+                    Address addressFromDb = _repo.Address.GetByAddress(viewModelFromForm.Address);
+                    viewModelFromForm.Address.Id = addressFromDb.Id;
                 }
-
-                member.AddressId = address.Id;
-                member.ManagedCareOrganizationId = managedCareOrganization.Id;
-                _repo.Member.CreateMember(member);
+                viewModelFromForm.Member.IsMale = ConvertToNullableBool(viewModelFromForm.GenderSelection);
+                viewModelFromForm.Member.AddressId = viewModelFromForm.Address.Id;
+                viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;              
+                _repo.Member.CreateMember(viewModelFromForm.Member);
                 _repo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View(member);
+                return View(viewModelFromForm);
             }
         }
 
-        public async IActionResult EditMember(int? id)
+        public async Task<IActionResult> EditMember(int? id)
         {
             MemberViewModel viewModel = new MemberViewModel();
 
             viewModel.Member = await _repo.Member.GetMemberByIdIncludeAll(id);
             viewModel.Address = await _repo.Address.GetAddressByIdAsync(viewModel.Member.AddressId);
-            viewModel = 
+            viewModel.ManagedCareOrganizations = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList(), "Id", "Name");
             if (id == null)
             {
                 return NotFound();
             }
-            var member = 
+           
 
-            return View(member);
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditMember(int? id, Member member)
+        public IActionResult EditMember(MemberViewModel viewModelFromForm)
         {
-            _repo.Member.Update(member);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            viewModelFromForm.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+
+            if (_repo.Address.FindByCondition(a => a.Id == viewModelFromForm.Address.Id).Any())
+            {
+                _repo.Address.Update(_repo.Address.GetAddressById(viewModelFromForm.Address.Id));
+            }
+            //Address address = _repo.Address.GetAddressById(viewModelFromForm.Address.Id);
+            viewModelFromForm.Member.AddressId = viewModelFromForm.Address.Id;
+            viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;
+            _repo.Member.Update(viewModelFromForm.Member);
             _repo.Save();
 
             return RedirectToAction(nameof(Index));
@@ -189,7 +204,7 @@ namespace HSconnect.Controllers
             var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
             return View(servicesOffered);
         }
-        private Dictionary<int, string> CreateBoolDictionary(string nullValue, string falseValue, string trueValue)
+        private Dictionary<int, string> CreateBoolDictionary(string nullValue, string trueValue, string falseValue)
         {
             Dictionary<int, string> dictionary = new Dictionary<int, string>()
             {
