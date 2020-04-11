@@ -15,17 +15,20 @@ namespace HSconnect.Models
 		public string FirstName { get; set; }
 		[Required]
 		public string LastName { get; set; }
+		[Display(Name = "Phone Number")]
 		public string PhoneNumber { get; set; }
 		[Required]
+		[Display(Name = "Email Address")]
 		public string EmailAddress { get; set; }
 		[Required]
 		public int Income { get; set; }
 		[Required]
+		[Display(Name = "Gender")]
 		public bool? IsMale { get; set; }
 		[Required]
 		public int Age { get; set; }
 		[Required]
-		[Display (Name ="Active Member")]
+		[Display (Name ="Activity Status")]
 		public bool IsActiveMember { get; set; }
 		[ForeignKey("Address")]
 		public int? AddressId { get; set; }

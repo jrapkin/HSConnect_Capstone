@@ -23,14 +23,12 @@ namespace HSconnect.Controllers
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SocialWorkerViewModel viewModel = new SocialWorkerViewModel();
             if (_repo.SocialWorker.FindByCondition(s => s.IdentityUserId == userId).Any())
             {
-                SocialWorker socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-                if (socialWorker.Charts != null)
-                {
-                    socialWorker.Charts.Where(c => c.SocialWorkerId == socialWorker.Id);
-                }
-                return View(socialWorker);
+                viewModel.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+                viewModel.Charts = _repo.Chart.GetChartsBySocialWorkerIdIncludeAll(viewModel.SocialWorker.Id).ToList();
+                return View(viewModel);
             }
             else
             {
