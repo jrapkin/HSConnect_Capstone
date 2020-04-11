@@ -22,6 +22,10 @@ namespace HSconnect.Data
 		{
 			return FindAll().Include(s => s.Address).Include(s => s.Category).Include(s => s.Provider).Include(s => s.Service).Include(s => s.Demographic).ToList();
 		}
+		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll(int id)
+		{
+			return FindAll().Include(s => s.Address).Include(s => s.Category).Include(s => s.Provider).Include(s => s.Service).Include(s => s.Demographic).Where(s => s.Id == id).ToList();
+		}
 		public async Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync()
 		{
 			return await FindAll()

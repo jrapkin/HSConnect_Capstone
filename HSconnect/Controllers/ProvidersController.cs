@@ -48,7 +48,7 @@ namespace HSconnect.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (_repo.Provider.FindByCondition(p => p.IdentityUserId == userId).Any())
             {
-                var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).SingleOrDefault();
+                var provider = _repo.Provider.FindByCondition(p => p.IdentityUserId == userId).FirstOrDefault();
                 provider.Charts = _repo.Chart.GetChartsByProvider(provider.Id);
 
                 //if there are charts that ties to this provider by services provided 
@@ -191,49 +191,29 @@ namespace HSconnect.Controllers
     
         public IActionResult EditServiceOffered(int id)
         {
-            ServiceOffered serviceOffered = new ServiceOffered();
-            serviceOffered.Id = id;
-
+            ServiceOffered serviceOffered = _repo.ServiceOffered.GetServicesOfferedIncludeAll(id).FirstOrDefault();
             ViewData["Categories"] = new SelectList(_repo.Category.GetAllCategories(), "Id", "Name");
 
-            //Dictionary<bool?, string> genderDictionary = CreateNullableBoolDictionary("Male Only", "Co-ed", "Female Only");
-            //ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
-            //Dictionary<bool?, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
-            //ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
-            //Dictionary<bool?, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
-            //ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
-            //Dictionary<bool?, string> isAgeSensitive = CreateNullableBoolDictionary("Not Applicable", "Seniors Only", "18 and up");
-            //ViewData["Seniors"] = new SelectList(isAgeSensitive, "Key", "Value");
-
+            Dictionary<int, string> genderDictionary = CreateNullableBoolDictionary("Co-ed", "Male", "Female");
+            ViewData["Genders"] = new SelectList(genderDictionary, "Key", "Value");
+            Dictionary<int, string> familyFriendly = CreateNullableBoolDictionary("Not Applicable", "Family Friendly", "Individual");
+            ViewData["FamilySize"] = new SelectList(familyFriendly, "Key", "Value");
+            Dictionary<int, string> smokingAllowed = CreateNullableBoolDictionary("Not Applicable", "Smoking Allowed", "No Smoking");
+            ViewData["Smoking"] = new SelectList(smokingAllowed, "Key", "Value");
+            Dictionary<int, string> ageSensitive = CreateNullableBoolDictionary("Not Applicable", "Above 60", "18 and up");
+            ViewData["AgeSensitive"] = new SelectList(ageSensitive, "Key", "Value");
             ViewData["Services"] = new SelectList(_repo.Service.GetAllServices(), "Id", "Name");
-
+            serviceOffered.Provider = new Provider();
             return View(serviceOffered);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditServiceOffered(int id, Provider provider)//serviceOfferedId and Provider
+        public IActionResult EditServiceOffered(ServiceOffered serviceOffered)
         {
-            var serviceOffered = _repo.ServiceOffered.FindByCondition(s => s.ProviderId == provider.Id).FirstOrDefault();
-
-            ServiceOffered updatedService = _repo.ServiceOffered.GetServiceOffered(id);
-
-            //update category?
-            updatedService.Category.Name = serviceOffered.Category.Name;
-            
-            //updated Address?
-            updatedService.Address.StreetAddress = serviceOffered.Address.StreetAddress;
-            updatedService.Address.City = serviceOffered.Address.City;
-            updatedService.Address.County = serviceOffered.Address.County;
-            updatedService.Address.State = serviceOffered.Address.State;
-            updatedService.Address.ZipCode = serviceOffered.Address.ZipCode;
-
-            //update demographic?
-            updatedService.Demographic = serviceOffered.Demographic;
-
-            //updated service 
-            updatedService.Service.Name = serviceOffered.Service.Name;
-
+            _repo.ServiceOffered.Update(serviceOffered);
+            _repo.Address.Update(serviceOffered.Address);
+            _repo.Demographic.Update(serviceOffered.Demographic);
             _repo.Save();
             return RedirectToAction(nameof(DisplayServices));
         }
