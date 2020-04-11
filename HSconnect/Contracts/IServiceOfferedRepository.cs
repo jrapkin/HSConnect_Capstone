@@ -8,8 +8,12 @@ namespace HSconnect.Contracts
 {
 	public interface IServiceOfferedRepository : IRepositoryBase<ServiceOffered>
 	{
-		public ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
-		public ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
-		public ServiceOffered GetServiceOffered(int id);
+		ICollection<ServiceOffered> GetServicesOfferedByProvider(int providerId);
+		ICollection<ServiceOffered> GetServicesOfferedIncludeAll();
+		ICollection<ServiceOffered> GetServicesOfferedIncludeAll(int id);
+		Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync();
+		Task<ICollection<ServiceOffered>> GetServicesOfferedIncludeAllAsync(int providerId);
+		ServiceOffered GetServiceOffered(int id);
+		void CreateServiceOffered(string cost, Provider provider, Category category, Address address, Demographic demographic, Service service);
 	}
 }

@@ -21,5 +21,7 @@ namespace HSconnect.Models
 		public IdentityUser IdentityUser { get; set; }
 		[NotMapped]
 		public List<Partnership> Partnerships { get; set; }
+		[NotMapped]
+		public ICollection<Chart> Charts { get; set; }
 	}
 }

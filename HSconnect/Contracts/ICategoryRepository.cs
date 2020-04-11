@@ -8,5 +8,6 @@ namespace HSconnect.Contracts
 {
 	public interface ICategoryRepository : IRepositoryBase<Category>
 	{
+		ICollection<Category> GetAllCategories();
 	}
 }

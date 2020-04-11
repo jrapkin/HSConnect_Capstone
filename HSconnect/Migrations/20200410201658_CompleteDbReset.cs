@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class CompleteDbReset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,14 +84,31 @@ namespace HSconnect.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FamilyFriendly = table.Column<bool>(nullable: true),
                     LowIncomeThreshold = table.Column<int>(nullable: true),
-                    IsAgeSensitive = table.Column<bool>(nullable: false),
+                    IsAgeSensitive = table.Column<bool>(nullable: true),
                     MemberIncome = table.Column<int>(nullable: true),
                     MemberAge = table.Column<int>(nullable: true),
-                    Gender = table.Column<string>(nullable: true)
+                    IsMale = table.Column<bool>(nullable: true),
+                    SmokingIsAllowed = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Demographics", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserFromID = table.Column<string>(nullable: true),
+                    UserToId = table.Column<string>(nullable: true),
+                    MessageContent = table.Column<string>(nullable: true),
+                    TimeStamp = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -430,14 +447,65 @@ namespace HSconnect.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "ac73005a-2d85-478e-953c-b12675a235be", "a3eb0b92-f94c-4b63-8cd1-dc131c092ab3", "Social Worker", "SOCIALWORKER" });
+                table: "Addresses",
+                columns: new[] { "Id", "City", "County", "State", "StreetAddress", "ZipCode" },
+                values: new object[,]
+                {
+                    { 1, "Wauwatosa", "Milwaukee", "WI", "10201 West Innovation Drive, Suite 100", "53226" },
+                    { 2, "Milwaukee", "Milwaukee", "WI", "1555 N Rivercenter Drive, Suite #206", "53212" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9de6e148-822b-4ebb-9194-7ae8c78af9f4", "9b35d02e-c27b-49da-b992-80a419e3bb08", "Provider", "PROVIDER" });
+                values: new object[,]
+                {
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "0519f2dc-3060-4f44-9093-b36bc2967517", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "ae82ac23-2292-4f94-9b31-160ceb3bdb49", "Provider", "PROVIDER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 3, "Child Welfare" },
+                    { 4, "Crimial Justice/Corrections" },
+                    { 5, "Education" },
+                    { 6, "Mental Health" },
+                    { 7, "Military Support" },
+                    { 8, "Women" },
+                    { 1, "Healthcare" },
+                    { 2, "RCAC" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Services",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 11, "Skilled Nursing" },
+                    { 10, "Caregiver Assistance" },
+                    { 9, "Rehabilitation Program" },
+                    { 8, "Safe Environment" },
+                    { 4, "Child Protection Investigation" },
+                    { 6, "Meal Plans" },
+                    { 5, "Adoption" },
+                    { 3, "Foster Care" },
+                    { 1, "Housing" },
+                    { 7, "Legal Assistance" },
+                    { 2, "Meal Plans" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ManagedCareOrganizations",
+                columns: new[] { "Id", "AddressId", "Name" },
+                values: new object[] { 1, 1, "My Choice Family Care" });
+
+            migrationBuilder.InsertData(
+                table: "ManagedCareOrganizations",
+                columns: new[] { "Id", "AddressId", "Name" },
+                values: new object[] { 2, 2, "Independent Care Health Plan" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -600,6 +668,9 @@ namespace HSconnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Partnerships");

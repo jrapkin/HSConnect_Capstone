@@ -1,0 +1,151 @@
+﻿@model HSconnect.Models.ServiceOffered
+
+@{
+    ViewData["Title"] = "DisplayServiceOfferedDetails";
+    Layout = "~/Views/Shared/_Layout_Provider.cshtml";
+}
+
+<h1>DisplayServiceOfferedDetails</h1>
+
+<div>
+    <h4>ServiceOffered</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Provider)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Provider.ProviderName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.StreetAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.State)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.State)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.ZipCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.ZipCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.IsMale)
+        </dt>
+        @if (!Model.Demographic.IsMale.HasValue)
+        {
+            <dd class="col-sm-10">
+                Co-Ed
+            </dd>
+        }
+        else if (Model.Demographic.IsMale.Value == true)
+        {
+            <dd class="col-sm-10">
+                Male Only
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                Female Only
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Service)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Service.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.FamilyFriendly)
+        </dt>
+        @if (!Model.Demographic.FamilyFriendly.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.FamilyFriendly.Value == true)
+        {
+            <dd class="col-sm-10">
+                Family Friendly
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                Individual
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.IsAgeSensitive)
+        </dt>
+        @if (!Model.Demographic.IsAgeSensitive.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.IsAgeSensitive.Value == true)
+        {
+            <dd class="col-sm-10">
+                Above 60
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                18 and Up
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Demographic.SmokingIsAllowed)
+        </dt>
+        @if (!Model.Demographic.IsMale.HasValue)
+        {
+            <dd class="col-sm-10">
+                Not Applicable
+            </dd>
+        }
+        else if (Model.Demographic.IsMale.Value == false)
+        {
+            <dd class="col-sm-10">
+                No Smoking
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-10">
+                Smoking is Allowed
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd class="col-sm-10">
+            $@Html.DisplayFor(model => model.Cost)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditServiceOffered" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

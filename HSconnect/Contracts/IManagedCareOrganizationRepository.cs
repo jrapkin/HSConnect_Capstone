@@ -8,5 +8,6 @@ namespace HSconnect.Contracts
 {
 	public interface IManagedCareOrganizationRepository : IRepositoryBase<ManagedCareOrganization>
 	{
+		ICollection<ManagedCareOrganization> GetAllManagedCareOrganizations();
 	}
 }

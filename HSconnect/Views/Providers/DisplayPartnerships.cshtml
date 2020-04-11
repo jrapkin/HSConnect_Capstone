@@ -1,0 +1,50 @@
+﻿@model IEnumerable<HSconnect.Models.Partnership>
+
+@{
+    ViewData["Title"] = "DisplayPartnerships";
+    Layout = "~/Views/Shared/_Layout_Provider.cshtml";
+}
+
+<h1>Display Partnerships</h1>
+
+<p>
+    <a asp-action="CreatePartnership">Add New Partnership</a>
+    <a asp-action="Details">Return to Provider Information</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ManagedCareOrganization.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManagedCareOrganization.Address)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagedCareOrganization.Address.ZipCode)
+            </td>
+            <td>
+                <a asp-action="EditPartnership" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="DeletePartnership" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

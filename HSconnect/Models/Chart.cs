@@ -24,7 +24,5 @@ namespace HSconnect.Models
 		public int? ServiceOfferedId { get; set; }
 		public ServiceOffered ServiceOffered { get; set; }
 
-
-
 	}
 }
