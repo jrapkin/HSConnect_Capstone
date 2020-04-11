@@ -41,10 +41,8 @@ namespace HSconnect.Controllers
         }
         public IActionResult Create()
         {
-            string email = this.User.FindFirstValue(ClaimTypes.Email);
-            SocialWorker socialWorker = new SocialWorker();
-            socialWorker.Email = email;
-            return View(socialWorker);
+
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -83,7 +81,9 @@ namespace HSconnect.Controllers
         {
             try
             {
-                if (_repo.Address.GetByAddress(viewModelFromForm.Address) ==null)
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                viewModelFromForm.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+                if (_repo.Address.GetByAddress(viewModelFromForm.Address) == null)
                 {
                     _repo.Address.CreateAddress(viewModelFromForm.Address);
                     _repo.Save();
@@ -95,7 +95,7 @@ namespace HSconnect.Controllers
                 }
                 viewModelFromForm.Member.IsMale = ConvertToNullableBool(viewModelFromForm.GenderSelection);
                 viewModelFromForm.Member.AddressId = viewModelFromForm.Address.Id;
-                viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;              
+                viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;
                 _repo.Member.CreateMember(viewModelFromForm.Member);
                 _repo.Save();
                 Chart newChart = new Chart()
@@ -115,17 +115,18 @@ namespace HSconnect.Controllers
         }
 
         public async Task<IActionResult> EditMember(int? id)
-        {
+        {   
+            if (id == null)
+            {
+                return NotFound();
+            }
             MemberViewModel viewModel = new MemberViewModel();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             viewModel.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
             viewModel.Member = await _repo.Member.GetMemberByIdIncludeAll(id);
             viewModel.Address = await _repo.Address.GetAddressByIdAsync(viewModel.Member.AddressId);
             viewModel.ManagedCareOrganizations = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList(), "Id", "Name");
-            if (id == null)
-            {
-                return NotFound();
-            }
+
            
 
             return View(viewModel);
@@ -148,6 +149,15 @@ namespace HSconnect.Controllers
             _repo.Save();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult DisplayMembers()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SocialWorker socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+            var charts = _repo.Chart.GetChartsBySocialWorkerIdIncludeAll(socialWorker.Id).ToList();
+            List<Member> listOfMembersById = FilterMembersBySocialWorker(charts, socialWorker.Id).ToList();
+            return View(listOfMembersById);
         }
         public async Task<IActionResult> DeleteMember(int? id)
         {
@@ -208,8 +218,13 @@ namespace HSconnect.Controllers
         }
         public async Task<IActionResult> Resources()
         {
-            var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
+            var servicesOffered = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync();
             return View(servicesOffered);
+        }
+        private List<Member> FilterMembersBySocialWorker(List<Chart> charts, int socialWorkerId)
+        {
+            var members = charts.Where(m => m.SocialWorkerId == socialWorkerId).Select( m => m.Member).ToList();
+            return members;
         }
         private Dictionary<int, string> CreateBoolDictionary(string nullValue, string trueValue, string falseValue)
         {
@@ -233,7 +248,6 @@ namespace HSconnect.Controllers
                 case 2:
                     return false;
             }
-
             return ConvertToNullableBool(resultFromForm);
         }
     }

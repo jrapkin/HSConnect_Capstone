@@ -22,6 +22,7 @@ namespace HSconnect.Data
 		public ICollection<Chart> GetChartsBySocialWorkerIdIncludeAll(int socialWorkerId)
 		{
 			return FindByCondition(c => c.SocialWorkerId == socialWorkerId).Include(sw => sw.SocialWorker)
+																		   .Include(m => m.Member)
 																		   .Include(s => s.ServiceOffered)
 																		   .ToList();
 		}
@@ -34,12 +35,15 @@ namespace HSconnect.Data
 		public async Task<ICollection<Chart>> GetChartsByMemberId(int? id)
 		{
 			return await FindByCondition(c => c.MemberId == id).Include(sw => sw.SocialWorker)
+																.Include(m => m.Member)
 																.Include(s => s.ServiceOffered)
 																.ToListAsync();
 		}
 		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int memberId)
 		{
-			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).ToList();
+			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).Include(m => m.Member)
+																									 .Include(s => s.ServiceOffered)
+																									 .ToList();
 		}
 	}
 }

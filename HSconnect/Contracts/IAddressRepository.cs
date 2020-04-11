@@ -11,9 +11,9 @@ namespace HSconnect.Contracts
 	{
 		void CreateAddress(Address address);
 		Address GetByAddress(Address address);
-		Address GetAddressById(int? addressId);
+		Address GetAddressById(int addressId);
 		Task<Address> GetAddressByIdAsync(int? addressId);
 		Task<Address> GetByAddressAsync(Address address);
-		Address GetAddressById(int id);
+
 	}
 }
