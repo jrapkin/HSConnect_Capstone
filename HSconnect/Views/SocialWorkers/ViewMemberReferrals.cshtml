@@ -1,0 +1,76 @@
+﻿@model HSconnect.Models.Chart
+@{
+    ViewData["Title"] = "ViewMemberReferrals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>DisplayServices</h1>
+<dl class="row">
+    <dt class="col-sm-2">
+        Name
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => Model.Member.FirstName) @Html.DisplayFor(model => Model.Member.LastName)
+    </dd>
+</dl>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SocialWorker.FirstName) @Html.DisplayFor(model => model.SocialWorker.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SocialWorker.FirstName) @Html.DisplayFor(model => model.SocialWorker.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceOffered.Service.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceOffered.Service.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class="col-sm-2">
+            <p>Member Status</p>
+        </dt>
+        @if (Model.ServiceIsActive)
+        {
+            <dd class="col-sm-10">
+                <p>Active Member.</p>
+            </dd>
+        }
+        @if (Model.ServiceIsActive == false)
+        {
+            <dd class="col-sm-10">
+                <p>Not an active Member.</p>
+            </dd>
+        }
+        <dt class="col-sm-2">
+            <p>Referral Status</p>
+        </dt>
+        @if (Model.ReferralAccepted == true)
+        {
+            <dd class="col-sm-10">
+                <p>Accepted</p>
+            </dd>
+        }
+        @if (Model.ReferralAccepted == false)
+        {
+            <dd class="col-sm-10">
+                <p>Denied</p>
+            </dd>
+        }
+        @if (Model.ReferralAccepted == null)
+        {
+            <dd class="col-sm-10">
+                <p>Pending</p>
+            </dd>
+        }
+    </dl>
+</div>
+
+

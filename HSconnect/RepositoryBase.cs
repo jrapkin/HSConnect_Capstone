@@ -24,7 +24,7 @@ namespace HSconnect
 		{
 			return ApplicationDbContext.Set<T>().Where(expression).AsNoTracking();
 		}
-		public  void Create(T entity)
+		public void Create(T entity)
 		{
 			ApplicationDbContext.Set<T>().Add(entity);
 		}
@@ -36,6 +36,5 @@ namespace HSconnect
 		{
 			ApplicationDbContext.Set<T>().Remove(entity);
 		}
-
 	}
 }

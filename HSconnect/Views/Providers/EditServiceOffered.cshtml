@@ -1,8 +1,8 @@
-﻿@model HSconnect.Models.ServiceOffered
+﻿@model HSconnect.Models.ServiceOfferedViewModel
 
 @{
     ViewData["Title"] = "EditServiceOffered";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_Provider.cshtml";
 }
 
 <h1>Edit Service Offered</h1>
@@ -13,47 +13,69 @@
     <div class="col-md-4">
         <form asp-action="EditServiceOffered">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ServiceOfferedId" />
+            <input type="hidden" asp-for="Address.Id" />
+            <input type="hidden" asp-for="Demographic.Id" />
+            <input type="hidden" asp-for="Demographic" />
+            <div class="form-group">
+                <label asp-for="Category.Id" class="control-label"></label>
+                <select asp-for="Category.Id" class="form-control" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="Category.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Id" class="control-label"></label>
+                <select asp-for="Service.Id" class="form-control" asp-items="ViewBag.Services"></select>
+                <span asp-validation-for="Service.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.StreetAddress" class="control-label"></label>
+                <input asp-for="Address.StreetAddress" class="form-control" />
+                <span asp-validation-for="Address.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.City" class="control-label"></label>
+                <input asp-for="Address.City" class="form-control" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.County" class="control-label"></label>
+                <input asp-for="Address.County" class="form-control" />
+                <span asp-validation-for="Address.County" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.State" class="control-label"></label>
+                <input asp-for="Address.State" class="form-control" />
+                <span asp-validation-for="Address.State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.ZipCode" class="control-label"></label>
+                <input asp-for="Address.ZipCode" class="form-control" />
+                <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Demographic.IsMale" class="control-label"></label>
+                <select asp-for="GenderSelection" class="form-control" asp-items="ViewBag.Genders"></select>
+                <span asp-validation-for="GenderSelection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Demographic.SmokingIsAllowed" class="control-label"></label>
+                <select asp-for="SmokingSelection" class="form-control" asp-items="ViewBag.Smoking"></select>
+                <span asp-validation-for="SmokingSelection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Demographic.FamilyFriendly" class="control-label"></label>
+                <select asp-for="FamilySelection" class="form-control" asp-items="ViewBag.FamilySize"></select>
+                <span asp-validation-for="FamilySelection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Demographic.IsAgeSensitive" class="control-label"></label>
+                <select asp-for="AgeSensitive" class="form-control" asp-items="ViewBag.AgeSensitive"></select>
+                <span asp-validation-for="AgeSensitive" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Cost" class="control-label"></label>
                 <input asp-for="Cost" class="form-control" value="@Model.Cost" />
                 <span asp-validation-for="Cost" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="ProviderId" />
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddressId" class="control-label"></label>
-                <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
-                <span asp-validation-for="AddressId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DemographicId" class="control-label"></label>
-                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Genders"></select>
-                <span asp-validation-for="DemographicId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DemographicId" class="control-label"></label>
-                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Smoking"></select>
-                <span asp-validation-for="DemographicId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DemographicId" class="control-label"></label>
-                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.FamilySize"></select>
-                <span asp-validation-for="DemographicId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DemographicId" class="control-label"></label>
-                <select asp-for="DemographicId" class="form-control" asp-items="ViewBag.Seniors"></select>
-                <span asp-validation-for="DemographicId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServiceId" class="control-label"></label>
-                <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.Services"></select>
-                <span asp-validation-for="ServiceId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
