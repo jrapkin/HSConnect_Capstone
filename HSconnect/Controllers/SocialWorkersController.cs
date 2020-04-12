@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore;
 using System.Security.Claims;
 using HSconnect.Models;
+using HSconnect.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace HSconnect.Controllers
 {
@@ -177,44 +179,80 @@ namespace HSconnect.Controllers
             {
                 return NotFound();
             }
+            Address addressToDelete = _repo.Address.GetAddressById(member.AddressId);
             _repo.Member.Delete(member);
+            _repo.Save();
+            _repo.Address.Delete(addressToDelete);
             _repo.Save();
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult CreateReferral(int? id)
+        public IActionResult CreateReferral(int serviceOfferedId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var member = _repo.Member.GetMemberById(id);
-            return View(member);
+            Chart chart = new Chart();
+            chart.ServiceOfferedId = serviceOfferedId;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
+            ViewData["Members"] = new SelectList(_repo.Member.GetMemberBySocialWorkerId(socialWorker.Id), "Id", "Name");
+            return View(chart);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateReferral(Chart chart, Member member, ServiceOffered selectedServices)
+        public IActionResult CreateReferral(Chart chartFromForm)
         {
             try
             {
+                Chart chart;
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-                chart.Member = member;
-                chart.ServiceOffered = selectedServices;
-                chart.SocialWorker = socialWorker;
-                _repo.Chart.CreateChart(chart);
+                var memberCharts = _repo.Chart.GetChartsByMemberAndSocialWorkerId(socialWorker.Id, chartFromForm.MemberId).ToList();
+                if (memberCharts.Count == 1)
+                {
+                    chart = memberCharts.First();
+                }
+                else
+                {
+                    chart = new Chart();
+                }
+                //set properties
+                chart.MemberId = chartFromForm.MemberId;
+                chart.ServiceOfferedId = chartFromForm.ServiceOfferedId;
+                chart.ServiceIsActive = chartFromForm.ServiceIsActive;
+                chart.SocialWorkerId = socialWorker.Id;
+                chart.Date = DateTime.Now;
+
+                if(memberCharts.Count == 1)
+                {
+                    _repo.Chart.CreateChart(chart);
+                }
+                else
+                {
+                    _repo.Chart.Update(chart);
+                }
                 _repo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View(chart);
+                return View(chartFromForm);
             }
         }
         public async Task<IActionResult> ViewMemberReferrals(int? id)
         {
             var charts = await _repo.Chart.GetChartsByMemberId(id);
             return View(charts);
+        }
+        private Chart IsNewReferral(List<Chart> memberCharts)
+        {
+            foreach( var chart in memberCharts)
+            {
+                if (chart.ServiceOfferedId == null)
+                {
+
+                    return chart;
+                }
+            }
+            return IsNewReferral(memberCharts);
         }
         public async Task<IActionResult> Resources()
         {

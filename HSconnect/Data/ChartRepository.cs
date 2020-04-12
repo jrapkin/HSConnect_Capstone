@@ -39,11 +39,16 @@ namespace HSconnect.Data
 																.Include(s => s.ServiceOffered)
 																.ToListAsync();
 		}
-		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int memberId)
+		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int? memberId)
 		{
 			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).Include(m => m.Member)
 																									 .Include(s => s.ServiceOffered)
 																									 .ToList();
 		}
+		public Chart GetSingleChartByMemberAndSocialWorkerId(int socialWorkerId, int? memberId)
+		{
+			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).Include(s => s.ServiceOffered).FirstOrDefault();
+		}
+
 	}
 }

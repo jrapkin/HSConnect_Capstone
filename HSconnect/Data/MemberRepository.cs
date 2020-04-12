@@ -30,5 +30,9 @@ namespace HSconnect.Data
 								  .Include(c => c.Chart)
 								  .ThenInclude(s => s.ServiceOffered).ToListAsync();
 		}
+		public ICollection<Member> GetMemberBySocialWorkerId(int socialWorkerId)
+		{
+			return FindByCondition(m => m.Chart.SocialWorkerId == socialWorkerId).ToList();
+		}
 	}
 }

@@ -14,6 +14,8 @@ namespace HSconnect.Contracts
 		Task<Member> GetMemberByIdIncludeAll(int? memberId);
 
 		Task<ICollection<Member>> GetMembersIncludeAll();
+	
+		ICollection<Member> GetMemberBySocialWorkerId(int socialWorkerId);
 
 	}
 }

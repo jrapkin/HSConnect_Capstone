@@ -11,32 +11,24 @@
     <div class="col-md-4">
         <form asp-action="CreateMemberReferral">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" class="form-control" />
+            <input type="hidden" asp-for="ServiceOfferedId" class="form-control" />
             <input type="hidden" asp-for="SocialWorkerId" class="form-control" />
+            <input type="hidden" asp-for="ReferralAccepted" class="form-control" />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ServiceIsActive" /> @Html.DisplayNameFor(model => model.ServiceIsActive)
                 </label>
             </div>
+            <label asp-for="MemberId" class="control-label"> Member</label>
+            <select asp-for="MemberId" class="form-control" asp-items="ViewBag.Members"></select>
             <div class="form-group">
-                <label asp-for="MemberId" class="control-label"></label>
-                <input asp-for="MemberId" class="form-control" />
-                <span asp-validation-for="MemberId" class="text-danger"></span>
+                <label asp-for="MemberId" class="control-label"> Member</label>
+                <select asp-for="MemberId" class="form-control" asp-items="ViewBag.Members"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReferralAccepted" class="control-label"></label>
-                <input asp-for="ReferralAccepted" class="form-control" />
-                <span asp-validation-for="ReferralAccepted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServiceOfferedId" class="control-label"></label>
-                <input asp-for="ServiceOfferedId" class="form-control" />
-                <span asp-validation-for="ServiceOfferedId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

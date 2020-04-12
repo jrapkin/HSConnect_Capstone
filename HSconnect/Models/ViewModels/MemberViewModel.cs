@@ -6,7 +6,7 @@ using HSconnect.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
-namespace HSconnect.Models
+namespace HSconnect.Models.ViewModels
 {
 	public class MemberViewModel
 	{
