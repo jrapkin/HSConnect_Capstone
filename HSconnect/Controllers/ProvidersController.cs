@@ -157,15 +157,19 @@ namespace HSconnect.Controllers
                 if (_repo.Address.GetByAddress(resultsFromForm.Address) == null)
                 {
                     _repo.Address.CreateAddress(resultsFromForm.Address);
-                    _repo.Save();
                     string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
-                    _getCoordinates.GetCoordinatesUsingGeocode(url, resultsFromForm.Address);
+                    resultsFromForm.Address.Lat = _getCoordinates.GetLat(url, resultsFromForm.Address).Result;
+                    resultsFromForm.Address.Lng = _getCoordinates.GetLng(url, resultsFromForm.Address).Result;
+                    _repo.Save();
+                    
                 }
                 else
                 {
                     resultsFromForm.Address = _repo.Address.GetByAddress(resultsFromForm.Address);
                     string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
-                    _getCoordinates.GetCoordinatesUsingGeocode(url, resultsFromForm.Address);
+                    resultsFromForm.Address.Lat = _getCoordinates.GetLat(url, resultsFromForm.Address).Result;
+                    resultsFromForm.Address.Lng = _getCoordinates.GetLng(url, resultsFromForm.Address).Result;
+                    _repo.Save();
                 }
                 
 

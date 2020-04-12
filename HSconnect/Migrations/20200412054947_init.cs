@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,8 +87,6 @@ namespace HSconnect.Migrations
                     FamilyFriendly = table.Column<bool>(nullable: true),
                     LowIncomeThreshold = table.Column<int>(nullable: true),
                     IsAgeSensitive = table.Column<bool>(nullable: true),
-                    MemberIncome = table.Column<int>(nullable: true),
-                    MemberAge = table.Column<int>(nullable: true),
                     IsMale = table.Column<bool>(nullable: true),
                     SmokingIsAllowed = table.Column<bool>(nullable: true)
                 },
@@ -280,11 +278,10 @@ namespace HSconnect.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Company = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
                     IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -383,10 +380,11 @@ namespace HSconnect.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: false),
                     Income = table.Column<int>(nullable: false),
+                    IsMale = table.Column<bool>(nullable: false),
+                    Age = table.Column<int>(nullable: false),
                     IsActiveMember = table.Column<bool>(nullable: false),
                     AddressId = table.Column<int>(nullable: true),
                     ChartId = table.Column<int>(nullable: true),
-                    DemographicId = table.Column<int>(nullable: true),
                     ManagedCareOrganizationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -396,12 +394,6 @@ namespace HSconnect.Migrations
                         name: "FK_Members_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Members_Demographics_DemographicId",
-                        column: x => x.DemographicId,
-                        principalTable: "Demographics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -462,8 +454,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "f44535d2-f1a8-464d-9063-78a49125dbd8", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "04313fb9-6fb9-4c1a-aa01-6e8b2176ba3a", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "b97ad0d1-0a5a-4ed7-9e1f-777e876c4ce9", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "7c421028-7842-43f3-82a4-a87d74d5c46d", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(
@@ -577,11 +569,6 @@ namespace HSconnect.Migrations
                 name: "IX_Members_ChartId",
                 table: "Members",
                 column: "ChartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Members_DemographicId",
-                table: "Members",
-                column: "DemographicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Members_ManagedCareOrganizationId",

@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 using HSconnect.Contracts;
 using HSconnect.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualStudio.Web.CodeGeneration.Templating;
 
 namespace HSconnect.Services
 {
@@ -19,39 +21,63 @@ namespace HSconnect.Services
         {
             _repo = repo;
         }
-        //public async Task<GetCoordinates> GetCoordinates()
-        //{
-        //    string url = $"https://maps.googleapis.com/maps/api/geocode/json?address=313+plankinton+ave,milwaukee,+wi&key={API_Keys.GeocodeAndGoogleMapsKey}";
-        //    HttpClient client = new HttpClient();
-        //    HttpResponseMessage response = await client.GetAsync(url);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        string json = await response.Content.ReadAsStringAsync();
-        //        GetCoordinates coordinates = JsonConvert.DeserializeObject<GetCoordinates>(json);
-        //        return coordinates;
-        //    }
-        //    return null;
-
-        //}
-
-        public async void GetCoordinatesUsingGeocode(string url, Address address)
+        public async Task<double> GetLat(string url, Address address)
         {
             double lat;
-            double lng;
+
             HttpClient client = new HttpClient();
             using (client)
             {
                 HttpResponseMessage response = await client.GetAsync(url);
                 string data = await response.Content.ReadAsStringAsync();
                 JObject dataAsJObject = JsonConvert.DeserializeObject<JObject>(data);
-                lat = Double.Parse(dataAsJObject["results"]["geometry"]["location"]["lat"].ToString());
-                lng = Double.Parse(dataAsJObject["results"]["geometry"]["location"]["lng"].ToString());
+                lat = Double.Parse(dataAsJObject["results"][0]["geometry"]["location"]["lat"].ToString());
+
             }
-            address.Lat = lat;
-            address.Lng = lng;
-            _repo.Address.Update(address);
-            _repo.Save();
+            return lat;
         }
+        public async Task<double> GetLng(string url, Address address)
+        {
+            double lng;
+
+            HttpClient client = new HttpClient();
+            using (client)
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                string data = await response.Content.ReadAsStringAsync();
+                JObject dataAsJObject = JsonConvert.DeserializeObject<JObject>(data);
+                lng = Double.Parse(dataAsJObject["results"][0]["geometry"]["location"]["lng"].ToString());
+
+            }
+            return lng;
+        }
+        //public async void GetCoordinatesUsingGeocode(string url, Address address)
+        //{
+        //    Address updatedAddress = new Address();
+        //    double lat;
+        //    double lng;
+
+        //    HttpClient client = new HttpClient();
+        //    using (client)
+        //    {
+        //        HttpResponseMessage response = await client.GetAsync(url);
+        //        string data = await response.Content.ReadAsStringAsync();
+        //        JObject dataAsJObject = JsonConvert.DeserializeObject<JObject>(data);
+        //        lat = Double.Parse(dataAsJObject["results"][0]["geometry"]["location"]["lat"].ToString());
+        //        lng = Double.Parse(dataAsJObject["results"][0]["geometry"]["location"]["lng"].ToString());
+
+        //    }
+        //    updatedAddress.Id = address.Id;
+        //    updatedAddress.StreetAddress = address.StreetAddress;
+        //    updatedAddress.County = address.County;
+        //    updatedAddress.City = address.City;
+        //    updatedAddress.State = address.State;
+        //    updatedAddress.ZipCode = address.ZipCode;
+        //    updatedAddress.Lat = lat;
+        //    updatedAddress.Lng = lng;
+        //    _repo.Address.Update(updatedAddress);
+        //    _repo.Save();
+        //}
         public string GetAddressAsURL(Address address)
         {
             string api = "https://maps.googleapis.com/maps/api/geocode/json?address=";

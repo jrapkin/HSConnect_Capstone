@@ -208,7 +208,7 @@ namespace HSconnect.Controllers
         }
         public async Task<IActionResult> Resources()
         {
-            var servicesOffered = await _repo.ServiceOffered.GetServiceOfferedIncludeAllAsync();
+            var servicesOffered = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync();
             return View(servicesOffered);
         }
         private Dictionary<int, string> CreateBoolDictionary(string nullValue, string trueValue, string falseValue)

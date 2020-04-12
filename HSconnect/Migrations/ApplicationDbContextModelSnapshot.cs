@@ -193,12 +193,6 @@ namespace HSconnect.Migrations
                     b.Property<int?>("LowIncomeThreshold")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MemberAge")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MemberIncome")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("SmokingIsAllowed")
                         .HasColumnType("bit");
 
@@ -251,10 +245,10 @@ namespace HSconnect.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ChartId")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DemographicId")
+                    b.Property<int?>("ChartId")
                         .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
@@ -269,6 +263,10 @@ namespace HSconnect.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActiveMember")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsMale")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -286,8 +284,6 @@ namespace HSconnect.Migrations
                     b.HasIndex("AddressId");
 
                     b.HasIndex("ChartId");
-
-                    b.HasIndex("DemographicId");
 
                     b.HasIndex("ManagedCareOrganizationId");
 
@@ -485,22 +481,23 @@ namespace HSconnect.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -540,14 +537,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "f44535d2-f1a8-464d-9063-78a49125dbd8",
+                            ConcurrencyStamp = "b97ad0d1-0a5a-4ed7-9e1f-777e876c4ce9",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "04313fb9-6fb9-4c1a-aa01-6e8b2176ba3a",
+                            ConcurrencyStamp = "7c421028-7842-43f3-82a4-a87d74d5c46d",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
@@ -753,10 +750,6 @@ namespace HSconnect.Migrations
                     b.HasOne("HSconnect.Models.Chart", "Chart")
                         .WithMany()
                         .HasForeignKey("ChartId");
-
-                    b.HasOne("HSconnect.Models.Demographic", "Demographic")
-                        .WithMany()
-                        .HasForeignKey("DemographicId");
 
                     b.HasOne("HSconnect.Models.ManagedCareOrganization", "ManagedCareOrganization")
                         .WithMany()
