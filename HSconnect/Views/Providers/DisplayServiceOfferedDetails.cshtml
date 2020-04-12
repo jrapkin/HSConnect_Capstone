@@ -16,13 +16,11 @@
 <div class="row">
     <div id="map"></div>
     <script>
-import { Modal } from "../../wwwroot/lib/bootstrap/dist/js/bootstrap.bundle";
 
 
         // Initialize and add the map
-        function initMap() {
-
-            //THIS SHOULD WORK, I tested it by hard coding it. However I'm not sure if I am passing the coordinates through correctly because my coordinates have not been saving to my database.
+        function initMap() {    
+           
             var coordinates = { lat: @Model.Address.Lat, lng: @Model.Address.Lng };
 
             var map = new google.maps.Map(document.getElementById('map'), { zoom: 8, center: coordinates });
@@ -36,7 +34,7 @@ import { Modal } from "../../wwwroot/lib/bootstrap/dist/js/bootstrap.bundle";
     </script>
 </div>
 <div>
-    <h4>ServiceOffered</h4>
+    <h4>Service Offered</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">

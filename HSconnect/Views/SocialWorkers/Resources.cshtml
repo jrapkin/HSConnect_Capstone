@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HSconnect.Models.Chart>
+﻿@model IEnumerable<HSconnect.Models.ServiceOffered>
 @{
     Layout = "~/Views/Shared/_Layout_SocialWorker.cshtml";
     ViewData["Title"] = "Resources";
@@ -6,49 +6,113 @@
 
 <h1>Status</h1>
 
-<table class ="table">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Google Maps Multiple Markers</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EFcPNZaoqx_naYg7PH_PZxWPpHtFt4c&callback=initMap"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+    <div id="map" style="width: 500px; height: 400px;"></div>
+
+    <script type="text/javascript">
+
+        var locations = [
+            ['Provider1', 42.9893901, -88.053012, 5],
+            ['Provider1', 43.235381, 88.189886199999989, 4],
+            ['Provider1', 43.1745796, 87.914748199999991, 3],
+            ['Provider1', 43.1610528, -88.003844, 2],
+            ['Provider1', 43.0467965, -88.007653499999989, 1]
+        ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: new google.maps.LatLng(43.0343, -87.9115),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+        var markers = new Array();
+
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map
+            });
+
+            markers.push(marker);
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        function AutoCenter() {
+            //  Create a new viewpoint bound
+            var bounds = new google.maps.LatLngBounds();
+            //  Go through each...
+            $.each(markers, function (index, marker) {
+                bounds.extend(marker.position);
+            });
+            //  Fit these bounds to the map
+            map.fitBounds(bounds);
+        }
+        AutoCenter();
+
+    </script>
+</body>
+
+
+
+<table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Address)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Category)
+                @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Provider.PhoneNumber)
+                @Html.DisplayNameFor(model => model.Provider.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Demographic)
+                @Html.DisplayNameFor(model => model.Demographic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Cost)
+                @Html.DisplayNameFor(model => model.Cost)
             </th>
-           
-        </tr>                     
+
+        </tr>
     </thead>
 
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Provider.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Demographic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Cost)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Demographic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
