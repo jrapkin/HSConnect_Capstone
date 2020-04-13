@@ -1,7 +1,7 @@
 ﻿"use strict";
+var chatApp = document.getElementById("chatApp");
 chatApp.style.display = "none";
 function openChat() {
-    let chatApp = document.getElementById("chatApp");
     let chatWindow = document.getElementById("chatWindow");
     let openCloseButton = document.getElementById("toggleChat");
     if (chatApp.style.display == "none") {
@@ -18,4 +18,7 @@ function openChat() {
         chatWindow.style.background = "none";
         openCloseButton.innerText = "Open Instant Chat";
     };
+}
+function openFilterResourcesMenu() {
+    document.getElementById("filter").style.display = "block";
 }

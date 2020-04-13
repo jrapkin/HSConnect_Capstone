@@ -256,8 +256,122 @@ namespace HSconnect.Controllers
         }
         public async Task<IActionResult> Resources()
         {
-            var servicesOffered = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync();
-            return View(servicesOffered);
+            ServiceOfferedViewModel viewModel = new ServiceOfferedViewModel();
+            var servicesOfferedTemp = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync();
+            IEnumerable<ServiceOffered> servicesOffered = servicesOfferedTemp.ToList();
+            viewModel.Providers = _repo.Provider.FindAll().ToList();
+            viewModel.Providers.Insert(0, (new Provider()));
+            viewModel.ServicesOffered = servicesOffered.ToList();
+            viewModel.Categories = _repo.Category.GetAllCategories().ToList();
+            viewModel.Categories.Insert(0, new Category());
+            viewModel.Services = _repo.Service.GetAllServices().ToList();
+            viewModel.Services.Insert(0, new Service());
+            viewModel.GenderOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Co-Ed" }, { 2, "Male Only" }, { 3, "Female Only" } };
+            viewModel.FamilyFriendlyOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Not Specified" }, { 2, "Family Friendly" }, { 3, "Individual" } };
+            viewModel.SmokingOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Not Specified" }, { 2, "Smoking Is Allowed" }, { 3, "No Smoking" } };
+            return View(viewModel);
+        }
+        public async Task<IActionResult> FilteredResources(ServiceOfferedViewModel filterResults)
+        {
+            ServiceOfferedViewModel viewModel = new ServiceOfferedViewModel();
+            var servicesOfferedTemp = await _repo.ServiceOffered.GetServicesOfferedIncludeAllAsync();
+            IEnumerable<ServiceOffered> servicesOffered = servicesOfferedTemp.ToList();
+                if (filterResults.CategoryId != 0)
+                {
+                    servicesOffered = servicesOffered.Where(s => s.CategoryId == filterResults.CategoryId);
+                }
+                if (filterResults.ProviderId != 0)
+                {
+                    servicesOffered = servicesOffered.Where(s => s.ProviderId == filterResults.ProviderId);
+                }
+                if (filterResults.ServiceId != 0)
+                {
+                    servicesOffered = servicesOffered.Where(s => s.ServiceId == filterResults.ServiceId);
+                }
+                if (filterResults.GenderSelection != 0)
+                {
+                    switch (filterResults.GenderSelection)
+                    {
+                        case 1:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.IsMale == null);
+                            break;
+                        case 2:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.IsMale == true);
+                            break;
+                        case 3:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.IsMale == false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (filterResults.FamilySelection != 0)
+                {
+                    switch (filterResults.FamilySelection)
+                    {
+                        case 1:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.FamilyFriendly == null);
+                            break;
+                        case 2:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.FamilyFriendly == true);
+                            break;
+                        case 3:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.FamilyFriendly == false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (filterResults.SmokingSelection != 0)
+                {
+                    switch (filterResults.SmokingSelection)
+                    {
+                        case 1:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.SmokingIsAllowed == null);
+                            break;
+                        case 2:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.SmokingIsAllowed == true);
+                            break;
+                        case 3:
+                            servicesOffered = servicesOffered.Where(s => s.Demographic.SmokingIsAllowed == false);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                try
+                {
+                    if (double.Parse(filterResults.MinCost) != 0)
+                    {
+                        servicesOffered = servicesOffered.Where(s => double.Parse(s.Cost) >= double.Parse(filterResults.MinCost));
+                    }
+                }
+                catch
+                {
+
+                }
+                try
+                {
+                    if (double.Parse(filterResults.MaxCost) != 0)
+                    {
+                        servicesOffered = servicesOffered.Where(s => double.Parse(s.Cost) <= double.Parse(filterResults.MaxCost));
+                    }
+                }
+                catch
+                {
+
+                }
+            viewModel.Providers = _repo.Provider.FindAll().ToList();
+            viewModel.Providers.Insert(0, (new Provider()));
+            viewModel.ServicesOffered = servicesOffered.ToList();
+            viewModel.Categories = _repo.Category.GetAllCategories().ToList();
+            viewModel.Categories.Insert(0, new Category());
+            viewModel.Services = _repo.Service.GetAllServices().ToList();
+            viewModel.Services.Insert(0, new Service());
+            viewModel.GenderOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Co-Ed" }, { 2, "Male Only" }, { 3, "Female Only" } };
+            viewModel.FamilyFriendlyOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Not Specified" }, { 2, "Family Friendly" }, { 3, "Individual" } };
+            viewModel.SmokingOptions = new Dictionary<int, string>() { { 0, "" }, { 1, "Not Specified" }, { 2, "Smoking Is Allowed" }, { 3, "No Smoking" } };
+            return View("Resources", viewModel);
         }
         private List<Member> FilterMembersBySocialWorker(List<Chart> charts, int socialWorkerId)
         {
