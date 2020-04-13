@@ -108,6 +108,8 @@ namespace HSconnect.Controllers
                 };
                 _repo.Chart.CreateChart(newChart);
                 _repo.Save();
+                viewModelFromForm.Member.ChartId = newChart.Id;
+                _repo.Member.Update(viewModelFromForm.Member);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -190,10 +192,10 @@ namespace HSconnect.Controllers
         public IActionResult CreateReferral(int serviceOfferedId)
         {
             Chart chart = new Chart();
-            chart.ServiceOfferedId = serviceOfferedId;
+            chart.ServiceOffered = _repo.ServiceOffered.GetServiceOfferedByIdIncludeAll(serviceOfferedId);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-            ViewData["Members"] = new SelectList(_repo.Member.GetMemberBySocialWorkerId(socialWorker.Id), "Id", "Name");
+            ViewData["Members"] = new SelectList(_repo.Member.GetMemberBySocialWorkerId(socialWorker.Id).ToList(), "Id", "Name");
             return View(chart);
         }
         [HttpPost]

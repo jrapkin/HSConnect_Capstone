@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace HSconnect.Data
 {
@@ -57,6 +57,13 @@ namespace HSconnect.Data
 		public ServiceOffered GetServiceOffered(int id)
 		{
 			return FindByCondition(s => s.Id == id).FirstOrDefault();
+		}
+		public ServiceOffered GetServiceOfferedByIdIncludeAll(int serviceOfferedId)
+		{
+			return FindByCondition(s => s.Id == serviceOfferedId).Include(p => p.Provider)
+				.Include(c => c.Category)
+				.Include(a => a.Address)
+				.Include(s => s.Service).FirstOrDefault();
 		}
 		public void CreateServiceOffered(string cost, Provider provider, Category category, Address address, Demographic demographic, Service service)
 		{

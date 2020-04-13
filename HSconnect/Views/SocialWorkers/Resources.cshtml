@@ -112,48 +112,14 @@
                         @Html.DisplayFor(modelItem => item.Address.State), @Html.DisplayFor(modelItem => item.Address.ZipCode)
                     </td>
                 }
-                @*@if (Model.Address != null)
-                {
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Address.StreetAddress)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Address.StreetAddress)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Address.City)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Address.City)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Address.State)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Address.State)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Address.ZipCode)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Address.ZipCode)
-                    </dd>
-                }*@
                 @if (item.Category != null)
                 {
                     <td>
                         @Html.DisplayFor(modelItem => item.Category.Name)
                     </td>
-                    @*<dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Category.Name)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Category.Name)
-                    </dd>*@
                 }
                 @if (item.Demographic != null)
                 {
-                    //TO DO: Add dictionary/viewdata to be able to display based on bool value
                     switch (item.Demographic.IsMale)
                     {
                         case null:
