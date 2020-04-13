@@ -10,10 +10,49 @@
         Name
     </dt>
 
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.ProviderName) @Html.DisplayFor(model => model.Provider.ProviderName)
-    </dd>
-</dl>*@
+
+@*<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Google Maps Multiple Markers</title>
+    
+</head>*@
+<body>
+    <div id="map" style="width: 500px; height: 400px;"></div>
+    <script type="text/javascript">
+        function initMap() {
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: new google.maps.LatLng(43.0343, -87.9115)
+            });
+
+            var contantInformation = @Html.Raw(Json.Serialize(Model.Select(c => new string[]{c.Provider.ProviderName, c.Provider.PhoneNumber, c.Provider.Email}).ToArray()));
+
+            var infowindow = new google.maps.InfoWindow();
+
+            var coordinatesArray = @Html.Raw(Json.Serialize(Model.Select(a => new double[]{a.Address.Lat, a.Address.Lng}).ToArray()));
+
+            for (var i = 0; i < coordinatesArray.length; i++) {
+
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coordinatesArray[i][0], coordinatesArray[i][1]),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(contantInformation[i][0] + '<br>' + contantInformation[i][1] + '<br>' + contantInformation[i][2]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EFcPNZaoqx_naYg7PH_PZxWPpHtFt4c&callback=initMap"></script>
+</body>
+
+
+
 <table class="table">
     <thead>
         <tr>

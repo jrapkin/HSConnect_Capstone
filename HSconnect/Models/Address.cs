@@ -22,5 +22,7 @@ namespace HSconnect.Models
 		[Required]
 		[Display(Name="Zip Code")]
 		public string ZipCode { get; set; }
+		public double Lat { get; set; }
+		public double Lng { get; set; }
 	}
 }

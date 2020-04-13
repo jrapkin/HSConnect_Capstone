@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class iniial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,9 @@ namespace HSconnect.Migrations
                     City = table.Column<string>(nullable: false),
                     County = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
-                    ZipCode = table.Column<string>(nullable: false)
+                    ZipCode = table.Column<string>(nullable: false),
+                    Lat = table.Column<double>(nullable: false),
+                    Lng = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -440,11 +442,11 @@ namespace HSconnect.Migrations
 
             migrationBuilder.InsertData(
                 table: "Addresses",
-                columns: new[] { "Id", "City", "County", "State", "StreetAddress", "ZipCode" },
+                columns: new[] { "Id", "City", "County", "Lat", "Lng", "State", "StreetAddress", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, "Wauwatosa", "Milwaukee", "WI", "10201 West Innovation Drive, Suite 100", "53226" },
-                    { 2, "Milwaukee", "Milwaukee", "WI", "1555 N Rivercenter Drive, Suite #206", "53212" }
+                    { 1, "Wauwatosa", "Milwaukee", 0.0, 0.0, "WI", "10201 West Innovation Drive, Suite 100", "53226" },
+                    { 2, "Milwaukee", "Milwaukee", 0.0, 0.0, "WI", "1555 N Rivercenter Drive, Suite #206", "53212" }
                 });
 
             migrationBuilder.InsertData(
@@ -452,8 +454,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "ff4f8699-5c0a-4c88-8b27-51155dde5f5b", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "eade7820-1f84-49e0-bad1-2c73729167c5", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "b97ad0d1-0a5a-4ed7-9e1f-777e876c4ce9", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "7c421028-7842-43f3-82a4-a87d74d5c46d", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(
