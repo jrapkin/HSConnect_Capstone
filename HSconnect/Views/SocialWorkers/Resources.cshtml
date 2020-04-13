@@ -7,65 +7,44 @@
 <h1>Status</h1>
 
 
-<head>
+@*<head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Google Maps Multiple Markers</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EFcPNZaoqx_naYg7PH_PZxWPpHtFt4c&callback=initMap"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.1.min.js"></script>
-</head>
+    
+</head>*@
 <body>
     <div id="map" style="width: 500px; height: 400px;"></div>
-
     <script type="text/javascript">
+        function initMap() {
 
-        var locations = [
-            ['Provider1', 42.9893901, -88.053012, 5],
-            ['Provider1', 43.235381, 88.189886199999989, 4],
-            ['Provider1', 43.1745796, 87.914748199999991, 3],
-            ['Provider1', 43.1610528, -88.003844, 2],
-            ['Provider1', 43.0467965, -88.007653499999989, 1]
-        ];
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
-            center: new google.maps.LatLng(43.0343, -87.9115),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        var infowindow = new google.maps.InfoWindow();
-
-        var marker, i;
-        var markers = new Array();
-
-        for (i = 0; i < locations.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: new google.maps.LatLng(43.0343, -87.9115)
             });
 
-            markers.push(marker);
+            var contantInformation = @Html.Raw(Json.Serialize(Model.Select(c => new string[]{c.Provider.ProviderName, c.Provider.PhoneNumber, c.Provider.Email}).ToArray()));
 
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(locations[i][0]);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
+            var infowindow = new google.maps.InfoWindow();
+
+            var coordinatesArray = @Html.Raw(Json.Serialize(Model.Select(a => new double[]{a.Address.Lat, a.Address.Lng}).ToArray()));
+
+            for (var i = 0; i < coordinatesArray.length; i++) {
+
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coordinatesArray[i][0], coordinatesArray[i][1]),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(contantInformation[i][0] + '<br>' + contantInformation[i][1] + '<br>' + contantInformation[i][2]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
         }
-
-        function AutoCenter() {
-            //  Create a new viewpoint bound
-            var bounds = new google.maps.LatLngBounds();
-            //  Go through each...
-            $.each(markers, function (index, marker) {
-                bounds.extend(marker.position);
-            });
-            //  Fit these bounds to the map
-            map.fitBounds(bounds);
-        }
-        AutoCenter();
-
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EFcPNZaoqx_naYg7PH_PZxWPpHtFt4c&callback=initMap"></script>
 </body>
 
 
