@@ -382,7 +382,7 @@ namespace HSconnect.Controllers
         }
         public IActionResult ToggleReferralStatus(int referralId)
         {
-            Chart referral = new Chart();
+            Chart referral = _repo.Chart.FindByCondition(c => c.Id == referralId).FirstOrDefault();
             if (!referral.ReferralAccepted.HasValue)
             {
                 referral.ReferralAccepted = true;

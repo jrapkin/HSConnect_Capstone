@@ -55,18 +55,24 @@
 
                 @if (item.ReferralAccepted == null)
                 {
-                    <td>Pending</td>
-                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    <td>
+                        Pending |
+                        <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    </td>
                 }
                 else if (item.ReferralAccepted == false)
                 {
-                    <td>Denied</td>
-                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    <td>
+                        Denied |
+                        <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    </td>
                 }
                 else
                 {
-                    <td>Accepted</td>
-                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    <td>
+                        Accepted |
+                        <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                    </td>
                 }
 
                 @if (item.ServiceIsActive == false)
