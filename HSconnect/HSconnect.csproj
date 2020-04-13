@@ -6,10 +6,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="img\**" />
+    <Compile Remove="js\**" />
+    <Content Remove="img\**" />
+    <Content Remove="js\**" />
+    <EmbeddedResource Remove="img\**" />
+    <EmbeddedResource Remove="js\**" />
+    <None Remove="img\**" />
+    <None Remove="js\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\agency.css" />
+    <None Include="wwwroot\css\agency.min.css" />
+    <None Include="wwwroot\img\erika-giraud-7KhbREQPFD4-unsplash.jpg" />
+
     <Compile Remove="wwwroot\js\%2540microsoft\**" />
     <Content Remove="wwwroot\js\%2540microsoft\**" />
     <EmbeddedResource Remove="wwwroot\js\%2540microsoft\**" />
     <None Remove="wwwroot\js\%2540microsoft\**" />
+
   </ItemGroup>
 
 
