@@ -51,8 +51,11 @@ namespace HSconnect.Controllers
             //if there are charts that ties to this provider by services provided 
             IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId).Where(c => c.ReferralAccepted == referralStatus);
 
-            return RedirectToAction("DisplayReferrals", providerCharts);
-            //return View("DisplayReferrals", providerCharts);
+//<<<<<<< Updated upstream
+//            return RedirectToAction("DisplayReferrals", providerCharts);
+//=======
+            return View("DisplayReferrals", providerCharts);
+//>>>>>>> Stashed changes
         }
         public IActionResult Index()
         {
@@ -382,7 +385,7 @@ namespace HSconnect.Controllers
         }
         public IActionResult ToggleReferralStatus(int referralId)
         {
-            Chart referral = new Chart();
+            Chart referral = _repo.Chart.FindByCondition(c => c.Id == referralId).FirstOrDefault();
             if (!referral.ReferralAccepted.HasValue)
             {
                 referral.ReferralAccepted = true;

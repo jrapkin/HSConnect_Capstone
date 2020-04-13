@@ -8,7 +8,7 @@
 <h1>Members</h1>
 
 <p>
-    <a asp-action="CreateReferral">Create New Referral</a>
+    <a asp-action="CreateMember">Create New Member Profile</a>
 </p>
 <table class="table">
     <thead>
@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.EmailAddress)
             </td>
             <td>
-                @Html.ActionLink("View Charts", "ViewMemberReferrals", new { id = item.Id }) |
+                @Html.ActionLink("View Referrals", "ViewMemberReferrals", new { id = item.Id }) |
                 @Html.ActionLink("Edit Member Details", "EditMemberDetails", new { id = item.Id }) |
                 @Html.ActionLink("Delete Member", "DeleteMember", new { id = item.Id }) 
             </td>

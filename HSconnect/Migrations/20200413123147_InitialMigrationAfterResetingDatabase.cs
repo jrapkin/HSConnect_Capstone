@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialMigrationAfterResetingDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -375,8 +375,7 @@ namespace HSconnect.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: false),
                     Income = table.Column<int>(nullable: false),
@@ -454,8 +453,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "50a5846d-86c5-45ae-ad4f-9cf062d4f3a2", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "01206ecc-2248-4cd3-b1a2-079bcea02076", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "a56b59ce-7e24-4942-91d4-e2cbe7479990", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "e00fa465-4650-49fd-b4af-61021e6ffdfa", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(

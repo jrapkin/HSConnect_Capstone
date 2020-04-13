@@ -186,17 +186,15 @@ namespace HSconnect.Controllers
             {
                 return NotFound();
             }
-
-            Address addressToDelete = _repo.Address.GetAddressById(member.AddressId);
-            List<Chart> chartsToDelete = _repo.Chart.GetListOfChartsByMemberId(member.Id).ToList();
-
-            _repo.Member.Delete(member);
-            _repo.Save();
+            Member memberToDelete = _repo.Member.GetMemberById(member.Id);
+            Address addressToDelete = _repo.Address.GetAddressById(memberToDelete.AddressId);
+            List<Chart> chartsToDelete = _repo.Chart.GetListOfChartsByMemberId(memberToDelete.Id).ToList();
+            _repo.Member.Delete(memberToDelete);
             foreach (var chart in chartsToDelete)
             {
                 _repo.Chart.Delete(chart);
-                _repo.Save();
             }
+            _repo.Save();
             _repo.Address.Delete(addressToDelete);
             _repo.Save();
             return RedirectToAction(nameof(Index));
