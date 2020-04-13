@@ -533,14 +533,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "57fc15f1-3b9e-489d-88eb-7344a9bff32b",
+                            ConcurrencyStamp = "95fa5b73-af6c-4a49-9bcb-3b6ff11e4235",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "9cc0ee3a-7012-42a6-a442-7c62eb38c4cf",
+                            ConcurrencyStamp = "d0aee8e8-5d00-4acb-aab3-9f9d64957149",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });
