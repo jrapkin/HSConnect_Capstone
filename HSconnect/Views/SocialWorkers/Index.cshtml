@@ -6,13 +6,18 @@
 
 <h1>Hi @Model.SocialWorker.FirstName</h1>
 
-<div>
-    <button class="btn-info">
-        <a asp-action="CreateReferral">Create New Referral</a>
+<div class="col-4" >    
+    <button type ="button" class="btn btn-outline-info">
+    <a asp-action="Resources">View Available Resources</a>
     </button>
-    <button class="btn-info">
+</div>
+<div class="col-4">
+    <button type="button" class="btn btn-outline-info">
+        <a asp-action="CreateMember">Create a new Member</a>
+    </button>
+</div>
+<div class="col-4">
+    <button type="button" class="btn btn-outline-info">
         <a asp-action="DisplayMembers">View Members</a>
     </button>
 </div>
-
-

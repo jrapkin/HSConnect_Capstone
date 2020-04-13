@@ -189,13 +189,14 @@ namespace HSconnect.Controllers
 
             Address addressToDelete = _repo.Address.GetAddressById(member.AddressId);
             List<Chart> chartsToDelete = _repo.Chart.GetListOfChartsByMemberId(member.Id).ToList();
-            foreach(var chart in chartsToDelete)
+
+            _repo.Member.Delete(member);
+            _repo.Save();
+            foreach (var chart in chartsToDelete)
             {
                 _repo.Chart.Delete(chart);
                 _repo.Save();
             }
-            _repo.Member.Delete(member);
-            _repo.Save();
             _repo.Address.Delete(addressToDelete);
             _repo.Save();
             return RedirectToAction(nameof(Index));
