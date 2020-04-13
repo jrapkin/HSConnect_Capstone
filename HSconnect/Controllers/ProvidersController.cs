@@ -51,11 +51,8 @@ namespace HSconnect.Controllers
             //if there are charts that ties to this provider by services provided 
             IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId).Where(c => c.ReferralAccepted == referralStatus);
 
-<<<<<<< Updated upstream
             return RedirectToAction("DisplayReferrals", providerCharts);
-=======
-            return View("DisplayReferrals", providerCharts);
->>>>>>> Stashed changes
+            //return View("DisplayReferrals", providerCharts);
         }
         public IActionResult Index()
         {
