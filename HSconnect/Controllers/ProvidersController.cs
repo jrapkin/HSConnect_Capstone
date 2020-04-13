@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MimeKit;
 
@@ -21,13 +22,15 @@ namespace HSconnect.Controllers
     [Authorize(Roles = "Provider")]
     public class ProvidersController : Controller
     {
+        private IGetCoordinatesRequest _getCoordinates;
         private IRepositoryWrapper _repo;
 
         public IdentityUser IdentityUser { get; private set; }
 
-        public ProvidersController(IRepositoryWrapper repo)
+        public ProvidersController(IRepositoryWrapper repo, IGetCoordinatesRequest getCoordinates) 
         {
             _repo = repo;
+            _getCoordinates = getCoordinates;
         }
         public IActionResult DisplayReferrals()
         {
@@ -155,12 +158,22 @@ namespace HSconnect.Controllers
                 if (_repo.Address.GetByAddress(resultsFromForm.Address) == null)
                 {
                     _repo.Address.CreateAddress(resultsFromForm.Address);
+                    string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
+                    resultsFromForm.Address.Lat = _getCoordinates.GetLat(url, resultsFromForm.Address).Result;
+                    resultsFromForm.Address.Lng = _getCoordinates.GetLng(url, resultsFromForm.Address).Result;
                     _repo.Save();
+                    
                 }
                 else
                 {
                     resultsFromForm.Address = _repo.Address.GetByAddress(resultsFromForm.Address);
+                    string url = _getCoordinates.GetAddressAsURL(resultsFromForm.Address);
+                    resultsFromForm.Address.Lat = _getCoordinates.GetLat(url, resultsFromForm.Address).Result;
+                    resultsFromForm.Address.Lng = _getCoordinates.GetLng(url, resultsFromForm.Address).Result;
+                    _repo.Save();
                 }
+                
+
                 Demographic demographicToAdd = new Demographic();
                 demographicToAdd.IsMale = ConvertToNullableBool(resultsFromForm.IsMale);
                 demographicToAdd.FamilyFriendly = ConvertToNullableBool(resultsFromForm.FamilySelection);
