@@ -70,12 +70,7 @@ body {
   line-height: 60px;  Vertically center the text there 
  
 }
-<<<<<<< HEAD
 
-
-
-
-=======
 #chatWindow {
     float: right;
     z-index: -1;
@@ -83,4 +78,4 @@ body {
 #chatApp {
     display: none;
 }
->>>>>>> 2f058a419af3a627477832bef1007ffebd6ad589
+
