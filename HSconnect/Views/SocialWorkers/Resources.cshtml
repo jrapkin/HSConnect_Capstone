@@ -38,7 +38,7 @@
             }
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EFcPNZaoqx_naYg7PH_PZxWPpHtFt4c&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=@API_Keys.GeocodeAndGoogleMapsKey&callback=initMap"></script>
 
 <button onclick='openFilterResourcesMenu()'>Filter Resources</button>
 <a asp-action="Resources">Reset Filter</a>
@@ -191,12 +191,12 @@
                             break;
                         case false:
                             <td>
-                                No Minors Allowed
+                                Individual
                             </td>
                             break;
                         case true:
                             <td>
-                                Minors Allowed
+                                Family Friendly
                             </td>
                             break;
                     }
