@@ -30,5 +30,9 @@ namespace HSconnect.Models
 		[Display(Name = "Service")]
 		public int? ServiceId { get; set; }
 		public Service Service { get; set; }
+		[NotMapped]
+		public Address AddressForCreateView { get; set; }
+		[NotMapped]
+		public Demographic DemographicForCreateView { get; set; }
 	}
 }

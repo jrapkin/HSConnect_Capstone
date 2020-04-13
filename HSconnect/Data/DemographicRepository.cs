@@ -17,5 +17,6 @@ namespace HSconnect.Data
 		{
 			return FindAll().ToList();
 		}
+		public void CreateDemographic(Demographic demographic) => Create(demographic);
 	}
 }

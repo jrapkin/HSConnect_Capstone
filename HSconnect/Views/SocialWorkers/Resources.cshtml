@@ -1,55 +1,186 @@
-﻿@model IEnumerable<HSconnect.Models.Chart>
+﻿@model IEnumerable<HSconnect.Models.ServiceOffered>
 @{
-    Layout = "~/Views/Shared/_Layout_SocialWorker.cshtml";
-    ViewData["Title"] = "Resources";
+    ViewData["Title"] = "ViewResources";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Status</h1>
+<h1>DisplayServices</h1>
+@*<dl class="row">
+    <dt class="col-sm-2">
+        Name
+    </dt>
 
-<table class ="table">
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ProviderName) @Html.DisplayFor(model => model.Provider.ProviderName)
+    </dd>
+</dl>*@
+<table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Category)
+                Provider Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Provider.PhoneNumber)
+                @Html.DisplayNameFor(model => model.Provider.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Demographic)
+                @Html.DisplayNameFor(model => model.Cost)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceOffered.Cost)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
-           
-        </tr>                     
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Demographic)
+            </th>
+        </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Provider.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Demographic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceOffered.Cost)
-            </td>
-
-        </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Create Referral", "CreateReferral", new { /* id=item.PrimaryKey */ }) |
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider.ProviderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                @if (item.Address != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address.StreetAddress), @Html.DisplayFor(modelItem => item.Address.City),
+                        @Html.DisplayFor(modelItem => item.Address.State), @Html.DisplayFor(modelItem => item.Address.ZipCode)
+                    </td>
+                }
+                @*@if (Model.Address != null)
+                {
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Address.StreetAddress)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Address.StreetAddress)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Address.City)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Address.City)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Address.State)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Address.State)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Address.ZipCode)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Address.ZipCode)
+                    </dd>
+                }*@
+                @if (item.Category != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    @*<dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Category.Name)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Category.Name)
+                    </dd>*@
+                }
+                @if (item.Demographic != null)
+                {
+                    //TO DO: Add dictionary/viewdata to be able to display based on bool value
+                    switch (item.Demographic.IsMale)
+                    {
+                        case null:
+                            <td>
+                                Co-Ed Facility
+                            </td>
+                            break;
+                        case false:
+                            <td>
+                                Female Only Facility
+                            </td>
+                            break;
+                        case true:
+                            <td>
+                                Male Only Facility
+                            </td>
+                            break;
+                    }
+                    switch (item.Demographic.IsAgeSensitive)
+                    {
+                        case null:
+                            <td>
+                                Not Applicable
+                            </td>
+                            break;
+                        case false:
+                            <td>
+                                18 and Older
+                            </td>
+                            break;
+                        case true:
+                            <td>
+                                Seniors Only
+                            </td>
+                            break;
+                    }
+                    switch (item.Demographic.FamilyFriendly)
+                    {
+                        case null:
+                            <td>
+                                Not Applicable
+                            </td>
+                            break;
+                        case false:
+                            <td>
+                                No Minors Allowed
+                            </td>
+                            break;
+                        case true:
+                            <td>
+                                Minors Allowed
+                            </td>
+                            break;
+                    }
+                    switch (item.Demographic.SmokingIsAllowed)
+                    {
+                        case null:
+                            <td>
+                                Not Applicable
+                            </td>
+                            break;
+                        case false:
+                            <td>
+                                Non-Smoking Facility
+                            </td>
+                            break;
+                        case true:
+                            <td>
+                                Smoking Allowed
+                            </td>
+                            break;
+                    }
+                 }
+            </tr>
         }
     </tbody>
 </table>
+
+
 

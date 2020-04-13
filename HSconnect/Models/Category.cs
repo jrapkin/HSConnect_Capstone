@@ -9,6 +9,7 @@ namespace HSconnect.Models
 	public class Category
 	{
 		[Key]
+		[Display(Name="Category")]
 		public int Id { get; set; }
 		public string Name { get; set; }
 	}

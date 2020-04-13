@@ -15,22 +15,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Cost)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Provider)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Demographic)
+                @Html.DisplayNameFor(model => model.Address.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Service)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
             </th>
             <th></th>
         </tr>
@@ -38,12 +38,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address.StreetAddress)
             </td>
@@ -57,21 +51,15 @@
                 @Html.DisplayFor(modelItem => item.Address.ZipCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Demographic.FamilyFriendly)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Demographic.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Demographic.SmokingIsAllowed)
+                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
+                <a asp-action="DisplayServiceOfferedDetails" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="EditServiceOffered" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="DeleteServiceOffered" asp-route-id="@item.Id">Delete</a>
-
             </td>
         </tr>
 }
