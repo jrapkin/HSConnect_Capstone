@@ -29,7 +29,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
@@ -38,8 +38,9 @@
                 @Html.DisplayFor(modelItem => item.EmailAddress)
             </td>
             <td>
-                @Html.ActionLink("CreateReferral", "CreateReferral", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("View Charts", "ViewMemberReferrals", new { id = item.Id }) |
+                @Html.ActionLink("Edit Member Details", "EditMemberDetails", new { id = item.Id }) |
+                @Html.ActionLink("Delete Member", "DeleteMember", new { id = item.Id }) 
             </td>
         </tr>
 }

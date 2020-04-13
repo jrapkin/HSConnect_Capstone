@@ -15,7 +15,7 @@ namespace HSconnect.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,6 +33,12 @@ namespace HSconnect.Migrations
                     b.Property<string>("County")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -56,6 +62,8 @@ namespace HSconnect.Migrations
                             Id = 1,
                             City = "Wauwatosa",
                             County = "Milwaukee",
+                            Lat = 0.0,
+                            Lng = 0.0,
                             State = "WI",
                             StreetAddress = "10201 West Innovation Drive, Suite 100",
                             ZipCode = "53226"
@@ -65,6 +73,8 @@ namespace HSconnect.Migrations
                             Id = 2,
                             City = "Milwaukee",
                             County = "Milwaukee",
+                            Lat = 0.0,
+                            Lng = 0.0,
                             State = "WI",
                             StreetAddress = "1555 N Rivercenter Drive, Suite #206",
                             ZipCode = "53212"
@@ -245,10 +255,6 @@ namespace HSconnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Income")
                         .HasColumnType("int");
 
@@ -259,12 +265,12 @@ namespace HSconnect.Migrations
                         .IsRequired()
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ManagedCareOrganizationId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -527,14 +533,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "ff4f8699-5c0a-4c88-8b27-51155dde5f5b",
+                            ConcurrencyStamp = "57fc15f1-3b9e-489d-88eb-7344a9bff32b",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "eade7820-1f84-49e0-bad1-2c73729167c5",
+                            ConcurrencyStamp = "9cc0ee3a-7012-42a6-a442-7c62eb38c4cf",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

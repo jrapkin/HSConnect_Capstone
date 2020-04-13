@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HSconnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200412054947_init")]
-    partial class init
+    [Migration("20200413052454_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -539,14 +539,14 @@ namespace HSconnect.Migrations
                         new
                         {
                             Id = "36a8f961-ab5d-4a34-930d-e9c193fed417",
-                            ConcurrencyStamp = "b97ad0d1-0a5a-4ed7-9e1f-777e876c4ce9",
+                            ConcurrencyStamp = "50a5846d-86c5-45ae-ad4f-9cf062d4f3a2",
                             Name = "Social Worker",
                             NormalizedName = "SOCIAL WORKER"
                         },
                         new
                         {
                             Id = "f12efeac-df68-4b53-a60b-ed98c601565f",
-                            ConcurrencyStamp = "7c421028-7842-43f3-82a4-a87d74d5c46d",
+                            ConcurrencyStamp = "01206ecc-2248-4cd3-b1a2-079bcea02076",
                             Name = "Provider",
                             NormalizedName = "PROVIDER"
                         });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSconnect.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -454,8 +454,8 @@ namespace HSconnect.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "b97ad0d1-0a5a-4ed7-9e1f-777e876c4ce9", "Social Worker", "SOCIAL WORKER" },
-                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "7c421028-7842-43f3-82a4-a87d74d5c46d", "Provider", "PROVIDER" }
+                    { "36a8f961-ab5d-4a34-930d-e9c193fed417", "50a5846d-86c5-45ae-ad4f-9cf062d4f3a2", "Social Worker", "SOCIAL WORKER" },
+                    { "f12efeac-df68-4b53-a60b-ed98c601565f", "01206ecc-2248-4cd3-b1a2-079bcea02076", "Provider", "PROVIDER" }
                 });
 
             migrationBuilder.InsertData(

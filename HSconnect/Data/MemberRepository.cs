@@ -1,6 +1,5 @@
 ﻿using HSconnect.Contracts;
 using HSconnect.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +15,10 @@ namespace HSconnect.Data
 		}
 		public void CreateMember(Member member) => Create(member);
 		public Member GetMemberById(int? memberId) => FindByCondition(m => m.Id == memberId).FirstOrDefault();
-		public async Task<Member> GetMemberByIdIncludeAll(int? memberId)
+		public Member GetMemberByIdIncludeAll(int? memberId) => FindByCondition(m => m.Id == memberId).Include(a => a.Address)
+				.Include(c => c.Chart)
+				.Include(m => m.ManagedCareOrganization).FirstOrDefault();
+		public async Task<Member> GetMemberByIdIncludeAllAsync(int? memberId)
 		{
 			return await FindByCondition(m => m.Id == memberId).Include(a => a.Address)
 				.Include(c => c.Chart)
@@ -32,7 +34,9 @@ namespace HSconnect.Data
 		}
 		public ICollection<Member> GetMemberBySocialWorkerId(int socialWorkerId)
 		{
-			return FindByCondition(m => m.Chart.SocialWorkerId == socialWorkerId).ToList();
+			return FindByCondition(m => m.Chart.SocialWorkerId == socialWorkerId).Include(a => a.Address)
+								  .Include(m => m.ManagedCareOrganization)
+								  .Include(c => c.Chart).ToList();
 		}
 	}
 }

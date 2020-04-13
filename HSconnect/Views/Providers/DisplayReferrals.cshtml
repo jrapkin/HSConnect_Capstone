@@ -5,87 +5,81 @@
 }
 
 <h1>Referrals</h1>
+    <table class="table">
 
-<table class="table">
-
-    
-    
-
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SocialWorker.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SocialWorker.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SocialWorker.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SocialWorker.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Member.FirstName)
-            </th>
-            <th>
-               Referral Status
-            </th>
-            <th>
-                Accepted
-            </th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SocialWorker.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SocialWorker.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SocialWorker.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SocialWorker.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Member.Name)
+                </th>
+                <th>
+                    Referral Status
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
 
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialWorker.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialWorker.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialWorker.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialWorker.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Member.FirstName)
-            </td>
-
-            @if (item.ReferralAccepted == null)
+        <tbody>
+            @foreach (var item in Model)
             {
-                <td>Pending</td>
-                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
-            }
-            else if (item.ReferralAccepted == false)
-            {
-                <td>Denied</td>
-                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
-            }
-            else
-            {
-                <td>Accepted</td>
-                <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
-            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialWorker.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.Name)
+                </td>
 
-            @if (item.ServiceIsActive == false)
-            {
-                <td>Not Active</td>
+                @if (item.ReferralAccepted == null)
+                {
+                    <td>Pending</td>
+                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                }
+                else if (item.ReferralAccepted == false)
+                {
+                    <td>Denied</td>
+                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                }
+                else
+                {
+                    <td>Accepted</td>
+                    <a asp-action="ToggleReferralStatus" asp-route-referralId="@item.Id">Change Referral Status</a>
+                }
+
+                @if (item.ServiceIsActive == false)
+                {
+                    <td>Not Active</td>
+                }
+                else
+                {
+                    <td>Active</td>
+                }
+
+            </tr>
             }
-            else
-            {
-                <td>Active</td>
-            }
+        </tbody>
 
-
-        </tr>
-        }
-    </tbody>
-
-</table>
+    </table>

@@ -28,7 +28,10 @@ namespace HSconnect.Data
 		}
 		public ICollection<Chart> GetChartsByProvider(int providerId)
 		{
-			return FindByCondition(c => c.ServiceOffered.ProviderId == providerId).ToList();
+			return FindByCondition(c => c.ServiceOffered.ProviderId == providerId).Include(sw => sw.SocialWorker)
+																		   .Include(m => m.Member)
+																		   .Include(s => s.ServiceOffered)
+																		   .ToList(); ;
 		}
 
 		public void CreateChart(Chart chart) => Create(chart);
@@ -39,7 +42,7 @@ namespace HSconnect.Data
 																.Include(s => s.ServiceOffered)
 																.ToListAsync();
 		}
-		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int? memberId)
+		public ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int? socialWorkerId, int? memberId)
 		{
 			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).Include(m => m.Member)
 																									 .Include(s => s.ServiceOffered)
@@ -48,6 +51,13 @@ namespace HSconnect.Data
 		public Chart GetSingleChartByMemberAndSocialWorkerId(int socialWorkerId, int? memberId)
 		{
 			return FindByCondition(c => c.MemberId == memberId && c.SocialWorkerId == socialWorkerId).Include(s => s.ServiceOffered).FirstOrDefault();
+		}
+		public ICollection<Chart>GetListOfChartsByMemberId(int? memberId)
+		{
+			return FindByCondition(c => c.MemberId == memberId).Include(sw => sw.SocialWorker)
+																.Include(m => m.Member)
+																.Include(s => s.ServiceOffered)
+																.ToList();
 		}
 
 	}

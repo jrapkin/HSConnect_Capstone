@@ -14,6 +14,7 @@ namespace HSconnect.Contracts
 		ICollection<Chart> GetChartsByProvider(int providerId);
 		Task<ICollection<Chart>> GetChartsByMemberId(int? id);
 		void CreateChart(Chart chart);
-		ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int socialWorkerId, int? memberId);
+		ICollection<Chart> GetChartsByMemberAndSocialWorkerId(int? socialWorkerId, int? memberId);
+		ICollection<Chart> GetListOfChartsByMemberId(int? id);
 	}
 }

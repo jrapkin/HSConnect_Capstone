@@ -39,10 +39,11 @@ namespace HSconnect.Controllers
 
             //if there are charts that ties to this provider by services provided 
             IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId);
-
+            Dictionary<int, string> referralStatusOptions = CreateNullableBoolDictionary("Hold", "Accepted", "Denied");
+            ViewData["ReferralOption"] = new SelectList(referralStatusOptions, "Key", "Value");
             return View(providerCharts);
         }
-        public IActionResult DisplayReferrals(bool? referralStatus)
+        public IActionResult DisplayNewReferrals(bool? referralStatus)
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             int providerId = _repo.Provider.GetProviderByUserId(userId).Id;
@@ -50,7 +51,7 @@ namespace HSconnect.Controllers
             //if there are charts that ties to this provider by services provided 
             IEnumerable<Chart> providerCharts = _repo.Chart.GetChartsByProvider(providerId).Where(c => c.ReferralAccepted == referralStatus);
 
-            return View(providerCharts);
+            return RedirectToAction("DisplayReferrals", providerCharts);
         }
         public IActionResult Index()
         {

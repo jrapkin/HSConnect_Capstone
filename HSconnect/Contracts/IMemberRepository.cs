@@ -10,8 +10,9 @@ namespace HSconnect.Contracts
 	{
 		void CreateMember(Member member);
 		Member GetMemberById(int? memberId);
+		Member GetMemberByIdIncludeAll(int? memberId);
 
-		Task<Member> GetMemberByIdIncludeAll(int? memberId);
+		Task <Member> GetMemberByIdIncludeAllAsync(int? memberId);
 
 		Task<ICollection<Member>> GetMembersIncludeAll();
 	

@@ -81,8 +81,8 @@ namespace HSconnect.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateMember(MemberViewModel viewModelFromForm)
         {
-            try
-            {
+            //try
+            //{
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 viewModelFromForm.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
                 if (_repo.Address.GetByAddress(viewModelFromForm.Address) == null)
@@ -108,17 +108,19 @@ namespace HSconnect.Controllers
                 };
                 _repo.Chart.CreateChart(newChart);
                 _repo.Save();
+                Member newMember = _repo.Member.GetMemberByIdIncludeAll(viewModelFromForm.Member.Id);
                 viewModelFromForm.Member.ChartId = newChart.Id;
                 _repo.Member.Update(viewModelFromForm.Member);
+            _repo.Save();
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View(viewModelFromForm);
-            }
+            //}
+            //catch
+            //{
+            //    return View(viewModelFromForm);
+            //}
         }
 
-        public async Task<IActionResult> EditMember(int? id)
+        public async Task<IActionResult> EditMemberDetails(int? id)
         {   
             if (id == null)
             {
@@ -127,17 +129,19 @@ namespace HSconnect.Controllers
             MemberViewModel viewModel = new MemberViewModel();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             viewModel.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-            viewModel.Member = await _repo.Member.GetMemberByIdIncludeAll(id);
+            viewModel.Member = await _repo.Member.GetMemberByIdIncludeAllAsync(id);
             viewModel.Address = await _repo.Address.GetAddressByIdAsync(viewModel.Member.AddressId);
             viewModel.ManagedCareOrganizations = new SelectList(_repo.ManagedCareOrganization.GetAllManagedCareOrganizations().ToList(), "Id", "Name");
+            Dictionary<int, string> genderDictionary = CreateBoolDictionary("Not Applicable", "Male", "Female");
+            viewModel.Gender = new SelectList(genderDictionary, "Key", "Value");
 
-           
+
 
             return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditMember(MemberViewModel viewModelFromForm)
+        public IActionResult EditMemberDetails(MemberViewModel viewModelFromForm, int GenderSelection)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             viewModelFromForm.SocialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
@@ -147,6 +151,7 @@ namespace HSconnect.Controllers
                 _repo.Address.Update(_repo.Address.GetAddressById(viewModelFromForm.Address.Id));
             }
             //Address address = _repo.Address.GetAddressById(viewModelFromForm.Address.Id);
+            viewModelFromForm.Member.IsMale = ConvertToNullableBool(viewModelFromForm.GenderSelection);
             viewModelFromForm.Member.AddressId = viewModelFromForm.Address.Id;
             viewModelFromForm.Member.ManagedCareOrganizationId = viewModelFromForm.ManagedCareOrganizationId;
             _repo.Member.Update(viewModelFromForm.Member);
@@ -169,19 +174,26 @@ namespace HSconnect.Controllers
             {
                 return NotFound();
             }
-            var member = await _repo.Member.GetMemberByIdIncludeAll(id);
+            var member = await _repo.Member.GetMemberByIdIncludeAllAsync(id);
             return View(member);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ConfirmDeleteMember(Member member)
+        public IActionResult DeleteMember(Member member)
         {
             if (member == null)
             {
                 return NotFound();
             }
+
             Address addressToDelete = _repo.Address.GetAddressById(member.AddressId);
+            List<Chart> chartsToDelete = _repo.Chart.GetListOfChartsByMemberId(member.Id).ToList();
+            foreach(var chart in chartsToDelete)
+            {
+                _repo.Chart.Delete(chart);
+                _repo.Save();
+            }
             _repo.Member.Delete(member);
             _repo.Save();
             _repo.Address.Delete(addressToDelete);
@@ -195,7 +207,7 @@ namespace HSconnect.Controllers
             chart.ServiceOffered = _repo.ServiceOffered.GetServiceOfferedByIdIncludeAll(serviceOfferedId);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var socialWorker = _repo.SocialWorker.GetSocialWorkerByUserId(userId);
-            ViewData["Members"] = new SelectList(_repo.Member.GetMemberBySocialWorkerId(socialWorker.Id).ToList(), "Id", "Name");
+            ViewData ["Members"] = new SelectList(_repo.Member.GetMemberBySocialWorkerId(socialWorker.Id), "Id", "Name");
             return View(chart);
         }
         [HttpPost]
@@ -223,7 +235,7 @@ namespace HSconnect.Controllers
                 chart.SocialWorkerId = socialWorker.Id;
                 chart.Date = DateTime.Now;
 
-                if(memberCharts.Count == 1)
+                if(_repo.Chart.GetChartsByMemberAndSocialWorkerId(chart.SocialWorkerId, chart.MemberId).Any() == false)
                 {
                     _repo.Chart.CreateChart(chart);
                 }

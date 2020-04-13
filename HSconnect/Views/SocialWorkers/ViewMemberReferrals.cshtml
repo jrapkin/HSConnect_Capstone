@@ -1,49 +1,52 @@
-﻿@model HSconnect.Models.Chart
+﻿@model IEnumerable<HSconnect.Models.Chart>
 @{
     ViewData["Title"] = "ViewMemberReferrals";
     Layout = "~/Views/Shared/_Layout_SocialWorker.cshtml";
 }
 
-<h1>DisplayServices</h1>
+<h1>Member Referrals</h1>
+@foreach (var item in Model)
+{
+
 <dl class="row">
     <dt class="col-sm-2">
         Name
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => Model.Member.FirstName) @Html.DisplayFor(model => Model.Member.LastName)
+        @Html.DisplayFor(model => item.Member.Name)
     </dd>
 </dl>
 
 <div>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SocialWorker.FirstName) @Html.DisplayFor(model => model.SocialWorker.LastName)
+            @Html.DisplayNameFor(model => item.SocialWorker.FirstName) @Html.DisplayFor(model => item.SocialWorker.LastName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SocialWorker.FirstName) @Html.DisplayFor(model => model.SocialWorker.LastName)
+            @Html.DisplayFor(model => item.SocialWorker.FirstName) @Html.DisplayFor(model => item.SocialWorker.LastName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ServiceOffered.Service.Name)
+            @Html.DisplayNameFor(model => item.ServiceOffered.Service.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ServiceOffered.Service.Name)
+            @Html.DisplayFor(model => item.ServiceOffered.Service.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => item.Date)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date)
+            @Html.DisplayFor(model => item.Date)
         </dd>
         <dt class="col-sm-2">
             <p>Member Status</p>
         </dt>
-        @if (Model.ServiceIsActive)
+        @if (item.ServiceIsActive)
         {
             <dd class="col-sm-10">
                 <p>Active Member.</p>
             </dd>
         }
-        @if (Model.ServiceIsActive == false)
+        @if (item.ServiceIsActive == false)
         {
             <dd class="col-sm-10">
                 <p>Not an active Member.</p>
@@ -52,19 +55,19 @@
         <dt class="col-sm-2">
             <p>Referral Status</p>
         </dt>
-        @if (Model.ReferralAccepted == true)
+        @if (item.ReferralAccepted == true)
         {
             <dd class="col-sm-10">
                 <p>Accepted</p>
             </dd>
         }
-        @if (Model.ReferralAccepted == false)
+        @if (item.ReferralAccepted == false)
         {
             <dd class="col-sm-10">
                 <p>Denied</p>
             </dd>
         }
-        @if (Model.ReferralAccepted == null)
+        @if (item.ReferralAccepted == null)
         {
             <dd class="col-sm-10">
                 <p>Pending</p>
@@ -72,5 +75,6 @@
         }
     </dl>
 </div>
+}
 
 

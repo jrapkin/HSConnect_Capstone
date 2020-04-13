@@ -94,7 +94,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink("Create Referral", "CreateReferral", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Create Referral", "CreateReferral", new { serviceOfferedId=item.Id }) |
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Provider.ProviderName)

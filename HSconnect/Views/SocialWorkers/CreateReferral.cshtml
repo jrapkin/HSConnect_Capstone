@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateMemberReferral">
+        <form asp-action="CreateReferral">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ServiceOfferedId" class="form-control" />
             <input type="hidden" asp-for="SocialWorkerId" class="form-control" />
@@ -20,8 +20,8 @@
                     <input class="form-check-input" asp-for="ServiceIsActive" /> @Html.DisplayNameFor(model => model.ServiceIsActive)
                 </label>
             </div>
-            <label asp-for="MemberId" class="control-label"> Member</label>
-            <select asp-for="MemberId" class="form-control" asp-items="ViewBag.Members"></select>
+            <label class="control-label"> Member</label>
+            <select asp-for="MemberId" class="form-control" asp-items=ViewBag.Members></select>
             <span asp-validation-for="MemberId" class="text-danger"></span>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
