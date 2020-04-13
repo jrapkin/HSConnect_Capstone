@@ -12,9 +12,9 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
+    <script src="~/js/chat.js"></script>*@
     @RenderSection("Scripts", required: false)
 
      @*Bootstrap core CSS*@ 
@@ -41,7 +41,7 @@
         
             <div class="container">
                 
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HSconnect</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><strong>HSconnect</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
