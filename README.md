@@ -1,1 +1,2 @@
 # HSConnect_Capstone
+HSConnect is a software solution that connects social workers and service providers. Providers can use the application to manage their service offerings and communicate directly with social workers via real time messaging. Social workers can use the application to find or manage services for their members.
